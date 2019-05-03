@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="{{ route('home') }}">PT BUNGA LINTAS CARGO</a>
+    <a class="navbar-brand" href="#">PT BUNGA LINTAS CARGO</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="{{ route('home') }}">
+            <a class="nav-link" href="#">
             <i class="fa fa-fw fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
             </a>
@@ -76,19 +76,19 @@
 
         <li class="dropdown user user-menu">
             <a href="#" class="nav-link" data-toggle="dropdown">
-              <img src="{{ asset(Auth::user()->foto) }}" class="user-image" alt="User Image" width="25" hegiht="25">
-              <span class="hidden-xs">{{ Auth::user()->nama }}</span>
+              <img src="#" class="user-image" alt="User Image" width="25" hegiht="25">
+              <span class="hidden-xs">#</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                   <center>
-                      <img src="{{ asset(Auth::user()->foto) }}" class="img-circle" alt="User Image" width="25" hegiht="25">
+                      <img src="#" class="img-circle" alt="User Image" width="25" hegiht="25">
                     </center>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ route('direktur.profil', Auth::user()->id) }}" class="btn btn-default btn-flat">Profil</a>
+                  <a href="#" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>

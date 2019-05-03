@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::group(['middleware' => 'App\Http\Middleware\DirekturMiddleware'], function (){
     Route::get('direktur', 'HomeController@direktur')->name('direktur');
 
@@ -39,5 +40,4 @@ Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function 
     Route::get('cabang', 'HomeController@cabang')->name('cabang');
 });
 
-Route::get('/', 'HomeController@index')->name('home');
 
