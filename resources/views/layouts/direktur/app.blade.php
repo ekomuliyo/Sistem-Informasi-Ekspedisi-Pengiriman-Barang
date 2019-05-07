@@ -58,6 +58,19 @@
         </form>
       </div>
     </div>
+      <div div class="modal fade" id="profilModal" role="dialog">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Ubah Profil</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>Hai</p>
+                  </div>
+              </div>
+          </div>
+        </div>
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/blog-admin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/blog-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

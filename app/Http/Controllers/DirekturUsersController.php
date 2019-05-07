@@ -90,7 +90,14 @@ class DirekturUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+        
+        $request['foto'] = $request->get('foto') ? $request->get('foto') : '/images/user-icon.png';
+        $request['password'] = $request->get('password') ? bcrypt($request->get('password')) : $user->password;
 
+        $user->update($request->all());
+
+        return redirect()->back();
     }
 
     /**

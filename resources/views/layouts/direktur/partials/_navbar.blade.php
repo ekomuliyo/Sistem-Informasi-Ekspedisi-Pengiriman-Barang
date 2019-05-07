@@ -76,19 +76,19 @@
 
         <li class="dropdown user user-menu">
             <a href="#" class="nav-link" data-toggle="dropdown">
-              <img src="#" class="user-image" alt="User Image" width="25" hegiht="25">
-              <span class="hidden-xs">#</span>
+              <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="15"  hegiht="15" >
+              <span class="hidden-xs">{{ Auth::user()->nama }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                   <center>
-                      <img src="#" class="img-circle" alt="User Image" width="25" hegiht="25">
+                      <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="40" height="40">
                     </center>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profil</a>
+                  <a href="{{ route('direktur.profil', Auth::user()->id) }}" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
