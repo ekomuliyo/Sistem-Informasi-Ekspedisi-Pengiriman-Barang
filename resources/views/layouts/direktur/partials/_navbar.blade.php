@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('direktur') }}">
             <i class="fa fa-fw fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
             </a>
@@ -15,36 +15,6 @@
             <a class="nav-link" href="{{ route('direktur.cabang.index') }}">
             <i class="fa fa-fw fa-user"></i>
             <span class="nav-link-text">Kelola Cabang</span>
-            </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Ongkir</span>
-            </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Pelanggan</span>
-            </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Kurir</span>
-            </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="{{ route('direktur.users.index') }}">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Users</span>
-            </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="{{ route('direktur.users.index') }}">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Akun Saya</span>
             </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
@@ -72,18 +42,18 @@
             </a>
         </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
 
+        <ul class="navbar-nav ml-auto" id="profilId">
         <li class="dropdown user user-menu">
             <a href="#" class="nav-link" data-toggle="dropdown">
-              <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="15"  hegiht="15" >
+              <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="25"  hegiht="25" >
               <span class="hidden-xs">{{ Auth::user()->nama }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                   <center>
-                      <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="40" height="40">
+                      <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="60" height="60">
                     </center>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -99,19 +69,7 @@
               </li>
             </ul>
           </li>
-
-        <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for...">
-                <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-                </span>
-            </div>
-            </form>
-        </li>
         </ul>
+        
     </div>
 </nav>

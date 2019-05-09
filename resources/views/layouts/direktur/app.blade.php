@@ -12,6 +12,13 @@
   <!-- Custom fonts for this template-->
   <link href="{{ asset('assets/blog-admin/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
   {{-- Assets Plugin --}}
+
+  <style>
+    #profilId{
+      margin-right: 60px;
+    }
+  </style>
+
   @yield('assets-top')
   <!-- Custom styles for this template-->
   <link href="{{ asset('assets/blog-admin/css/sb-admin.css') }}" rel="stylesheet">
@@ -37,40 +44,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
     </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-        {{ csrf_field() }}
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ingin Keluar?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Pilih "Keluar" jika kamu ingin keluar.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-            <button class="btn btn-primary" type="submit">Keluar</button>
-          </div>
-        </div>
-        </form>
-      </div>
-    </div>
-      <div div class="modal fade" id="profilModal" role="dialog">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">Ubah Profil</h4>
-                  </div>
-                  <div class="modal-body">
-                    <p>Hai</p>
-                  </div>
-              </div>
-          </div>
-        </div>
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/blog-admin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/blog-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

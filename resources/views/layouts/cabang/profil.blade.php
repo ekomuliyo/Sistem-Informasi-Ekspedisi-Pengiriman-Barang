@@ -26,7 +26,7 @@
                         <center><img src="{{ asset(Auth::user()->foto) }}" id="holder" class="rounded-circle" width="100" height="100" ></center></br> 
                         <a id="lfm" data-input="foto" data-preview="holder" class="btn btn-primary text-white" href="#">Ganti Foto</a>
                         <!-- mengambil nama file -->
-                        {!! Form::model($user, ['route' => ['direktur.users.update', $user->id], 'method' => 'PUT']) !!}
+                        {!! Form::model($user, ['route' => ['cabang.users.update', $user->id], 'method' => 'PUT']) !!}
                         <div class="form-group">
                         <div class="input-group">
                             {!! Form::text('foto', null, ['id' => 'foto', 'class' => $errors->has('foto') ? 'form-control is-invalid' : 'form-control', 'readonly', 'hidden']) !!}
@@ -63,6 +63,32 @@
                     </div>
                     <div class="col-md-8">
                         <label for="email">{{ $user->email }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="email">Alamat</label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="email">{{ $user->cabang->alamat }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="email">Nomor HP</label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="email">{{ $user->cabang->no_hp }}</label>
                     </div>
                 </div>
             </div>
@@ -110,6 +136,27 @@
                                 </span>
                             @endif
                         </div>
+
+                        <div class="form-group">
+                            <label for="nama">Alamat</label>
+                            {!! Form::textarea('cabang[alamat]', null, ['class' => $errors->has('alamat') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'rows' => 5]) !!}
+                            @if ($errors->has('alamat'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('alamat') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                        <label for="nama">Nomor HP</label>
+                            {!! Form::number('cabang[no_hp]', null, ['class' => $errors->has('no_hp') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+                            @if ($errors->has('no_hp'))
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first('no_hp') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">

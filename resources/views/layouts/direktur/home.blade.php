@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.direktur.app')
 
 @section('content')
 <div class="container-fluid">
@@ -56,7 +56,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h5 class="card-title">Selamat Datang, Admin</h5>
+                    <h5 class="card-title">Selamat Datang, {{ Auth::user()->nama }}</h5>
                 </div>
             </div>
         </div>

@@ -28,7 +28,6 @@ Route::group(['middleware' => 'App\Http\Middleware\DirekturMiddleware'], functio
         Route::resource('cabang', 'DirekturCabangController');
         Route::get('cabang/status/{id}', 'DirekturCabangController@status')->name('cabang.status');
 
-
         Route::get('/api/datatable/users', 'DirekturUsersController@dataTable')->name('api.datatable.users');
         Route::get('/api/datatable/cabang', 'DirekturCabangController@dataTable')->name('api.datatable.cabang');
 
@@ -37,6 +36,16 @@ Route::group(['middleware' => 'App\Http\Middleware\DirekturMiddleware'], functio
 
 Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function (){
     Route::get('cabang', 'HomeController@cabang')->name('cabang');
+
+    Route::group(['prefix' => 'cabang', 'as' => 'cabang.'], function(){
+        Route::get('profil/{id}', 'HomeController@profilCabang')->name('profil');
+
+        Route::resource('users', 'CabangUsersController');
+
+        Route::resource('kurir', 'CabangKurirController');
+
+        Route::get('/api/datatable/kurir', 'CabangKurirController@dataTable')->name('api.datatable.kurir');
+    });
 });
 
 

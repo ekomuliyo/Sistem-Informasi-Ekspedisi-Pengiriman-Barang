@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Cabang', 'id_user', 'id');
     }
+
+    public function kurir()
+    {
+        return $this->hasOne('App\Kurir', 'id_user', 'id');
+    }
 }

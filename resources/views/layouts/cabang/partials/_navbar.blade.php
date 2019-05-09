@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="{{ route('home') }}">PT BUNGA LINTAS CARGO</a>
+    <a class="navbar-brand" href="#">PT BUNGA LINTAS CARGO</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="{{ route('home') }}">
+            <a class="nav-link" href="{{ route('cabang')}}">
             <i class="fa fa-fw fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
             </a>
@@ -18,82 +18,71 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMulti">
             <li>
-                <a href="#">Data Pengiriman</a>
+                <a href="#">Data Surat Jalan</a>
             </li>
             <li>
-                <a href="#">Data Surat Jalan</a>
+                <a href="#">Pengiriman Barang</a>
             </li>
             </ul>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+            <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-home"></i>
+            <span class="nav-link-text">Pelacakan Barang</span>
+            </a>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiCabang" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-home"></i>
-            <span class="nav-link-text">Cabang</span>
+            <span class="nav-link-text">Kelola</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMultiCabang">
             <li>
-                <a href="#">Data Cabang</a>
+                <a href="{{ route('cabang.kurir.index') }}">Data Kurir</a>
             </li>
             <li>
-                <a href="#">Tambah Data Cabang</a>
+                <a href="#">Data Ongkir</a>
             </li>
             </ul>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
-            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiPelanggan" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-users"></i>
-            <span class="nav-link-text">Pelanggan</span>
-            </a>
-            <ul class="sidenav-second-level collapse" id="collapseMultiPelanggan">
-            <li>
-                <a href="#">Data Pelanggan</a>
-            </li>
-            <li>
-                <a href="#">Tambah Data Pelanggan</a>
-            </li>
-            </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="{{ route('admin.users.index') }}">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Users</span>
-            </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Settings">
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
             <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-gears"></i>
-            <span class="nav-link-text">Settings</span>
+            <i class="fa fa-fw fa-home"></i>
+            <span class="nav-link-text">Data Pelanggan</span>
             </a>
         </li>
+
+
         </ul>
-        <ul class="navbar-nav sidenav-toggler">
-        <li class="nav-item">
-            <a class="nav-link text-center" id="sidenavToggler">
-            <i class="fa fa-fw fa-angle-left"></i>
+
+        <ul class="navbar-nav ml-auto" id="profilId">
+        <li class="dropdown user user-menu">
+            <a href="#" class="nav-link" data-toggle="dropdown">
+              <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="25"  hegiht="25" >
+              <span class="hidden-xs">{{ Auth::user()->nama }}</span>
             </a>
-        </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a href="{{ url('/') }}" class="nav-link">
-            <i class="fa fa-fw fa-sign-in"></i>Site</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for...">
-                <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-                </span>
-            </div>
-            </form>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-            <i class="fa fa-fw fa-sign-out"></i>Keluar</a>
-        </li>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                  <center>
+                      <img src="{{ Auth::user()->foto }}" class="rounded-circle" width="60" height="60">
+                    </center>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="{{ route('cabang.profil', Auth::user()->id) }}" class="btn btn-default btn-flat">Profil</a>
+                </div>
+                <div class="pull-right">
+                  <a href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                </div>
+              </li>
+            </ul>
+          </li>
         </ul>
     </div>
 </nav>

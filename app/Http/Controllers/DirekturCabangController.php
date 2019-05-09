@@ -45,8 +45,7 @@ class DirekturCabangController extends Controller
         $this->validate($request, [
             'nama' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            'level' => 'required'
+            'password' => 'required|string|min:6'
         ]);
 
         $request['password'] = bcrypt($request->get('password'));
@@ -98,19 +97,24 @@ class DirekturCabangController extends Controller
      */
     public function update(Request $request, $id)
     { 
+
+        $this->validate($request, [
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id
+        ]);
+
         $cabang = Cabang::findOrFail($id);
         $user = User::findOrFail($cabang->id_user);
         $input = $request->all();
-        $password = bcrypt($input['password']);
+
         $cabang->update([
             'alamat' => $input['alamat'],
             'no_hp' => $input['no_hp'],
         ]);
-
+            
 
         $user->update([
             'nama' => $input['nama'],
-            'password' => $password,
+            'email' => $input['email'],
         ]);
 
         return redirect()->route('direktur.cabang.index');
@@ -159,10 +163,10 @@ class DirekturCabangController extends Controller
             })
             ->addColumn('action_status', function ($cabang){
                     if($cabang->user->status == 1){
-                        return '<a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-outline-secondary" style="padding-bottom: 0px; padding-top: 0px;"> Aktif <span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
+                        return '<a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;"> Aktif <span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
                     }
                     else {
-                        return '<a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-outline-secondary" style="padding-bottom: 0px; padding-top: 0px;"> Blokir <span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
+                        return '<a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;"> Blokir <span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
                     }
             })
             ->rawColumns(['action', 'action_status'])

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
-use Datatables;
-use DB;
+use App\User;
+use App\Cabang;
 
-class DirekturUsersController extends Controller
+class CabangUsersController extends Controller
 {
 
     public function __construct()
@@ -22,7 +21,7 @@ class DirekturUsersController extends Controller
      */
     public function index()
     {
-        return view('direktur.users.index');
+        //
     }
 
     /**
@@ -32,7 +31,7 @@ class DirekturUsersController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -43,7 +42,7 @@ class DirekturUsersController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
@@ -54,8 +53,7 @@ class DirekturUsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('direktur.users.show', compact('user'));
+        //
     }
 
     /**
@@ -66,7 +64,7 @@ class DirekturUsersController extends Controller
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**
@@ -78,12 +76,24 @@ class DirekturUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-        
-        $request['foto'] = $request->get('foto') ? $request->get('foto') : '/images/user-icon.png';
-        $request['password'] = $request->get('password') ? bcrypt($request->get('password')) : $user->password;
 
-        $user->update($request->all());
+        
+        $user = User::findOrFail($id);
+        $cabang = Cabang::where('id_user', $user->id);
+
+        $cabang->update([
+            'alamat' => $request->input('cabang')['alamat'],
+            'no_hp' => $request->input('cabang')['no_hp'],
+        ]);
+               
+        $password = bcrypt($request->input('password'));
+        $foto = $request->input('foto');
+
+        $user->update([
+            'nama' => $request->input('nama'),
+            'password' => $password,
+            'foto' => $foto,
+        ]);
 
         return redirect()->back();
     }
@@ -96,20 +106,6 @@ class DirekturUsersController extends Controller
      */
     public function destroy($id)
     {
-        
-    }
-
-    public function dataTable(){
-
-        $users = DB::table('users')->where('id', '!=', 1)->get();
-
-        return datatables()->of($users)
-            ->addColumn('action', function ($users){
-                return 
-                '<a href="'. route('direktur.users.show', $users->id) .'" class="btn btn-sm btn-outline-info" style="padding-bottom: 0px; padding-top: 0px;">Tampilkan
-                <span class="btn-label btn-label-right"><i class="fa fa-eye"></i></span></a>';
-            })
-            ->rawColumns(['user', 'action'])
-            ->make(true);
+        //
     }
 }
