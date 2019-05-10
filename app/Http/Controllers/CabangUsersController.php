@@ -77,7 +77,6 @@ class CabangUsersController extends Controller
     public function update(Request $request, $id)
     {
 
-        
         $user = User::findOrFail($id);
         $cabang = Cabang::where('id_user', $user->id);
 
@@ -86,11 +85,12 @@ class CabangUsersController extends Controller
             'no_hp' => $request->input('cabang')['no_hp'],
         ]);
                
-        $password = bcrypt($request->input('password'));
+        $password = $request->get('password') ? bcrypt($request->get('password')) : $user->password;
         $foto = $request->input('foto');
 
         $user->update([
             'nama' => $request->input('nama'),
+            'email' => $request->input('email'),
             'password' => $password,
             'foto' => $foto,
         ]);

@@ -39,10 +39,10 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMultiCabang">
             <li>
-                <a href="{{ route('cabang.kurir.index') }}">Data Kurir</a>
+                <a href="{{ route('cabang.ongkir.index') }}">Data Ongkir</a>
             </li>
             <li>
-                <a href="#">Data Ongkir</a>
+                <a href="{{ route('cabang.kurir.index') }}">Data Kurir</a>
             </li>
             </ul>
         </li>

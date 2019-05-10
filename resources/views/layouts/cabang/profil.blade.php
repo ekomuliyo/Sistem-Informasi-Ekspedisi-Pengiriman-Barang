@@ -1,4 +1,4 @@
-@extends('layouts.direktur.app')
+@extends('layouts.cabang.app')
 
 @section('assets-top')
 <style>

@@ -60,7 +60,7 @@ class CabangKurirController extends Controller
         $kurir->id_user = $id_user[0]["id"];
         $kurir->save();
 
-        return redirect()->route('cabang.kurir.index');
+        return redirect()->route('cabang.kurir.index')->with('alert', 'Berhasil Ditambahkan!');
     }
 
     /**
@@ -119,7 +119,7 @@ class CabangKurirController extends Controller
             'email' => $input['email'],
         ]);
 
-        return redirect()->route('cabang.kurir.index');
+        return redirect()->route('cabang.kurir.index')->with('alert', 'Berhasil Diubah!');
     }
 
     /**
@@ -132,7 +132,7 @@ class CabangKurirController extends Controller
     {
         $kurir = Kurir::findOrFail($id);
         $kurir->delete();
-        return redirect()->back();
+        return redirect()->back()->with('alert', 'Berhasil Dihapus!');
     }
 
     public function dataTable()

@@ -7,15 +7,13 @@
 @endsection
 
 @section('content')
-
-@section('content')
     <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Kurir &nbsp;</a>
+            <a href="#">Ongkir &nbsp;</a>
           </li>
-          <a href="{{ route('cabang.kurir.create') }}" class="btn btn-sm btn-primary">Tambah</a>
+          <a href="{{ route('cabang.ongkir.create') }}" class="btn btn-sm btn-primary">Tambah</a>
         </ol>
         @if (session('alert'))
             <div class="alert alert-success">
@@ -27,12 +25,10 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Nama Kurir</th>
-                    <th>Alamat</th>
-                    <th>No HP</th>
-                    <th>Nama Kendaraan</th>
-                    <th>Nomor Polisi</th>
-                    <th>Email</th>
+                    <th>Asal</th>
+                    <th>Tujuan</th>
+                    <th>Estimari (Hari)</th>
+                    <th>Harga (Kg)</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -56,15 +52,13 @@
         $("#dataTable").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('cabang.api.datatable.kurir') }}",
+            ajax: "{{ route('cabang.api.datatable.ongkir') }}",
             columns:[
               {data: 'id', name: 'id'},
-              {data: 'user.nama', name: 'user.nama'},
-              {data: 'alamat', name: 'alamat'},
-              {data: 'no_hp', name: 'no_hp'},
-              {data: 'nama_kendaraan', name: 'nama_kendaraan'},
-              {data: 'nomor_polisi', name: 'nomor_polisi'},
-              {data: 'user.email', name: 'user.email'},
+              {data: 'asal', name: 'asal'},
+              {data: 'tujuan', name: 'tujuan'},
+              {data: 'estimasi', name: 'estimasi'},
+              {data: 'harga', name: 'harga'},
               {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
