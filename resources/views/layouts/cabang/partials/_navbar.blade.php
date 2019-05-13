@@ -13,7 +13,7 @@
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-pencil"></i>
+            <i class="fa fa-fw fa-car"></i>
             <span class="nav-link-text">Pengiriman</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMulti">
@@ -27,7 +27,7 @@
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiCabang" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-home"></i>
+            <i class="fa fa-fw fa-cogs"></i>
             <span class="nav-link-text">Kelola</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMultiCabang">
@@ -42,7 +42,7 @@
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
             <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-home"></i>
+            <i class="fa fa-fw fa-user"></i>
             <span class="nav-link-text">Data Pelanggan</span>
             </a>
         </li>
