@@ -22,7 +22,7 @@ class DirekturUsersController extends Controller
      */
     public function index()
     {
-        return view('direktur.users.index');
+
     }
 
     /**
@@ -54,8 +54,7 @@ class DirekturUsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('direktur.users.show', compact('user'));
+
     }
 
     /**
@@ -98,18 +97,5 @@ class DirekturUsersController extends Controller
     {
         
     }
-
-    public function dataTable(){
-
-        $users = DB::table('users')->where('id', '!=', 1)->get();
-
-        return datatables()->of($users)
-            ->addColumn('action', function ($users){
-                return 
-                '<a href="'. route('direktur.users.show', $users->id) .'" class="btn btn-sm btn-outline-info" style="padding-bottom: 0px; padding-top: 0px;">Tampilkan
-                <span class="btn-label btn-label-right"><i class="fa fa-eye"></i></span></a>';
-            })
-            ->rawColumns(['user', 'action'])
-            ->make(true);
-    }
+    
 }

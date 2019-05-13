@@ -16,6 +16,11 @@
           </li>
           <li class="breadcrumb-item active">Tabel</li>
         </ol>
+        @if (session('alert'))
+            <div class="alert alert-success">
+                {{ session('alert') }}
+            </div>
+        @endif
         <!-- Example DataTables Card-->
         <div class="card mb-3">
           <div class="card-header">

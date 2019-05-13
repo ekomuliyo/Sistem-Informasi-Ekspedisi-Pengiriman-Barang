@@ -44,9 +44,11 @@ Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function 
 
         Route::resource('kurir', 'CabangKurirController');
         Route::resource('ongkir', 'CabangOngkirController');
+        Route::resource('surat', 'CabangSuratController');
 
         Route::get('/api/datatable/kurir', 'CabangKurirController@dataTable')->name('api.datatable.kurir');
         Route::get('/api/datatable/ongkir', 'CabangOngkirController@dataTable')->name('api.datatable.ongkir');
+        Route::get('/api/datatable/surat', 'CabangSuratController@dataTable')->name('api.datatable.surat');
 
     });
 });

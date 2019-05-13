@@ -13,4 +13,9 @@ class Kurir extends Model
     {
         return $this->belongsTo('App\User', 'id_user', 'id');
     }
+
+    public function surat()
+    {
+        return $this->hasMany('App\Surat', 'id_kurir', 'id');
+    }
 }

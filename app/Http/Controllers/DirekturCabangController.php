@@ -117,7 +117,7 @@ class DirekturCabangController extends Controller
             'email' => $input['email'],
         ]);
 
-        return redirect()->route('direktur.cabang.index');
+        return redirect()->route('direktur.cabang.index')->with('alert', 'Berhasil diubah!');
     }
 
     /**
@@ -145,7 +145,7 @@ class DirekturCabangController extends Controller
             $cabang->user->update();
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('alert', 'Status berhasil diubah!');
     }
 
 

@@ -1,7 +1,6 @@
-@extends('layouts.direktur.app')
+@extends('layouts.cabang.app')
 
 @section('assets-top')
-    <!-- Page level plugin CSS-->
     <link href="{{ asset('assets/blog-admin/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <!-- Responsive datatable examples -->
     <link href="{{ asset('assets/blog-admin/vendor/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
@@ -12,24 +11,24 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Users</a>
+            <a href="#">Surat &nbsp;</a>
           </li>
-          <li class="breadcrumb-item active">Table</li>
+          <a href="{{ route('cabang.surat.create') }}" class="btn btn-sm btn-primary">Tambah</a>
         </ol>
+        @if (session('alert'))
+            <div class="alert alert-success">
+                {{ session('alert') }}
+            </div>
+        @endif
         <!-- Example DataTables Card-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-list"></i> Users
-          </div>
-          <div class="card-body table-responsive">
-            <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Level</th>
+                    <th>Nomor Surat</th>
+                    <th>Tanggal Surat</th>
+                    <th>Keterangan</th>
+                    <th>Nama Kurir</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -37,9 +36,6 @@
 
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
     </div>
 @endsection
 
@@ -50,20 +46,24 @@
     <!-- Responsive examples -->
     <script src="{{ asset('assets/blog-admin/vendor/datatables/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/blog-admin/vendor/datatables/responsive.bootstrap4.min.js') }}"></script>
+
     <script>
-        $(document).ready(function(){
-            $("#dataTable").DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('direktur.api.datatable.users') }}",
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'nama', name: 'nama'},
-                    {data: 'email', name: 'email'},
-                    {data: 'level', name: 'level'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
+    $(document).ready(function (){
+        var date = new Date();
+        $("#dataTable").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('cabang.api.datatable.surat') }}",
+            columns:[
+              {data: 'id', name: 'id'},
+              {data: 'nomor_surat', name: 'nomor_surat'},
+              {data: 'tgl_surat', name: 'tgl_surat'},
+              {data: 'keterangan', name: 'keterangan'},
+              {data: 'kurir.user.nama', name: 'kurir.user.nama'},
+              {data: 'action', name: 'action', orderable: false, searchable: false}
+            ]
         });
+    });
     </script>
+
 @endsection

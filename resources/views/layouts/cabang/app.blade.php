@@ -9,6 +9,7 @@
   <title>PT Bunga Lintas Cargo</title>
   <!-- Bootstrap core CSS-->
   <link href="{{ asset('assets/blog-admin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/blog-admin/vendor/bootstrap/css/select2.min.css') }}" rel="stylesheet">
   <!-- Custom fonts for this template-->
   <link href="{{ asset('assets/blog-admin/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
   {{-- Assets Plugin --}}
@@ -38,6 +39,7 @@
     </a>
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/blog-admin/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/blog-admin/vendor/jquery/select2.min.js') }}"></script>
     <script src="{{ asset('assets/blog-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/blog-admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

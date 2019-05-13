@@ -18,20 +18,13 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMulti">
             <li>
-                <a href="#">Data Surat Jalan</a>
+                <a href="{{ route('cabang.surat.index') }}">Data Surat Jalan</a>
             </li>
             <li>
                 <a href="#">Pengiriman Barang</a>
             </li>
             </ul>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-home"></i>
-            <span class="nav-link-text">Pelacakan Barang</span>
-            </a>
-        </li>
-
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiCabang" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-home"></i>
