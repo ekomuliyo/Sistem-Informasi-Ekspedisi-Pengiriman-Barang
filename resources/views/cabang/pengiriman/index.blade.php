@@ -11,9 +11,9 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Ongkir &nbsp;</a>
+            <a href="#">Pengiriman &nbsp;</a>
           </li>
-          <a href="{{ route('cabang.ongkir.create') }}" class="btn btn-sm btn-primary">Tambah</a>
+          <a href="{{ route('cabang.pengiriman.create') }}" class="btn btn-sm btn-primary">Tambah</a>
         </ol>
         @if (session('alert'))
             <div class="alert alert-success">
@@ -25,10 +25,11 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Asal</th>
-                    <th>Tujuan</th>
-                    <th>Estimari (Hari)</th>
-                    <th>Harga (Kg)</th>
+                    <th>Pengirim</th>
+                    <th>Penerima</th>
+                    <th>Kota Tujuan</th>
+                    <th>Biaya</th>
+                    <th>Keterangan</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -52,27 +53,27 @@
         $("#dataTable").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('cabang.api.datatable.ongkir') }}",
+            ajax: "{{ route('cabang.api.datatable.pengiriman') }}",
             columns:[
               {data: 'id', name: 'id'},
-              {data: 'asal', name: 'asal'},
-              {data: 'tujuan', name: 'tujuan', 
+              {data: 'pelanggan_pengirim.user.nama', name: 'pelanggan_pengirim.user.nama'},
+              {data: 'pelanggan_penerima.user.nama', name: 'pelanggan_penerima.user.nama'},
+              {data: 'pelanggan_penerima.kota', name: 'pelanggan_penerima.kota', 
                 render: function(data){
-                  var tujuan;
-                  if (data == 1) {
-                    tujuan = "Palembang"
-                  }else if(data == 2){
-                    tujuan = "Jambi";
-                  }else if(data == 3){
-                    tujuan = "Pekanbaru";
-                  }else{
-                    tujuan = "Padang"
+                  var kota;
+                  if (data == 1){
+                    kota = "Palembang";
                   }
-                  return tujuan;
-                } 
-              },
-              {data: 'estimasi', name: 'estimasi'},
-              {data: 'harga', name: 'harga'},
+                  else if(data == 2){
+                    kota = "Jambi";
+                  }else if(data == 3){
+                    kota = "Pekanbaru";
+                  }else{
+                    kota = "Padang";
+                  }
+                  return kota;
+                }},
+              {data: 'jumlah_biaya', name: 'jumlah_biaya'},
               {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

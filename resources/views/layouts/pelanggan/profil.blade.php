@@ -1,4 +1,4 @@
-@extends('layouts.direktur.app')
+@extends('layouts.pelanggan.app')
 
 @section('assets-top')
 <style>
@@ -32,7 +32,7 @@
                         <center><img src="{{ asset(Auth::user()->foto) }}" id="holder" class="rounded-circle" width="100" height="100" ></center></br> 
                         <a id="lfm" data-input="foto" data-preview="holder" class="btn btn-primary text-white" href="#">Ganti Foto</a>
                         <!-- mengambil nama file -->
-                        {!! Form::model($user, ['route' => ['direktur.users.update', $user->id], 'method' => 'PUT']) !!}
+                        {!! Form::model($user, ['route' => ['pelanggan.users.update', $user->id], 'method' => 'PUT']) !!}
                         <div class="form-group">
                         <div class="input-group">
                             {!! Form::text('foto', null, ['id' => 'foto', 'class' => $errors->has('foto') ? 'form-control is-invalid' : 'form-control', 'readonly', 'hidden']) !!}
@@ -42,20 +42,18 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-12">
             <div class="card">
                 <div class="row panel">
                     <div class="col-md-4">
-                        <label for="email">Nama</label>
+                        <label for="nama">Nama</label>
                     </div>
                     <div class="col-md-8">
-                        <label for="email">{{ $user->nama }}</label>
+                        <label for="nama">{{ $user->nama }}</label>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="col-md-12">
             <div class="card">
                 <div class="row panel">
@@ -68,7 +66,82 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="no_hp">No. HP / WA</label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="no_hp">{{ $user->pelanggan->no_hp }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="jenis_kelamin">Jenis Kelamin</label>
+                    </div>
+                    <div class="col-md-8">
+                        @if($user->pelanggan->jenis_kelamin == 1)
+                            <label for="jenis_kelamin">Laki-laki</label>
+                        @elseif($user->pelanggan->jenis_kelamin == 2)
+                            <label for="jenis_kelamin">Perempuan</label>
+                        @else
+                            <label for="jenis_kelamin">-</label>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="tgl_lahir">Tanggal Lahir</label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="tgl_lahir">{{ $user->pelanggan->tgl_lahir }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="kota">Kota</label>
+                    </div>
+                    <div class="col-md-8">
+                        @if($user->pelanggan->kota == '1')
+                            <label for="kota">Palembang</label>
+                        @elseif($user->pelanggan->kota == '2')
+                            <label for="kota">Jambi</label>
+                        @elseif($user->pelanggan->kota == '3')
+                            <label for="kota">Pekanbaru</label> 
+                        @elseif($user->pelanggan->kota == '4')
+                            <label for="kota">Padang</label>
+                        @else
+                            <label for="kota">-</label>
+                        @endif                           
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row panel">
+                    <div class="col-md-4">
+                        <label for="alamat">Alamat Lengkap</label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="alamat">{{ $user->pelanggan->alamat }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="card">
                 <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#profilModal">Ubah</a>
@@ -100,6 +173,31 @@
                         <div class="form-group">
                             <label for="email">Email</label>
                             {!! Form::email('email', null, ['class' => $errors->has('email') ? 'form-control is-invalid' : 'form-control', 'required']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="no_hp">No. HP / WA</label>
+                            {!! Form::text('pelanggan[no_hp]', null, ['class' => $errors->has('no_hp') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nama">Jenis Kelamin</label>
+                            {!! Form::select('pelanggan[jenis_kelamin]', ['1' => 'Laki-laki', '2' => 'Perempuan'], null, ['class' => 'form-control', 'required', 'autofocus']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tgl_lahir">Tanggal Lahir</label>
+                            {!! Form::date('pelanggan[tgl_lahir]', null, ['class' => $errors->has('tgl_lahir') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kota">Kota</label>
+                            {!! Form::select('pelanggan[kota]', ['1' => 'Palembang', '2' => 'Jambi', '3' => 'Pekanbaru', '4' => 'Padang'], null, ['class' => 'form-control', 'required', 'autofocus']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alamat">Alamat Lengkap</label>
+                            {!! Form::textarea('pelanggan[alamat]', null, ['class' => $errors->has('alamat') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
                         </div>
                     </div>
 

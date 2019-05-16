@@ -6,44 +6,23 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="{{ route('cabang')}}">
+            <a class="nav-link" href="#">
             <i class="fa fa-fw fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
-            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-car"></i>
-            <span class="nav-link-text">Pengiriman</span>
-            </a>
-            <ul class="sidenav-second-level collapse" id="collapseMulti">
-            <li>
-                <a href="{{ route('cabang.surat.index') }}">Data Surat Jalan</a>
-            </li>
-            <li>
-                <a href="{{ route('cabang.pengiriman.index') }}">Pengiriman Barang</a>
-            </li>
-            </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
-            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiCabang" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-cogs"></i>
-            <span class="nav-link-text">Kelola</span>
-            </a>
-            <ul class="sidenav-second-level collapse" id="collapseMultiCabang">
-            <li>
-                <a href="{{ route('cabang.ongkir.index') }}">Data Ongkir</a>
-            </li>
-            <li>
-                <a href="{{ route('cabang.kurir.index') }}">Data Kurir</a>
-            </li>
-            </ul>
-        </li>
-
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
             <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-user"></i>
-            <span class="nav-link-text">Data Pelanggan</span>
+            <i class="fa fa-fw fa-car"></i>
+            <span class="nav-link-text">Pengiriman Barang</span>
+            </a>
+        </li>
+        </ul>
+
+        <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+            <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
             </a>
         </li>
         </ul>
@@ -63,7 +42,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ route('cabang.profil', Auth::user()->id) }}" class="btn btn-default btn-flat">Profil</a>
+                  <a href="{{ route('pelanggan.profil', Auth::user()->id) }}" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
@@ -75,5 +54,6 @@
             </ul>
           </li>
         </ul>
+        
     </div>
 </nav>

@@ -33,9 +33,16 @@ class HomeController extends Controller
         return view('layouts.direktur.profil', compact('user'));
     }
 
-    public function profilCabang($id){
+    public function profilCabang($id)
+    {
         $user = User::findOrFail($id);
         return view('layouts.cabang.profil', compact('user'));
+    }
+
+    public function profilPelanggan($id)
+    {
+        $user = User::findOrFail($id);
+        return view('layouts.pelanggan.profil', compact('user'));
     }
 
     public function direktur()
@@ -46,5 +53,10 @@ class HomeController extends Controller
     public function cabang()
     {
         return view('layouts.cabang.home');
+    }
+
+    public function pelanggan()
+    {
+        return view('layouts.pelanggan.home');
     }
 }

@@ -4,27 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Cabang;
-
-class CabangUsersController extends Controller
+use App\Pelanggan;
+class PelangganUsersController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
     }
-
+    
     public function update(Request $request, $id)
     {
-
+        // dd($request->all());
         $user = User::findOrFail($id);
-        $cabang = Cabang::where('id_user', $user->id);
+        $pelanggan = Pelanggan::where('id_user', $user->id);
 
-        $cabang->update([
-            'alamat' => $request->input('cabang')['alamat'],
-            'no_hp' => $request->input('cabang')['no_hp'],
+        $pelanggan->update([
+            'no_hp' => $request->input('pelanggan')['no_hp'],
+            'jenis_kelamin' => $request->input('pelanggan')['jenis_kelamin'],
+            'tgl_lahir' => $request->input('pelanggan')['tgl_lahir'],
+            'kota' => $request->input('pelanggan')['kota'],
+            'alamat' => $request->input('pelanggan')['alamat']
         ]);
-               
+
         $password = $request->get('password') ? bcrypt($request->get('password')) : $user->password;
         $foto = $request->input('foto');
 
@@ -37,5 +38,4 @@ class CabangUsersController extends Controller
 
         return redirect()->back()->with('alert', 'Data profil berhasil diubah!');
     }
-
 }

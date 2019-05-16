@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Pelanggan;
 use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -30,16 +31,8 @@ class RegisterController extends Controller
      * @var string
      */
 
-    protected $redirectTo = '/pengguna';
+    protected $redirectTo = '/pelanggan';
 
-    //  protected function registered($request, $user)
-    //  {
-    //     if($user->level == 'direktur'){
-    //         return redirect('/direktur');
-    //     }else  if($user->level == 'pengguna'){
-    //         return "Hai";
-    //     }
-    //  }
 
     /**
      * Create a new controller instance.
@@ -74,10 +67,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        
+        $user = User::create([
             'nama' => $data['nama'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $id = $user->id;
+
+        Pelanggan::create([
+            'id_user' => $id
+        ]);
+
+        return $user;
     }
 }

@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('foto')->default('/images/user-icon.png');
-            $table->string('level')->default('pengguna');
+            $table->string('level')->default('pelanggan');
             $table->boolean('status')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

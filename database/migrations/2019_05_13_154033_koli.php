@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Ongkir extends Migration
+class Koli extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class Ongkir extends Migration
      */
     public function up()
     {
-        Schema::create('ongkir', function(Blueprint $table){
+        Schema::create('koli', function(Blueprint $table){
             $table->increments('id');
-            $table->string('asal');
-            $table->char('tujuan', 1);
-            $table->string('estimasi');
-            $table->integer('harga');
+            $table->integer('id_pengiriman')->unsigned();
+            $table->string('deskripsi');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('id_pengiriman')->references('id')->on('pengiriman')->onDelete('cascade');
+            
         });
     }
 

@@ -3,7 +3,7 @@
 @section('assets-top')
 <style>
     .panel{
-        padding-left: 30px;
+        padding-left: 40px;
     }
 </style>
 @endsection
@@ -17,6 +17,12 @@
             <a href="#">Profil</a>
         </li>
     </ol>
+
+    @if (session('alert'))
+        <div class="alert alert-success">
+            {{ session('alert') }}
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-md-12">
@@ -120,41 +126,21 @@
                         <div class="form-group">
                             <label for="nama">Nama Lengkap</label>
                             {!! Form::text('nama', null, ['class' => $errors->has('nama') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
-                            @if ($errors->has('nama'))
-                            <span class="invalid-feedback">
-                                <strong>{{ $errors->first('nama') }}</strong>
-                            </span>
-                            @endif
                         </div>
 
                         <div class="form-group">
-                        <label for="email">Email</label>
+                            <label for="email">Email</label>
                             {!! Form::email('email', null, ['class' => $errors->has('email') ? 'form-control is-invalid' : 'form-control', 'required']) !!}
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
                         </div>
 
                         <div class="form-group">
                             <label for="nama">Alamat</label>
                             {!! Form::textarea('cabang[alamat]', null, ['class' => $errors->has('alamat') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'rows' => 5]) !!}
-                            @if ($errors->has('alamat'))
-                            <span class="invalid-feedback">
-                                <strong>{{ $errors->first('alamat') }}</strong>
-                            </span>
-                            @endif
                         </div>
 
                         <div class="form-group">
                         <label for="nama">Nomor HP</label>
                             {!! Form::number('cabang[no_hp]', null, ['class' => $errors->has('no_hp') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
-                            @if ($errors->has('no_hp'))
-                                <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('no_hp') }}</strong>
-                                </span>
-                            @endif
                         </div>
 
                     </div>

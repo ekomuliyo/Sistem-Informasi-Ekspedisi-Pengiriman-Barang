@@ -18,18 +18,18 @@
               </div>
               {!! Form::model($ongkir, ['route' => ['cabang.ongkir.update', $ongkir->id], 'method' => 'PUT']) !!}
                 <div class="form-group">
-                    <label for="nama">Kota Asal</label>
+                    <label for="asal">Kota Asal</label>
                     {!! Form::text('asal', 'jakarta', ['class' => $errors->has('asal') ? 'form-control is-invalid' : 'form-control', 'readonly']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="nama">Kota Tujuan</label>
-                    {!! Form::select('tujuan', ['palembang' => 'Palembang', 'jambi'=>'Jambi', 'pekanbaru'=>'Pekanbaru', 'padang'=>'Padang'], null, ['class' => 'form-control', 'placeholder' => 'Pilih Kota']) !!}
+                    <label for="tujuan">Kota Tujuan</label>
+                    {!! Form::select('tujuan', ['1' => 'Palembang', '2'=>'Jambi', '3'=>'Pekanbaru', '4'=>'Padang'], null, ['class' => 'form-control', 'placeholder' => 'Pilih Kota']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="nama">Estimasi Pengiriman</label>
+                    <label for="estimasi">Estimasi Pengiriman</label>
                     <div class="row">
                         <div class="col-md-1">
-                            {!! Form::number('awal', $ongkir->estimasi{0}, ['class' => $errors->has('akhir') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'min' => '1']) !!}
+                            {!! Form::number('awal', $ongkir->estimasi{0}, ['class' => $errors->has('awal') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'min' => '1']) !!}
                         </div>
                         <div class="col-md-0">-</div>
                         <div class="col-md-1">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="nama">Harga (Kg)</label>
+                    <label for="harga">Harga (Kg)</label>
                     {!! Form::number('harga', null, ['class' => $errors->has('harga') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'min' => '1']) !!}
                 </div>
                 <div class="card-footer bg-transparent">

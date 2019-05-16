@@ -34,7 +34,7 @@ class LoginController extends Controller
         else if($user->level == "admin"){
             return redirect()->route('cabang');
         }
-        return redirect('/pengguna');
+        return redirect('/pelanggan');
     }
 
     /**
