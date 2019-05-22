@@ -19,13 +19,18 @@
                     {!! Form::model($surat, ['route' => ['cabang.surat.update', $surat->id], 'method' => 'PUT']) !!}
                     <div class="form-group">
                         <label for="nomor_surat">Nomor Surat</label>
-                        {!! Form::text('nomor_surat', $surat->nomor_surat, ['class' => $errors->has('nomor_surat') ? 'form-control is-invalid' : 'form-control', 'readonly']) !!}
+                        {!! Form::text('nomor_surat', $surat->nomor_surat, ['class' => $errors->has('nomor_surat') ? 'form-control is-invalid' : 'form-control']) !!}
                     </div>
                     <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Kurir</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="id_kurir" id="nameid" class ="form-control" required name="id_kurir" readonly>
-                                    <option value="{{ $surat->id_kurir }}" >{{$surat->kurir->user->nama}}</option>
+                            <select name="id_kurir" id="nameid" class ="form-control" required name="id_kurir">
+                                @foreach($kurir as $d)
+                                    <option value="{{ $d->id }}" 
+                                    @if($d->id == $surat->id_kurir)
+                                        selected = "selected"
+                                    @endif>{{ $d->user->nama }}</option>
+                                @endforeach
                             </select>
                             </div>
                     </div>
@@ -33,7 +38,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tanggal Surat</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input name="tgl_surat" class="form-control" value="{{ $surat->tgl_surat }}" type="date" readonly/>
+                            <input name="tgl_surat" class="form-control" value="{{ $surat->tgl_surat }}" type="date"/>
                         </div>
                     </div>
                     

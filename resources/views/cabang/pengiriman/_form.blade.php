@@ -30,6 +30,7 @@
     </div>
     <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Penerima</label>
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Biaya Ongkir : Rp. <label for="ongkir" id="ongkir"> 0</label></label>
         <div class="col-md-6">
             <select name="id_penerima" id="nameid3" class ="form-control" required >
                     <option value="" disabled selected hidden>Pilih Nama Penerima</option>
@@ -42,7 +43,7 @@
     <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">Jumlah Koli</label>
         <div class="col-md-6  ">
-            <input type="number" class="form-control" id="input" min="0" placeholder="Jumlah koli">
+            <input type="number" class="form-control" id="input_koli" min="0" placeholder="Jumlah koli" required>
         </div>
     </div>
     <div class="form-group" id="container">
@@ -51,38 +52,35 @@
     <div class="berat">
         <div class="form-group" >
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Berat (Kg)</label>
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Biaya Ongkir : </label>
             <div class="col-md-6  ">
-                <input name="berat" type="number" class="form-control" min="0" placeholder="Kg">
+                <input name="berat_kg" type="number" id="berat_kg" class="form-control" min="0" placeholder="Kg">
             </div>
         </div>
         <label for="jumlah_biaya" class="control-label col-md-2 col-sm-2 col-xs-12">Jumlah Biaya : </label>
         <label for="jumlah_biaya" class="control-label col-md-4 col-sm-4 col-xs-12">
-            Rp : <input name="jumlah_biaya" id="jumlah_biaya" readonly="readonly" class="control-label col-md-3 col-sm-3 col-xs-12" value="1000">
+            Rp : <input name="jumlah_biaya_kg" id="jumlah_biaya_kg" readonly="readonly" class="control-label col-md-4 col-sm-4 col-xs-12" >
         </label>
-
     </div>
     <div class="volume" >
         <div class="form-group" >
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">P x L x T (Meter)</label>
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Biaya Ongkir : </label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">P x L x T (CM) = PxLxT / 4000</label>
             <div class="col-md-6  ">
-                <input type="number" class="form-control" min="0" placeholder="Panjang">
+                <input type="number" class="form-control" min="0" id="panjang" placeholder="Panjang">
+            </div>
+            <div class="col-md-6  ">    
+                <input type="number" class="form-control" min="0" id="lebar" placeholder="Lebar">
             </div>
             <div class="col-md-6  ">
-                <input type="number" class="form-control" min="0" placeholder="Lebar">
-            </div>
-            <div class="col-md-6  ">
-                <input type="number" class="form-control" min="0" placeholder="Tinggi">
+                <input type="number" class="form-control" min="0" id="tinggi" placeholder="Tinggi">
             </div>
         </div>
-        <label for="berat" class="control-label col-md-2 col-sm-2 col-xs-12">Berat : </label>
+        <label for="berat" class="control-label col-md-2 col-sm-2 col-xs-12">Total Berat : </label>
         <label for="berat" class="control-label col-md-4 col-sm-4 col-xs-12">
-            Rp : <input name="berat_volume" id="berat" readonly="readonly" class="control-label col-md-3 col-sm-3 col-xs-12" value="200000">
+            <input name="berat_volume" id="berat_volume" readonly="readonly" class="control-label col-md-4 col-sm-4 col-xs-12" > Kg
         </label></br>
         <label for="jumlah biaya" class="control-label col-md-2 col-sm-2 col-xs-12">Jumlah biaya : </label>
         <label for="jumlah_biaya" class="control-label col-md-4 col-sm-4 col-xs-12">
-            Rp : <input name="jumlah_biaya_volume" id="jumlah_biaya" readonly="readonly" class="control-label col-md-3 col-sm-3 col-xs-12" value="200000">
+            <input name="jumlah_biaya_volume" id="jumlah_biaya_volume" readonly="readonly" class="control-label col-md-4 col-sm-4 col-xs-12">
         </label>
     </div>
     <a id="hideLink" class="control-label col-md-3 col-sm-3 col-xs-12" href="#">Hitung volume</a>
@@ -94,7 +92,8 @@
                     <option value="" disabled selected hidden>Pilih metode pembayaran</option>
                     <option value="1">Bayar di Jakarta</option>
                     <option value="2">Bayar di Tujuan</option>
-                    <option value="1">Transfer</option>
+                    <option value="3">Transfer</option>
+                    <option value="4">Langganan</option>                    
             </select>
         </div>
     </div>
@@ -107,22 +106,76 @@
 
 @section('assets-bottom')
     <script type="text/javascript">
+
+    // hitung jumlah biaya dari volume
+    ongkir = 0;
+    panjang = 0;
+    lebar = 0;
+    tinggi = 0;
+
+    var berat_volume = document.getElementById("berat_volume");
+    var jumlah_biaya_volume = document.getElementById("jumlah_biaya_volume");
+    $("#panjang").on("input", function(){
+        panjang = document.getElementById("panjang").value;
+        berat_volume.value = (panjang * lebar * tinggi) / 4000;
+        jumlah_biaya_volume.value = berat_volume.value * ongkir;
+    });
+
+    $("#lebar").on("input", function(){
+        lebar = document.getElementById("lebar").value;
+        berat_volume.value = (panjang * lebar * tinggi) / 4000;
+        jumlah_biaya_volume.value = berat_volume.value * ongkir;
+
+    });
+
+    $("#tinggi").on("input", function(){
+        tinggi = document.getElementById("tinggi").value;
+        berat_volume.value = (panjang * lebar * tinggi) / 4000;
+        jumlah_biaya_volume.value = berat_volume.value * ongkir;
+
+    });
+
+    // hitung jumlah biaya dari kg
+    $("#berat_kg").on('input', function(){
+        var jumlah_biaya_kg = document.getElementById('jumlah_biaya_kg');
+        var berat_kg = document.getElementById("berat_kg").value; 
+        jumlah_biaya_kg.value = ongkir * berat_kg;
+    })
+
+    // mengambil biaya ongkir berdasarkan kota pelanggan penerima
+    $("#nameid3").on('change', function(e){
+        var ongkir_id = document.getElementById('ongkir');
+        var pelanggan_id = e.target.value;
+        $.get('/cabang/json-ongkir?pelanggan_id=' + pelanggan_id, function(data){
+            ongkir_id.innerHTML = data;
+            ongkir = data;
+        });
+    });
+
     
+    // menampilkan metode perhitungan kg / volume
     $("#hideLink").on("click", function (){
         if ($(this).text() == "Hitung volume") {
             $(this).text("Hitung berat");
             $(".berat").hide();
-            $(".volume").fadeIn("slow");
+            $("#berat_kg").val("");
+            $("#jumlah_biaya_kg").val("");
+            $(".volume").show("slow")
         }else{
             $(this).text("Hitung volume");
-            $(".volume").hide(); 
-            $(".berat").fadeIn("slow");
+            $(".volume").hide();
+            $("#panjang").val("");
+            $("#lebar").val("");
+            $("#tinggi").val("");
+            $("#berat_volume").val("");
+            $("#jumlah_biaya_volume").val(""); 
+            $(".berat").show("slow");                    
         }
     });
 
         // jumlah koli
-        input.oninput = function (){
-            var input = document.getElementById("input").value;
+        input_koli.oninput = function (){
+            var input = document.getElementById("input_koli").value;
             var container = document.getElementById("container");
 
             while(container.hasChildNodes()){
@@ -141,7 +194,8 @@
                 var elementInput = document.createElement("input");
                 elementInput.setAttribute("type", "text");
                 elementInput.setAttribute("name", "koli[]");
-                elementInput.setAttribute("class", "form-control")
+                elementInput.setAttribute("class", "form-control");
+                elementInput.setAttribute("required", "required");
                 divCol.appendChild(elementInput);
 
                 container.appendChild(elementLabel);

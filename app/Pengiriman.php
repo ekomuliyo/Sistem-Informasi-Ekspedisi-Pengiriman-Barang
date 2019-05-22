@@ -11,14 +11,24 @@ class Pengiriman extends Model
         'id_surat', 'id_pengirim', 'id_penerima', 'metode_pembayaran', 
         'berat', 'jumlah_biaya', 'keterangan', 'status'];
 
-    public function pelangganPengirim()
+    public function pelanggan_pengirim()
     {
         return $this->belongsTo('App\Pelanggan', 'id_pengirim', 'id');
     }
 
-    public function pelangganPenerima()
+    public function pelanggan_penerima()
     {
         return $this->belongsTo('App\Pelanggan', 'id_penerima', 'id');
+    }
+
+    public function status_pengiriman()
+    {
+        return $this->hasMany('App\StatusPengiriman', 'id_pengiriman', 'id');
+    }
+
+    public function koli()
+    {
+        return $this->hasMany('App\Koli', 'id_pengiriman', 'id');
     }
 
     

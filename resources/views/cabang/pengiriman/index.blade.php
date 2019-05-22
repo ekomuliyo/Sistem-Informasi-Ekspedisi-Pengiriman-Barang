@@ -29,7 +29,7 @@
                     <th>Penerima</th>
                     <th>Kota Tujuan</th>
                     <th>Biaya</th>
-                    <th>Keterangan</th>
+                    <th>Kg</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -74,6 +74,7 @@
                   return kota;
                 }},
               {data: 'jumlah_biaya', name: 'jumlah_biaya'},
+              {data: 'berat', name: 'berat'},
               {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

@@ -49,8 +49,11 @@ Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function 
 
         Route::get('/api/datatable/kurir', 'CabangKurirController@dataTable')->name('api.datatable.kurir');
         Route::get('/api/datatable/ongkir', 'CabangOngkirController@dataTable')->name('api.datatable.ongkir');
+        Route::get('/json-ongkir', 'CabangOngkirController@ongkir');
         Route::get('/api/datatable/surat', 'CabangSuratController@dataTable')->name('api.datatable.surat');
         Route::get('/api/datatable/pengiriman', 'CabangPengirimanController@dataTable')->name('api.datatable.pengiriman');
+
+
 
     });
 });

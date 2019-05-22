@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header text-white bg-primary">
+              <div class="card-header text-white bg-primary" id="a">
               Tambah Pengiriman Baru
               </div></br>
               {!! Form::open(['route' => 'cabang.pengiriman.store', 'method' => 'POST']) !!}

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use DB;
+use App\Pelanggan;
 use App\Ongkir;
 
 class CabangOngkirController extends Controller
@@ -151,5 +153,16 @@ class CabangOngkirController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function ongkir()
+    {
+        $pelanggan_id = Input::get('pelanggan_id');
+        $pelanggan = Pelanggan::find($pelanggan_id);
+        $kota = $pelanggan->kota;
+
+        $ongkir = Ongkir::where('tujuan', '=' , $kota)->first();
+        $ongkir = $ongkir->harga;
+        return response()->json($ongkir);
     }
 }

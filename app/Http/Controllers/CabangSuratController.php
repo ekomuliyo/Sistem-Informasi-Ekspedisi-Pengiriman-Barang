@@ -104,6 +104,9 @@ class CabangSuratController extends Controller
     {
         $surat = Surat::findOrFail($id);
 
+        $surat->nomor_surat = $request->input('nomor_surat');
+        $surat->id_kurir = $request->input('id_kurir');
+        $surat->tgl_surat = $request->input('tgl_surat');
         $surat->keterangan = $request->input('keterangan');
         $surat->save();
 
@@ -126,9 +129,7 @@ class CabangSuratController extends Controller
 
     public function dataTable()
     {
-        $surat = Surat::with(['kurir.user'])->select('surat.*')
-                ->orderBy(DB::raw("DATE_FORMAT(tgl_surat, '%d-%M-%Y')"));
-
+        $surat = Surat::with('kurir.user')->select('surat.*');
 
         return datatables()->of($surat)
         ->addColumn('action', function ($surat){
