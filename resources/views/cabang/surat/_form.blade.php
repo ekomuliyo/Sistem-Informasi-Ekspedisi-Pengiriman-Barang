@@ -1,6 +1,8 @@
     <div class="form-group">
-        <label for="nomor_surat">Nomor Surat</label>
-        {!! Form::text('nomor_surat', "JKT/Cargo/" . $nomor_surat, ['class' => $errors->has('nomor_surat') ? 'form-control is-invalid' : 'form-control', 'readonly']) !!}
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Nomor Surat</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {!! Form::text('nomor_surat', "JKT/Cargo/" . $nomor_surat, ['class' => $errors->has('nomor_surat') ? 'form-control is-invalid' : 'form-control', 'readonly']) !!}
+        </div>
     </div>
     <div class="form-group">
     <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Kurir</label>

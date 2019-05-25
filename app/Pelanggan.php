@@ -14,12 +14,12 @@ class Pelanggan extends Model
         return $this->belongsTo('App\User', 'id_user', 'id');
     }
 
-    public function pengirimanPengirim()
+    public function pengiriman_pengirim()
     {
         return $this->hasMany('App\Pengiriman', 'id_pengirim', 'id');
     }
 
-    public function pengirimanPenerima()
+    public function pengiriman_penerima()
     {
         return $this->hasMany('App\Pengiriman', 'id_penerima', 'id');
     }

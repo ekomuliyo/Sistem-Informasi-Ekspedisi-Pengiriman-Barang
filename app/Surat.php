@@ -13,5 +13,10 @@ class Surat extends Model
     {
         return $this->belongsTo('App\Kurir', 'id_kurir', 'id');
     }
+
+    public function pengiriman()
+    {
+        return $this->hasMany('App\Pengiriman', 'id_kurir', 'id');
+    }
     
 }

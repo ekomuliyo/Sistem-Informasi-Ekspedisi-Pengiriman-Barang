@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Surat;
 use App\Pelanggan;
 use App\Pengiriman;
@@ -71,6 +72,8 @@ class CabangPengirimanController extends Controller
         $pengiriman->save();
 
         $id_pengiriman = $pengiriman->id; // mengambil id pengiriman setelah di input
+
+        
         
         // input ke tabel koli sesuai dengan jumlah koli
         $arrayKoli = $request->input('koli');
@@ -80,15 +83,33 @@ class CabangPengirimanController extends Controller
             $koli->deskripsi = $arrayKoli[$i];
             $koli->save();
         }
+        
+        // mengirim pesan ke wa pelanggan setelah input data,
+        // format nomor hp di ubah dari awal 08 menjadi 628, sesuai dengan format nomor seluler di indonesia
+        $no = $pengiriman->pelanggan_penerima->no_hp;
+        $prefix = '0';
+        $str = $no;
+        if (substr($str, 0, strlen($prefix)) == $prefix) {$str = substr($str, strlen($prefix));}
+        $no_wa_penerima = "62".$str;
 
+        
         // input ke tabel status_pengiriman
-        $keterangan = "Paket kargo dalam proses packing di jakarta";
+        $keterangan = "Barang dalam proses packing di cabang jakarta";
         $status_pengiriman = new StatusPengiriman(); 
         $status_pengiriman->id_pengiriman = $id_pengiriman;
         $status_pengiriman->keterangan = $keterangan;
         $status_pengiriman->id_user = Auth::user()->id;
         $status_pengiriman->save();
-
+        
+        // mengirim pesan ke wa
+        $my_apikey = "738ZKMREU3Q7S2CHDFDH"; 
+        $destination = $no_wa_penerima; 
+        $message = $keterangan; 
+        $api_url = "http://panel.apiwha.com/send_message.php"; 
+        $api_url .= "?apikey=". urlencode ($my_apikey); 
+        $api_url .= "&number=". urlencode ($destination); 
+        $api_url .= "&text=". urlencode ($message); 
+        $my_result_object = json_decode(file_get_contents($api_url, false)); 
 
 
         return redirect()->route('cabang.pengiriman.index')->with('alert', 'Data berhasil ditambahkan!');
@@ -181,6 +202,59 @@ class CabangPengirimanController extends Controller
         $pengiriman->delete();
 
         return redirect()->back()->with('alert', 'Data berhasil dihapus!');
+    }
+
+    public function createStatusBarang()
+    {
+        $id_pengiriman = Input::get('id_pengiriman');
+        $pengiriman = Pengiriman::with('pelanggan_pengirim.user', 'pelanggan_penerima.user')->where('id', $id_pengiriman)->first();
+        return response()->json($pengiriman);
+    }
+
+    public function storeStatusBarang(Request $request)
+    {
+        // menghandel apakah status barang sudah diterima atau belum
+        // jika sudah diterima maka status pengiriman bernilai true
+        if ($request->input('nama_penerima')) {
+            $status = true;
+        }else{
+            $status = false;
+        }
+
+        $id_pengiriman = $request->input('id_pengiriman');
+        $keterangan = $request->input('keterangan') . ", " . $request->input('nama_penerima') . " [" . Auth::user()->nama . "]";
+
+        // menyimpan ke tabel status_pengiriman
+        $status_pengiriman = new StatusPengiriman();
+
+        $status_pengiriman->id_pengiriman = $id_pengiriman;
+        $status_pengiriman->keterangan = $keterangan;
+        $status_pengiriman->id_user = Auth::user()->id;
+        $status_pengiriman->status = $status;
+        $status_pengiriman->save();
+
+
+        // mencari nomor pelanggan penerima dari id_pengiriman yang baru di masukan
+        $pengiriman = Pengiriman::find($id_pengiriman);
+
+        // format nomor hp di ubah dari awal 08 menjadi 628, sesuai dengan format nomor seluler di indonesia
+        $no = $pengiriman->pelanggan_penerima->no_hp;
+        $prefix = '0';
+        $str = $no;
+        if (substr($str, 0, strlen($prefix)) == $prefix) {$str = substr($str, strlen($prefix));}
+        $no_wa_penerima = "62".$str;
+
+        // mengirim pesan ke wa
+        $my_apikey = "738ZKMREU3Q7S2CHDFDH"; 
+        $destination = $no_wa_penerima; 
+        $message = $keterangan; 
+        $api_url = "http://panel.apiwha.com/send_message.php"; 
+        $api_url .= "?apikey=". urlencode ($my_apikey); 
+        $api_url .= "&number=". urlencode ($destination); 
+        $api_url .= "&text=". urlencode ($message); 
+        $my_result_object = json_decode(file_get_contents($api_url, false));
+        
+        return redirect()->back()->with('alert', 'Status pengiriman barang berhasil diperbarui!');
     }
 
     public function dataTable()

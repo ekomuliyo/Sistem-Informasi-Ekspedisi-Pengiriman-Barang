@@ -11,6 +11,11 @@ class Pengiriman extends Model
         'id_surat', 'id_pengirim', 'id_penerima', 'metode_pembayaran', 
         'berat', 'jumlah_biaya', 'keterangan', 'status'];
 
+    public function surat()
+    {
+        return $this->belongsTo('App\Surat', 'id_surat', 'id');
+    }
+
     public function pelanggan_pengirim()
     {
         return $this->belongsTo('App\Pelanggan', 'id_pengirim', 'id');

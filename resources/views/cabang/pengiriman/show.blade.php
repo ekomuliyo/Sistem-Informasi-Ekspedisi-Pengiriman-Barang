@@ -24,6 +24,10 @@
                       <td>{{ $pengiriman->id }}</td>
                   </tr>
                   <tr>
+                    <th>Nomor Surat</th>
+                    <td>{{ $pengiriman->surat->nomor_surat }}</td>
+                  </tr>
+                  <tr>
                       <th>Pengirim</th>
                       <td>{{ $pengiriman->pelanggan_pengirim->user->nama }}</td>
                   </tr>
@@ -33,14 +37,11 @@
                   </tr>
                   <tr>
                       <th>Kota Tujuan</th>
-                        @if($pengiriman->pelanggan_penerima->kota == 1)
-                            <td>Palembang</td>
-                        @elseif($pengiriman->pelanggan_penerima->kota == 2)
-                            <td>Jambi</td>
-                        @elseif($pengiriman->pelanggan_penerima->kota == 3)
-                            <td>Pekanbaru</td>
-                        @else
-                            <td>Padang</td>                                                                                                
+                        @if($pengiriman->pelanggan_penerima->kota == 1) <td>Jakarta</td>
+                        @elseif($pengiriman->pelanggan_penerima->kota == 2)<td>Palembang</td>
+                        @elseif($pengiriman->pelanggan_penerima->kota == 3)<td>Jambi</td>
+                        @elseif($pengiriman->pelanggan_penerima->kota == 4)<td>Pekanbaru</td>
+                        @else<td>Padang</td>                                                                                                
                         @endif
                   </tr>
                   <tr>

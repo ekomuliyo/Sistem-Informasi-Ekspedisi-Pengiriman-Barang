@@ -29,6 +29,8 @@
                     <th>Tanggal Surat</th>
                     <th>Keterangan</th>
                     <th>Nama Kurir</th>
+                    <th>Perbarui</th>
+                    <th>Cetak</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -60,6 +62,8 @@
               {data: 'tgl_surat', name: 'tgl_surat'},
               {data: 'keterangan', name: 'keterangan'},
               {data: 'kurir.user.nama', name: 'kurir.user.nama'},
+              {data: 'perbarui', name: 'perbarui', orderable: false, searchable: false},
+              {data: 'cetak', name: 'cetak', orderable: false, searchable: false},              
               {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

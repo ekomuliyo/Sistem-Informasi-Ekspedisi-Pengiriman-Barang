@@ -46,13 +46,17 @@ Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function 
         Route::resource('ongkir', 'CabangOngkirController');
         Route::resource('surat', 'CabangSuratController');
         Route::resource('pengiriman', 'CabangPengirimanController');
+        Route::get('surat/cetak/{id}', 'CabangSuratController@cetak')->name('surat.cetak');
+        Route::get('surat/perbarui/{id}', 'CabangSuratController@perbarui')->name('surat.perbarui');
+        Route::get('json/perbarui_status_barang', 'CabangPengirimanController@createStatusBarang');
+        Route::post('perbarui/status_barang', 'CabangPengirimanController@storeStatusBarang')->name('perbarui.status.barang');
+
 
         Route::get('/api/datatable/kurir', 'CabangKurirController@dataTable')->name('api.datatable.kurir');
         Route::get('/api/datatable/ongkir', 'CabangOngkirController@dataTable')->name('api.datatable.ongkir');
         Route::get('/json-ongkir', 'CabangOngkirController@ongkir');
         Route::get('/api/datatable/surat', 'CabangSuratController@dataTable')->name('api.datatable.surat');
         Route::get('/api/datatable/pengiriman', 'CabangPengirimanController@dataTable')->name('api.datatable.pengiriman');
-
 
 
     });

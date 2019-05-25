@@ -116,12 +116,14 @@
                     </div>
                     <div class="col-md-8">
                         @if($user->pelanggan->kota == '1')
-                            <label for="kota">Palembang</label>
+                            <label for="kota">Jakarta</label>                            
                         @elseif($user->pelanggan->kota == '2')
-                            <label for="kota">Jambi</label>
+                            <label for="kota">Palembang</label>
                         @elseif($user->pelanggan->kota == '3')
-                            <label for="kota">Pekanbaru</label> 
+                            <label for="kota">Jambi</label>
                         @elseif($user->pelanggan->kota == '4')
+                            <label for="kota">Pekanbaru</label> 
+                        @elseif($user->pelanggan->kota == '5')
                             <label for="kota">Padang</label>
                         @else
                             <label for="kota">-</label>
@@ -192,7 +194,7 @@
 
                         <div class="form-group">
                             <label for="kota">Kota</label>
-                            {!! Form::select('pelanggan[kota]', ['1' => 'Palembang', '2' => 'Jambi', '3' => 'Pekanbaru', '4' => 'Padang'], null, ['class' => 'form-control', 'required', 'autofocus']) !!}
+                            {!! Form::select('pelanggan[kota]', ['1' => 'Jakarta', '2' => 'Palembang', '3' => 'Jambi', '4' => 'Pekanbaru', '5' => 'Padang'], null, ['class' => 'form-control', 'required', 'autofocus']) !!}
                         </div>
 
                         <div class="form-group">

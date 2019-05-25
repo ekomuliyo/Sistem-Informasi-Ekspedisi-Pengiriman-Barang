@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Surat;
 use App\User;
 use App\Kurir;
+use App\Pengiriman;
 use DB;
 
 class CabangSuratController extends Controller
@@ -60,7 +62,8 @@ class CabangSuratController extends Controller
         Surat::create([
             "nomor_surat" => $request->input('nomor_surat'),
             "id_kurir" => $request->input('id_kurir'),
-            "tgl_surat" => $request->input('tgl_surat')
+            "tgl_surat" => $request->input('tgl_surat'),
+            "keterangan" => "Surat dalam perjalanan menuju Palembang"
         ]);
 
         return redirect()->route('cabang.surat.index')->with('alert', 'Berhasil ditambahkan!');
@@ -75,8 +78,9 @@ class CabangSuratController extends Controller
     public function show($id)
     {
         $surat = Surat::findOrFail($id);
+        $pengiriman = Pengiriman::all()->where('id_surat', $id);
 
-        return view('cabang.surat.show', compact('surat'));
+        return view('cabang.surat.show', compact('surat', 'pengiriman'));
     }
 
     /**
@@ -102,12 +106,19 @@ class CabangSuratController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->all());
         $surat = Surat::findOrFail($id);
 
-        $surat->nomor_surat = $request->input('nomor_surat');
-        $surat->id_kurir = $request->input('id_kurir');
-        $surat->tgl_surat = $request->input('tgl_surat');
-        $surat->keterangan = $request->input('keterangan');
+        
+        $nomor_surat = $request->input('nomor_surat') ? $request->input('nomor_surat') : $surat->nomor_surat;
+        $id_kurir = $request->input('id_kurir') ? $request->input('id_kurir') : $surat->id_kurir;
+        $tgl_surat = $request->input('tgl_surat') ? $request->input('tgl_surat') : $surat->tgl_surat;
+        $keterangan = $request->input('keterangan') ? $request->input('keterangan') : $surat->keterangan;
+
+        $surat->nomor_surat = $nomor_surat;
+        $surat->id_kurir = $id_kurir;
+        $surat->tgl_surat = $tgl_surat;
+
         $surat->save();
 
         return redirect()->route('cabang.surat.index')->with('alert', 'Berhasil diubah!');
@@ -127,6 +138,19 @@ class CabangSuratController extends Controller
         return redirect()->back()->with('alert', 'Berhasil dihapus!');
     }
 
+    public function cetak($id)
+    {
+        $pengiriman = Pengiriman::all()->where('id_surat', $id);
+        return view('cabang.surat.cetak', compact('pengiriman'));
+    }
+
+    public function perbarui($id)
+    {
+        $surat = Surat::findOrFail($id);
+        $pengiriman = Pengiriman::where('id_surat', $id)->get();
+        return view('cabang.surat.perbarui', compact('surat', 'pengiriman'));
+    }
+
     public function dataTable()
     {
         $surat = Surat::with('kurir.user')->select('surat.*');
@@ -140,7 +164,13 @@ class CabangSuratController extends Controller
                 'delete_url' => route('cabang.surat.destroy', $surat->id)
             ]);
         })
-        ->rawColumns(['action'])
+        ->addColumn('cetak', function ($surat){
+            return '<a href="' . route('cabang.surat.cetak', $surat->id) . '" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;"><span class="btn-label btn-label-right"><i class="fa fa-print"></i></span></a>';
+        })
+        ->addColumn('perbarui', function ($surat){
+            return '<a href="' . route('cabang.surat.perbarui', $surat->id) . '" class="btn btn-sm btn-info" style="padding-bottom: 0px; padding-top: 0px;"><span class="btn-label btn-label-right"><i class="fa fa-edit"></i></span></a>';
+        })
+        ->rawColumns(['action', 'cetak', 'perbarui'])
         ->make(true);
     }
 }

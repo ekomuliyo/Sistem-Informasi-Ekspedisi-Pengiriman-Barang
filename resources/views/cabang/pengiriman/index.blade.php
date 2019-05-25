@@ -28,8 +28,8 @@
                     <th>Pengirim</th>
                     <th>Penerima</th>
                     <th>Kota Tujuan</th>
-                    <th>Biaya</th>
-                    <th>Kg</th>
+                    <th>Jumlah Biaya</th>
+                    <th>Berat (Kg)</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>

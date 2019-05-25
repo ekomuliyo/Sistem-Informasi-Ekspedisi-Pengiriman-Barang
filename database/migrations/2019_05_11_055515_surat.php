@@ -18,7 +18,7 @@ class Surat extends Migration
             $table->string('nomor_surat');
             $table->integer('id_kurir')->unsigned();
             $table->date('tgl_surat');
-            $table->string('keterangan')->default('Sedang dalam perjalanan menuju Palembang');
+            $table->string('keterangan');
             $table->rememberToken();
             $table->timestamps();
 
