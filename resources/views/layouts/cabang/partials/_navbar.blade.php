@@ -18,10 +18,10 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMulti">
             <li>
-                <a href="{{ route('cabang.surat.index') }}">Data Surat Jalan</a>
+                <a href="{{ route('cabang.pengiriman.index') }}">Pengiriman Barang</a>
             </li>
             <li>
-                <a href="{{ route('cabang.pengiriman.index') }}">Pengiriman Barang</a>
+                <a href="{{ route('cabang.surat.index') }}">Surat Pengiriman</a>
             </li>
             </ul>
         </li>
@@ -41,9 +41,16 @@
         </li>
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('cabang.pelanggan.index') }}">
             <i class="fa fa-fw fa-user"></i>
             <span class="nav-link-text">Data Pelanggan</span>
+            </a>
+        </li>
+        </ul>
+        <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+            <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
             </a>
         </li>
         </ul>
@@ -74,6 +81,5 @@
               </li>
             </ul>
           </li>
-        </ul>
     </div>
 </nav>

@@ -25,6 +25,20 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            'nama' => 'direktur',
+            'email' => 'direktur@mail.com',
+            'level' => 'direktur',
+            'password' => '$2y$10$DEUNj6RIfF/KLYGTOrpcteSGkjMZZbnGhkC81lVKb9b8HCeK9ppAK'
+        ]);
+
+        DB::table('users')->insert([
+            'nama' => 'Cabang Jakarta',
+            'email' => 'cabangjakarta@mail.com',
+            'level' => 'admin',
+            'password' => '$2y$10$DurJBMhpVP0y47Sqx/hxiOWXFneseII6s2qaYYcVNco5YAPy6w7hq'
+        ]);
     }
 
     /**

@@ -24,13 +24,14 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>No Resi</th>
                     <th>Pengirim</th>
                     <th>Penerima</th>
                     <th>Kota Tujuan</th>
+                    <th>Alamat</th>
                     <th>Jumlah Biaya</th>
-                    <th>Berat (Kg)</th>
                     <th>Aksi</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -55,27 +56,14 @@
             serverSide: true,
             ajax: "{{ route('cabang.api.datatable.pengiriman') }}",
             columns:[
-              {data: 'id', name: 'id'},
-              {data: 'pelanggan_pengirim.user.nama', name: 'pelanggan_pengirim.user.nama'},
-              {data: 'pelanggan_penerima.user.nama', name: 'pelanggan_penerima.user.nama'},
-              {data: 'pelanggan_penerima.kota', name: 'pelanggan_penerima.kota', 
-                render: function(data){
-                  var kota;
-                  if (data == 1){
-                    kota = "Palembang";
-                  }
-                  else if(data == 2){
-                    kota = "Jambi";
-                  }else if(data == 3){
-                    kota = "Pekanbaru";
-                  }else{
-                    kota = "Padang";
-                  }
-                  return kota;
-                }},
+              {data: 'no_resi', name: 'no_resi'},
+              {data: 'nama_pengirim', name: 'nama_pengirim'},
+              {data: 'nama_penerima', name: 'nama_penerima'},
+              {data: 'kecamatan_penerima.kota.nama', name: 'kecamatan_penerima.kota.nama'},
+              {data: 'alamat_penerima', name: 'alamat_penerima'},
               {data: 'jumlah_biaya', name: 'jumlah_biaya'},
-              {data: 'berat', name: 'berat'},
-              {data: 'action', name: 'action', orderable: false, searchable: false}
+              {data: 'ubah', name: 'ubah', orderable: false, searchable: false},
+              {data: 'action_status', name: 'action', orderable: false, searchable: false}
             ]
         });
     });

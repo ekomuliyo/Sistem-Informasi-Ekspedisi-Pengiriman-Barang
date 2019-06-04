@@ -22,7 +22,7 @@ class PelangganUsersController extends Controller
             'no_hp' => $request->input('pelanggan')['no_hp'],
             'jenis_kelamin' => $request->input('pelanggan')['jenis_kelamin'],
             'tgl_lahir' => $request->input('pelanggan')['tgl_lahir'],
-            'kota' => $request->input('pelanggan')['kota'],
+            'id_kecamatan' => $request->input('pelanggan')['id_kecamatan'],
             'alamat' => $request->input('pelanggan')['alamat']
         ]);
 

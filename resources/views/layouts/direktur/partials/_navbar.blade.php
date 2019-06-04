@@ -24,13 +24,13 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMultiLaporan">
             <li>
-                <a href="#">Statistik Pengiriman</a>
+                <a href="{{ route('direktur.laporan.statistik.pengiriman') }}">Statistik Pengiriman</a>
             </li>
             <li>
-                <a href="#">Statistik Penerimaan</a>
+                <a href="{{ route('direktur.laporan.statistik.penerimaan') }}">Statistik Penerimaan</a>
             </li>
             <li>
-                <a href="#">Laporan Akhir</a>
+                <a href="{{ route('direktur.laporan.akhir') }}">Laporan Akhir</a>
             </li>
             </ul>
         </li>

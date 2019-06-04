@@ -8,14 +8,14 @@
           <li class="breadcrumb-item">
             <a href="#">Pengiriman</a>
           </li>
-          <li class="breadcrumb-item active">Tambah Pengiriman Baru</li>
+          <li class="breadcrumb-item active">Tambah Pengiriman</li>
         </ol>
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header text-white bg-primary" id="a">
-              Tambah Pengiriman Baru
+              <div class="card-header text-white bg-primary">
+              Tambah Pengiriman
               </div></br>
               {!! Form::open(['route' => 'cabang.pengiriman.store', 'method' => 'POST']) !!}
                 @include('cabang.pengiriman._form')

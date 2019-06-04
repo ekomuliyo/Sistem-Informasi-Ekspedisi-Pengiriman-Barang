@@ -1,18 +1,38 @@
     <div class="form-group">
         <label for="nama">Nama Cabang</label>
         {!! Form::text('nama', null, ['class' => $errors->has('nama') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+        @if ($errors->has('nama'))
+            <span class="invalid-feedback">
+                <strong>{{ $errors->first('nama') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="form-group">
         <label for="no_hp">Nomor HP</label>
         {!! Form::number('no_hp', null, ['class' => $errors->has('no_hp') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+        @if ($errors->has('no_hp'))
+            <span class="invalid-feedback">
+                <strong>{{ $errors->first('no_hp') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="form-group">
         <label for="alamat">Alamat</label>
         {!! Form::textarea('alamat', null, ['class' => $errors->has('alamat') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+        @if ($errors->has('alamat'))
+            <span class="invalid-feedback">
+                <strong>{{ $errors->first('alamat') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="form-group">
         <label for="email">Email</label>
         {!! Form::email('email', null, ['class' => $errors->has('email') ? 'form-control is-invalid' : 'form-control', 'required']) !!}
+        @if ($errors->has('email'))
+            <span class="invalid-feedback">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="form-group">
         <label for="email">Level</label>
@@ -21,6 +41,11 @@
     <div class="form-group">
         <label for="password">Password</label>
         {!! Form::password('password', ['class' => $errors->has('password') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+        @if ($errors->has('password'))
+            <span class="invalid-feedback">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="form-group">
         <label for="foto">Foto</label>

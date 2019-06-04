@@ -42,11 +42,18 @@ class DirekturCabangController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+
+        $rules = [
             'nama' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6'
-        ]);
+            ];
+        $customMessage = [
+            'required' => 'Harap isi data ini terlebih dahulu!',
+            'unique' => 'Email sudah terdaftar!'
+            ];
+
+        $this->validate($request, $rules, $customMessage);
 
         $request['password'] = bcrypt($request->get('password'));
         $request['foto'] = $request->get('foto') ? $request->get('foto') : '/images/user-icon.png';
@@ -120,16 +127,6 @@ class DirekturCabangController extends Controller
         return redirect()->route('direktur.cabang.index')->with('alert', 'Berhasil diubah!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function status($id)
     {
@@ -163,10 +160,10 @@ class DirekturCabangController extends Controller
             })
             ->addColumn('action_status', function ($cabang){
                     if($cabang->user->status == 1){
-                        return '<a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;"> Aktif <span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
+                        return '<label>Aktif</label> <a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Blokir<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
                     }
                     else {
-                        return '<a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;"> Blokir <span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
+                        return '<label>Diblokir</label> <a href="' . route('direktur.cabang.status', $cabang->id) . '" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">Aktifkan<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
                     }
             })
             ->rawColumns(['action', 'action_status'])

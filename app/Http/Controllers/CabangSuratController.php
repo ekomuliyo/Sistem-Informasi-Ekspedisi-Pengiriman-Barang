@@ -8,6 +8,10 @@ use App\Surat;
 use App\User;
 use App\Kurir;
 use App\Pengiriman;
+use App\TransaksiPengirimanSurat;
+use App\StatusPengiriman;
+use App\DetailStatusPengiriman;
+use Auth;
 use DB;
 
 class CabangSuratController extends Controller
@@ -45,9 +49,11 @@ class CabangSuratController extends Controller
         }
 
         $kurir = Kurir::all();
-        
-        
-        return view('cabang.surat.create', compact('nomor_surat', 'kurir'));
+        $pengiriman = Pengiriman::all()
+                    ->where('status_surat', 0)
+                    ->where('status_valid', 1);
+
+        return view('cabang.surat.create', compact('nomor_surat', 'kurir', 'pengiriman'));
     }
 
     /**
@@ -58,29 +64,62 @@ class CabangSuratController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        Surat::create([
-            "nomor_surat" => $request->input('nomor_surat'),
-            "id_kurir" => $request->input('id_kurir'),
-            "tgl_surat" => $request->input('tgl_surat'),
-            "keterangan" => "Surat dalam perjalanan menuju Palembang"
-        ]);
+        $surat = new Surat();
+        $surat->nomor_surat = $request->input('nomor_surat');
+        $surat->id_kurir = $request->input('id_kurir');
+        $surat->tgl_surat = $request->input('tgl_surat');
+        $surat->keterangan = "Data surat belum diperbarui!";
+        $surat->save();
+
+        $id_surat = $surat->id;
+
+        $array_pengiriman = $request->input('id_pengiriman');
+        for ($i=0; $i < count($array_pengiriman); $i++) { 
+            $transaksi = new TransaksiPengirimanSurat();
+            $transaksi->id_pengiriman = $array_pengiriman[$i];
+            $transaksi->id_surat = $id_surat;
+            $transaksi->save();
+
+            $pengiriman = Pengiriman::find($array_pengiriman[$i]);
+            // mengubah status surat pengiriman menjadi true
+            $pengiriman->update(['status_surat' => true]);
+
+            // mengambil id pengiriman dan nomor penerima pada setiap pengiriman yang dipilih
+            $no = $pengiriman->no_hp_penerima;
+            $id_pengiriman = $pengiriman->id;
+            // // mengirim pesan ke wa penerima setelah input data,
+            // format nomor hp di ubah dari awal 08 menjadi 628, sesuai dengan format nomor seluler di indonesia
+            $prefix = '0';
+            $str = $no;
+            if (substr($str, 0, strlen($prefix)) == $prefix) {$str = substr($str, strlen($prefix));}
+            $no_wa_penerima = "62".$str;
+
+            $keterangan = "Barang dalam proses packing di cabang jakarta";
+            // mengirim pesan ke wa
+            $my_apikey = "738ZKMREU3Q7S2CHDFDH"; 
+            $destination = $no_wa_penerima; 
+            $message = $keterangan; 
+            $api_url = "http://panel.apiwha.com/send_message.php"; 
+            $api_url .= "?apikey=". urlencode ($my_apikey); 
+            $api_url .= "&number=". urlencode ($destination); 
+            $api_url .= "&text=". urlencode ($message); 
+            $my_result_object = json_decode(file_get_contents($api_url, false)); 
+            
+            // input ke tabel status_pengiriman
+            $status_pengiriman = new StatusPengiriman(); 
+            $status_pengiriman->id_pengiriman = $id_pengiriman;
+            $status_pengiriman->save();
+
+            $id_status = $status_pengiriman->id;
+            
+            $detail_status = new DetailStatusPengiriman();
+            $detail_status->id_status_pengiriman = $id_status;
+            $detail_status->keterangan = $keterangan;
+            $detail_status->id_user = Auth::user()->id;
+            $detail_status->save();
+        }
 
         return redirect()->route('cabang.surat.index')->with('alert', 'Berhasil ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $surat = Surat::findOrFail($id);
-        $pengiriman = Pengiriman::all()->where('id_surat', $id);
-
-        return view('cabang.surat.show', compact('surat', 'pengiriman'));
     }
 
     /**
@@ -91,10 +130,12 @@ class CabangSuratController extends Controller
      */
     public function edit($id)
     {
+        $transaksi = TransaksiPengirimanSurat::all()->where('id_surat', $id);
+
         $surat = Surat::findOrFail($id);
         $kurir = Kurir::all();
 
-        return view('cabang.surat.edit', compact('surat', 'kurir'));
+        return view('cabang.surat.edit', compact('surat', 'kurir', 'transaksi'));
     }
 
     /**
@@ -106,9 +147,25 @@ class CabangSuratController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
-        $surat = Surat::findOrFail($id);
 
+        // handle status terima surat;
+        if ($request->input('keterangan')) {
+            if( $request->input('keterangan') == "Surat dalam perjalanan menuju Palembang" ||
+            $request->input('keterangan') == "Sedang dalam perjalanan menuju Pekanbaru" ||
+            $request->input('keterangan') == "Sedang dalam perjalanan menuju Bukit Tinggi")
+                {
+                    $status_terima = false;
+                }
+            else{
+                $status_terima = true;
+            }
+        }
+        else{
+            $status_terima = false;
+        }
+
+
+        $surat = Surat::findOrFail($id);
         
         $nomor_surat = $request->input('nomor_surat') ? $request->input('nomor_surat') : $surat->nomor_surat;
         $id_kurir = $request->input('id_kurir') ? $request->input('id_kurir') : $surat->id_kurir;
@@ -118,37 +175,36 @@ class CabangSuratController extends Controller
         $surat->nomor_surat = $nomor_surat;
         $surat->id_kurir = $id_kurir;
         $surat->tgl_surat = $tgl_surat;
-
+        $surat->keterangan = $keterangan;
+        $surat->status_terima = $status_terima;
         $surat->save();
 
-        return redirect()->route('cabang.surat.index')->with('alert', 'Berhasil diubah!');
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $surat = Surat::findOrFail($id);
-        $surat->delete();
-
-        return redirect()->back()->with('alert', 'Berhasil dihapus!');
-    }
 
     public function cetak($id)
     {
-        $pengiriman = Pengiriman::all()->where('id_surat', $id);
-        return view('cabang.surat.cetak', compact('pengiriman'));
+        $transaksi_pengiriman = TransaksiPengirimanSurat::all()->where('id_surat', $id);
+        return view('cabang.surat.cetak', compact('transaksi_pengiriman'));
     }
 
     public function perbarui($id)
     {
         $surat = Surat::findOrFail($id);
-        $pengiriman = Pengiriman::where('id_surat', $id)->get();
-        return view('cabang.surat.perbarui', compact('surat', 'pengiriman'));
+        $transaksi_pengiriman = TransaksiPengirimanSurat::with('pengiriman.status_pengiriman.detail_status_pengiriman')->where('id_surat', $id)->get();
+        return view('cabang.surat.perbarui', compact('surat', 'transaksi_pengiriman'));
+    }
+
+    public function noResi(Request $request)
+    {
+        if ($request->has('q')) {
+            $cari = $request->q;
+            $data = DB::table('pengiriman')->select('id', 'no_resi', 'nama_penerima')
+            ->where('no_resi', 'LIKE', "%$cari%")
+            ->where('status_surat', 0)->get();
+            return response()->json($data);
+        }
     }
 
     public function dataTable()
@@ -156,13 +212,10 @@ class CabangSuratController extends Controller
         $surat = Surat::with('kurir.user')->select('surat.*');
 
         return datatables()->of($surat)
-        ->addColumn('action', function ($surat){
-            return view('layouts.cabang.partials._action', [
-                'model' => $surat,
-                'show_url' => route('cabang.surat.show', $surat->id),
-                'edit_url' => route('cabang.surat.edit', $surat->id),
-                'delete_url' => route('cabang.surat.destroy', $surat->id)
-            ]);
+        ->addColumn('ubah', function($surat){
+            return '<a href="'. route('cabang.surat.edit', $surat->id) . '" class="btn btn-sm btn-outline-secondary" style="padding-bottom: 0px; padding-top: 0px;">
+            Ubah
+            <span class="btn-label btn-label-right"><i class="fa fa-edit"></i></span></a>';
         })
         ->addColumn('cetak', function ($surat){
             return '<a href="' . route('cabang.surat.cetak', $surat->id) . '" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;"><span class="btn-label btn-label-right"><i class="fa fa-print"></i></span></a>';
@@ -170,7 +223,7 @@ class CabangSuratController extends Controller
         ->addColumn('perbarui', function ($surat){
             return '<a href="' . route('cabang.surat.perbarui', $surat->id) . '" class="btn btn-sm btn-info" style="padding-bottom: 0px; padding-top: 0px;"><span class="btn-label btn-label-right"><i class="fa fa-edit"></i></span></a>';
         })
-        ->rawColumns(['action', 'cetak', 'perbarui'])
+        ->rawColumns(['ubah', 'cetak', 'perbarui'])
         ->make(true);
     }
 }

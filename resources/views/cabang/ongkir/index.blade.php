@@ -26,7 +26,8 @@
                   <tr>
                     <th>ID</th>
                     <th>Asal</th>
-                    <th>Tujuan</th>
+                    <th>Kota Tujuan</th>
+                    <th>Kecamatan</th>
                     <th>Estimari (Hari)</th>
                     <th>Harga (Kg)</th>
                     <th>Aksi</th>
@@ -56,21 +57,8 @@
             columns:[
               {data: 'id', name: 'id'},
               {data: 'asal', name: 'asal'},
-              {data: 'tujuan', name: 'tujuan', 
-                render: function(data){
-                  var tujuan;
-                  if (data == 1) {
-                    tujuan = "Palembang"
-                  }else if(data == 2){
-                    tujuan = "Jambi";
-                  }else if(data == 3){
-                    tujuan = "Pekanbaru";
-                  }else{
-                    tujuan = "Padang"
-                  }
-                  return tujuan;
-                } 
-              },
+              {data: 'kecamatan.kota.nama', name: 'kecamatan.kota.nama'},
+              {data: 'kecamatan.nama', name: 'kecamatan.nama'},
               {data: 'estimasi', name: 'estimasi'},
               {data: 'harga', name: 'harga'},
               {data: 'action', name: 'action', orderable: false, searchable: false}

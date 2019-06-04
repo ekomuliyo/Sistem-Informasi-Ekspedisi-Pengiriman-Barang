@@ -10,7 +10,7 @@
     <button  
         type="submit" class="btn btn-sm btn-outline-danger" 
         style="padding-bottom: 0px; padding-top: 0px;"
-        onclick="return confirm('Are you sure you want to delete this item?');">
+        onclick="return confirm('Anda yakin ingin menghapus?');">
         Hapus
         <span class="btn-label btn-label-right"><i class="fa fa-trash"></i></span>
     </button>

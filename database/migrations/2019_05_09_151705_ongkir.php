@@ -16,11 +16,13 @@ class Ongkir extends Migration
         Schema::create('ongkir', function(Blueprint $table){
             $table->increments('id');
             $table->string('asal');
-            $table->char('tujuan', 1);
+            $table->integer('id_kecamatan')->unsigned();
             $table->string('estimasi');
             $table->integer('harga');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('id_kecamatan')->references('id')->on('kecamatan')->onDelete('cascade');
         });
     }
 

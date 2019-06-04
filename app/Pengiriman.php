@@ -7,23 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Pengiriman extends Model
 {
     protected $table = 'pengiriman';
-    protected $fillable = [
-        'id_surat', 'id_pengirim', 'id_penerima', 'metode_pembayaran', 
-        'berat', 'jumlah_biaya', 'keterangan', 'status'];
+    protected $fillable = ['no_resi', 'nama_pengirim', 'no_hp_pengirim', 'id_kecamatan_pengirim', 'alamat_pengirim',
+                                    'nama_penerima', 'no_hp_penerima', 'id_kecamatan_penerima', 'alamat_penerima', 'metode_pembayaran', 
+                                    'berat', 'jumlah_biaya', 'status_valid', 'status_surat', 'id_user'];
 
-    public function surat()
+
+    public function kecamatan_pengirim()
     {
-        return $this->belongsTo('App\Surat', 'id_surat', 'id');
+        return $this->belongsTo('App\Kecamatan', 'id_kecamatan_pengirim', 'id');
     }
 
-    public function pelanggan_pengirim()
+    public function kecamatan_penerima()
     {
-        return $this->belongsTo('App\Pelanggan', 'id_pengirim', 'id');
-    }
-
-    public function pelanggan_penerima()
-    {
-        return $this->belongsTo('App\Pelanggan', 'id_penerima', 'id');
+        return $this->belongsTo('App\Kecamatan', 'id_kecamatan_penerima', 'id');
     }
 
     public function status_pengiriman()
@@ -36,5 +32,9 @@ class Pengiriman extends Model
         return $this->hasMany('App\Koli', 'id_pengiriman', 'id');
     }
 
-    
+    public function transaksi_pengiriman()
+    {
+        return $this->hasMany('App\TransaksiPengirimanSurat', 'id_pengiriman', 'id');
+    }
+
 }

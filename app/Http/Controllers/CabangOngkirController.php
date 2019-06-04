@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use DB;
-use App\Pelanggan;
 use App\Ongkir;
+use App\Kecamatan;
+use App\Kota;
 
 class CabangOngkirController extends Controller
 {
@@ -45,10 +45,12 @@ class CabangOngkirController extends Controller
     {
 
         $rules = [
-            'tujuan' => 'required'
+            'id_kota' => 'required',
+            'id_kecamatan' => 'required|unique:ongkir'
             ];
         $customMessage = [
-            'required' => 'Harap pilih kota tujuan'
+            'required' => 'Harap pilih kota!',
+            'unique' => 'Data ongkir daerah tersebut sudah ada!'
             ];
 
         $this->validate($request, $rules, $customMessage);
@@ -56,8 +58,8 @@ class CabangOngkirController extends Controller
         $estimasi = $request->input('awal') . " - " . $request->input('akhir') . " hari"; 
 
         $ongkir = new Ongkir();
-        $ongkir->asal = $request->get('asal');
-        $ongkir->tujuan = $request->get('tujuan');
+        $ongkir->asal = "Jakarta";
+        $ongkir->id_kecamatan = $request->get('id_kecamatan');
         $ongkir->estimasi = $estimasi;
         $ongkir->harga = $request->get('harga');
         $ongkir->save();
@@ -76,7 +78,7 @@ class CabangOngkirController extends Controller
     {
         $ongkir = Ongkir::findOrFail($id);
 
-        return view('cabang.ongkir.show', compact('ongkir'));
+        return view('cabang.ongkir.show', compact('ongkir', 'kota'));
     }
 
     /**
@@ -89,7 +91,9 @@ class CabangOngkirController extends Controller
     {
         $ongkir = Ongkir::findOrFail($id);
 
-        return view('cabang.ongkir.edit', compact('ongkir'));
+        $kota = Kota::all();
+
+        return view('cabang.ongkir.edit', compact('ongkir', 'kota'));
     }
 
     /**
@@ -103,22 +107,11 @@ class CabangOngkirController extends Controller
     {
         $ongkir = Ongkir::findOrFail($id);
 
-        $rules = [
-            'tujuan' => 'required'
-            ];
-        $customMessage = [
-            'required' => 'Harap pilih kota tujuan'
-            ];
-
-        $this->validate($request, $rules, $customMessage);
-
         $estimasi = $request->input('awal') . " - " . $request->input('akhir') . " hari"; 
-
+        
         $ongkir->update([
-            "asal" => $request->get('asal'),
-            "tujuan" => $request->get('tujuan'),
             "estimasi" => $estimasi,
-            "harga" => $request->get('harga')
+            "harga" => $request->input('harga')
         ]);
 
         return redirect()->route('cabang.ongkir.index')->with('alert', 'Berhasil diubah!');
@@ -138,11 +131,29 @@ class CabangOngkirController extends Controller
         return redirect()->back()->with('alert', 'Berhasil dihapus!');
     }
 
+    public function ongkir($id)
+    {
+        $ongkir = Ongkir::where('id_kecamatan', $id)->get()->pluck('harga');
+        return response()->json($ongkir);
+    }
+
+    public function kecamatanPenerima($id)
+    {
+        $kecamatan = Kecamatan::where('id_kota', $id)->get()->pluck('nama', 'id');
+        return $kecamatan;
+    }
+
+    public function kecamatan($id)
+    {
+        $kecamatan = Kecamatan::where('id_kota', $id)->get()->pluck('nama', 'id');
+        return $kecamatan;
+    }
+
     public function dataTable()
     {
-        $ongkir = Ongkir::query();
+        $ongkir = Ongkir::with('kecamatan.kota')->select('ongkir.*');
 
-        return datatables()->of($ongkir)
+        return datatables()->eloquent($ongkir)
             ->addColumn('action', function ($ongkir){
                 return view('layouts.cabang.partials._action', [
                     'model' => $ongkir,
@@ -155,14 +166,4 @@ class CabangOngkirController extends Controller
             ->make(true);
     }
 
-    public function ongkir()
-    {
-        $pelanggan_id = Input::get('pelanggan_id');
-        $pelanggan = Pelanggan::find($pelanggan_id);
-        $kota = $pelanggan->kota;
-
-        $ongkir = Ongkir::where('tujuan', '=' , $kota)->first();
-        $ongkir = $ongkir->harga;
-        return response()->json($ongkir);
-    }
 }

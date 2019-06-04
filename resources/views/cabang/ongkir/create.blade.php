@@ -7,14 +7,14 @@
           <li class="breadcrumb-item">
             <a href="#">Ongkir</a>
           </li>
-          <li class="breadcrumb-item active">Tambah Ongkir Baru</li>
+          <li class="breadcrumb-item active">Tambah Ongkir</li>
         </ol>
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header text-white bg-primary">
-              Tambah Ongkir Baru
+              Tambah Ongkir
               </div></br>
               {!! Form::open(['route' => 'cabang.ongkir.store', 'method' => 'POST']) !!}
                 @include('cabang.ongkir._form')
@@ -23,4 +23,24 @@
           </div>
         </div>
     </div>
+@endsection
+
+@section('assets-bottom')
+<script type="text/javascript">
+  var kota = $('#id_kota');
+  var kecamatan = $('#id_kecamatan');
+  kota.select2().on('change', function(){
+    $.ajax({
+      url: '/cabang/json/kecamatan/' + kota.val(),
+      type: 'GET',
+      success: function(data){
+        kecamatan.empty();
+        $.each(data, function(value, key){
+          kecamatan.append($("<option></option>").attr("value", value).text(key));
+        });
+        kecamatan.select2();
+      }
+    });
+  }).trigger('change');
+</script>
 @endsection

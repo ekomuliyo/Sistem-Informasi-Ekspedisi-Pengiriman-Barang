@@ -28,8 +28,8 @@
                       <td>{{ $ongkir->asal }}</td>
                   </tr>
                   <tr>
-                      <th>Kota TUjuan</th>
-                      <td>{{ $ongkir->tujuan }}</td>
+                      <th>Kota Tujuan</th>
+                      <td>{{ $ongkir->kecamatan->kota->nama }}</td>
                   </tr>
                   <tr>
                       <th>Estimasi</th>

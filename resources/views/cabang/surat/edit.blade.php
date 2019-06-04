@@ -14,9 +14,19 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-white bg-primary">
-                        Ubah Surat
+                        Ubah Surat Jalan
                     </div>
                     {!! Form::model($surat, ['route' => ['cabang.surat.update', $surat->id], 'method' => 'PUT']) !!}
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nomor Resi</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="no_resi" name="no_resi[]" class="form-control" multiple="multiple">
+                                    @foreach($transaksi as $d)
+                                        <option value="{{ $d->pengiriman->id }}" selected>{{ $d->pengiriman->no_resi }} - {{ $d->pengiriman->nama_penerima }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                    </div>    
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Nomor Surat</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -26,7 +36,7 @@
                     <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Kurir</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="id_kurir" id="nameid" class ="form-control" required name="id_kurir">
+                            <select name="id_kurir" id="id_kurir" class ="form-control" required name="id_kurir">
                                 @foreach($kurir as $d)
                                     <option value="{{ $d->id }}" 
                                     @if($d->id == $surat->id_kurir)
@@ -45,7 +55,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                     <button class="btn btn-primary" type="submit">
-                        Simpan
+                        Ubah
                     </button>
                     </div>
                     {!! Form::close() !!}
@@ -53,4 +63,31 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('assets-bottom')
+    <script type="text/javascript">
+        $('#no_resi').select2({
+        placeholder: 'Cari nomor resi..',
+        ajax: {
+          url: '/cabang/json/no_resi',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+              return {
+                results:  $.map(data, function (item) {
+                  return {
+                    text: item.id + (' - ') + item.nama_penerima,
+                    id: item.id
+                }
+              })
+          };
+        },
+        cache: true
+        },
+        });
+
+        $("#id_kurir").select2();
+        $('#no_resi').prop("disabled", true);
+    </script>
 @endsection

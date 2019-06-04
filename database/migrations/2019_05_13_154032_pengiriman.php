@@ -15,21 +15,28 @@ class Pengiriman extends Migration
     {
         Schema::create('pengiriman', function(Blueprint $table){
             $table->increments('id');
-            $table->integer('id_surat')->unsigned();
-            $table->integer('id_pengirim')->unsigned();
-            $table->integer('id_penerima')->unsigned();
+            $table->string('no_resi');
+            $table->string('nama_pengirim');
+            $table->string('no_hp_pengirim');
+            $table->integer('id_kecamatan_pengirim')->unsigned();
+            $table->string('alamat_pengirim');
+            $table->string('nama_penerima');
+            $table->string('no_hp_penerima');
+            $table->integer('id_kecamatan_penerima')->unsigned();
+            $table->string('alamat_penerima');
             $table->char('metode_pembayaran', 1);
-            $table->integer('berat');
+            $table->float('berat');
             $table->integer('jumlah_biaya');
-            $table->boolean('status')->default(0);
+            $table->boolean('status_valid')->default(0);
+            $table->boolean('status_surat')->default(0);
             $table->string('foto')->nullable();
+            $table->integer('id_user')->unsigned()->nullable();
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('id_surat')->references('id')->on('surat')->onDelete('cascade');
-            $table->foreign('id_pengirim')->references('id')->on('pelanggan')->onDelete('cascade');
-            $table->foreign('id_penerima')->references('id')->on('pelanggan')->onDelete('cascade');
-            
+            $table->foreign('id_kecamatan_pengirim')->references('id')->on('kecamatan')->onDelete('cascade');                                       
+            $table->foreign('id_kecamatan_penerima')->references('id')->on('kecamatan')->onDelete('cascade'); 
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade'); 
         });
     }
 

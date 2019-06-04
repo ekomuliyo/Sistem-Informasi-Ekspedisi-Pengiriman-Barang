@@ -17,7 +17,7 @@
 <body class="bg-dark">
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Register an Account</div>
+      <div class="card-header"><center><h2>PT Bunga Lintas Cargo</h2></center></div>
       <div class="card-body">
         <form class="form-horizontal" method="POST" action="{{ route('register') }}">
             {{ csrf_field() }}
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="email" class="control-label">E-Mail Address</label>
+                <label for="email" class="control-label">Alamat E-Mail</label>
                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
                 @if ($errors->has('email'))
                     <span class="invalid-feedback">

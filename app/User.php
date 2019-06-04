@@ -52,4 +52,5 @@ class User extends Authenticatable
         return $this->hasOne('App\Pelanggan', 'id_user', 'id');
     }
 
+
 }

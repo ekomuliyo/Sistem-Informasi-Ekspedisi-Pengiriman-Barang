@@ -6,18 +6,27 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('pelanggan') }}">
             <i class="fa fa-fw fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-            <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-car"></i>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
+            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiCabang" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-cogs"></i>
             <span class="nav-link-text">Pengiriman Barang</span>
             </a>
+            <ul class="sidenav-second-level collapse" id="collapseMultiCabang">
+            <li>
+                <a href="{{ route('pelanggan.pengiriman.create') }}">Buat Pengiriman</a>
+            </li>
+            <li>
+                <a href="{{ route('pelanggan.pengiriman.index') }}">Data Pengiriman</a>
+            </li>
+            </ul>
         </li>
         </ul>
+
 
         <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">

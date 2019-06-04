@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Ongkir extends Model
 {
     protected $table = 'ongkir';
-    protected $fillable = ['asal', 'tujuan', 'estimasi', 'harga'];
+    protected $fillable = ['asal', 'id_kecamatan', 'estimasi', 'harga'];
     
+    public function kecamatan()
+    {
+        return $this->belongsTo('App\Kecamatan', 'id_kecamatan', 'id');
+    }
 }

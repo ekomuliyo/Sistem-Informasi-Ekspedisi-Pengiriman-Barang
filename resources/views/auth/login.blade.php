@@ -17,12 +17,12 @@
 <body class="bg-dark">
   <div class="container">
     <div class="card card-login mx-auto mt-5">
-      <div class="card-header">Login</div>
+      <div class="card-header"><center><h2>PT Bunga Lintas Cargo</h2></center></div>
       <div class="card-body">
         <form class="form-horizontal" method="POST" action="{{ route('login') }}">
             {{ csrf_field() }}
             <div class="form-group">
-                <label for="email">E-Mail Address</label>
+                <label for="email">Alamat E-Mail </label>
                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
                 @if ($errors->has('email'))
                     <span class="invalid-feedback">
@@ -38,12 +38,6 @@
                         <strong>{{ $errors->first('password') }}</strong>
                     </span>
                 @endif
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                </div>
             </div>
             <button class="btn btn-primary btn-block" type="submit">Login</button>
         </form>

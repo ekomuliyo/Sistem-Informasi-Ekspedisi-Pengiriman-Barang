@@ -115,18 +115,18 @@
                         <label for="kota">Kota</label>
                     </div>
                     <div class="col-md-8">
-                        @if($user->pelanggan->kota == '1')
-                            <label for="kota">Jakarta</label>                            
-                        @elseif($user->pelanggan->kota == '2')
-                            <label for="kota">Palembang</label>
-                        @elseif($user->pelanggan->kota == '3')
-                            <label for="kota">Jambi</label>
-                        @elseif($user->pelanggan->kota == '4')
-                            <label for="kota">Pekanbaru</label> 
-                        @elseif($user->pelanggan->kota == '5')
-                            <label for="kota">Padang</label>
-                        @else
-                            <label for="kota">-</label>
+                        @if($user->pelanggan->kecamatan != null)
+                            @if($user->pelanggan->kecamatan->kota->id == '5')
+                                <label for="kota">Jakarta Pusat</label>                            
+                            @elseif($user->pelanggan->kecamatan->kota->id == '6')
+                                <label for="kota">Jakarta Barat</label>
+                            @elseif($user->pelanggan->kecamatan->kota->id == '7')
+                                <label for="kota">Jakarta Utara</label>
+                            @elseif($user->pelanggan->kecamatan->kota->id == '8')
+                                <label for="kota">Jakarta Timur</label> 
+                            @else
+                                <label for="kota">-</label>
+                            @endif
                         @endif                           
                     </div>
                 </div>
@@ -183,8 +183,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="nama">Jenis Kelamin</label>
-                            {!! Form::select('pelanggan[jenis_kelamin]', ['1' => 'Laki-laki', '2' => 'Perempuan'], null, ['class' => 'form-control', 'required', 'autofocus']) !!}
+                            <label for="jenis_kelamin">Jenis Kelamin</label>
+                                <div class="form-control">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="pelanggan[jenis_kelamin]" value="1"
+                                        @if($user->pelanggan->jenis_kelamin == 1) checked @endif>Laki-Laki
+                                    </label> &nbsp;&nbsp;
+                                    <label class="radio-inline">
+                                        <input type="radio" name="pelanggan[jenis_kelamin]" value="2"
+                                        @if($user->pelanggan->jenis_kelamin == 2) checked @endif>Perempuan
+                                    </label>
+                                </div>
                         </div>
 
                         <div class="form-group">
@@ -193,9 +202,42 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="kota">Kota</label>
-                            {!! Form::select('pelanggan[kota]', ['1' => 'Jakarta', '2' => 'Palembang', '3' => 'Jambi', '4' => 'Pekanbaru', '5' => 'Padang'], null, ['class' => 'form-control', 'required', 'autofocus']) !!}
+                            <label class="control-label col-md-12">Kota</label>
+                            <div class="col-md-12">
+                                <select name="id_kota" id="id_kota" class="form-control" style="width: 100%" required >
+                                        <option value="" disabled selected hidden>Pilih kota</option>
+                                        @if($user->pelanggan->kecamatan != null)
+                                            <option value="5" @if($user->pelanggan->kecamatan->kota->id == 5 )
+                                                selected
+                                            @endif>Jakarta Pusat</option>
+                                            <option value="6" @if($user->pelanggan->kecamatan->kota->id == 6 )
+                                                selected
+                                            @endif>Jakarta Barat</option>
+                                            <option value="7" @if($user->pelanggan->kecamatan->kota->id == 7 )
+                                                selected
+                                            @endif>Jakarta Utara</option>
+                                            <option value="8" @if($user->pelanggan->kecamatan->kota->id == 8 )
+                                                selected
+                                            @endif>Jakarta Timur</option>
+                                        @else
+                                            <option value="5">Jakarta Pusat</option>
+                                            <option value="6">Jakarta Barat</option>
+                                            <option value="7">Jakarta Utara</option>
+                                            <option value="8">Jakarta Timur</option>
+                                        @endif
+                                </select>
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-12">Kecamatan</label>
+                            <div class="col-md-12">
+                                <select name="pelanggan[id_kecamatan]" id="id_kecamatan" class="form-control" style="width: 100%" required >
+                                        <option value="" disabled selected hidden>Pilih Kecamatan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <input type="text" value="{{ $user->pelanggan->id_kecamatan }}" id="kecamatan_terpilih" hidden>                
 
                         <div class="form-group">
                             <label for="alamat">Alamat Lengkap</label>
@@ -250,6 +292,30 @@
     <script>
         $(document).ready( function () {
             $('#lfm').filemanager('image', {prefix : "{{ URL::to('laravel-filemanager') }}"});
+
+            // mengambil data kecamatan pengirim berdasarkan kota
+            var kota = $('#id_kota');
+            var kecamatan = $('#id_kecamatan');
+            var kecamatan_terpilih = $('#kecamatan_terpilih').val();
+            
+            kota.select2().on('change', function(){
+                $.ajax({
+                url: '/pelanggan/json/kecamatan/' + kota.val(),
+                type: 'GET',
+                success: function(data){
+                    kecamatan.empty();
+                    kecamatan.append('<option value="" disabled selected hidden>Pilih Kecamatan</option>');
+                    $.each(data, function(value, key){
+                        if (value == kecamatan_terpilih) {
+                            kecamatan.append('<option value="'+value+'" selected>'+key+'</option>');
+                        }else{
+                            kecamatan.append('<option value="'+value+'">'+key+'</option>');                    
+                        }
+                    });
+
+                    kecamatan.select2();
+                }});
+            }).trigger('change');
         });
     </script>
 @endsection

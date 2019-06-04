@@ -64,7 +64,7 @@
               {data: 'kurir.user.nama', name: 'kurir.user.nama'},
               {data: 'perbarui', name: 'perbarui', orderable: false, searchable: false},
               {data: 'cetak', name: 'cetak', orderable: false, searchable: false},              
-              {data: 'action', name: 'action', orderable: false, searchable: false}
+              {data: 'ubah', name: 'ubah', orderable: false, searchable: false}
             ]
         });
     });

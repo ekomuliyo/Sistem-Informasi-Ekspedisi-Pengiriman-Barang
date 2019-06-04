@@ -23,6 +23,12 @@ class Cabang extends Migration
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
+
+        DB::table('cabang')->insert([
+            'alamat' => 'Jl. Metro',
+            'no_hp' => '081288482941',
+            'id_user' => 2
+        ]);
     }
 
     /**
