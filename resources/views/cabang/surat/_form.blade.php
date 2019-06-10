@@ -40,13 +40,17 @@
             <h5>Data pengiriman barang</h5>
             <table class="table table-striped">
                 <tr>
+                    <th>Nomor</th>
                     <th>Nomor Resi</th>
                     <th>Penerima</th>
                     <th>Kota Tujuan</th>
                     <th>Alamat Lengkap</th>
                 </tr>
+                <?php $no=0; ?>
                 @foreach($pengiriman as $d)
+                <?php $no++; ?>
                 <tr>
+                    <td>{{ $no }}</td>
                     <td>{{ $d->no_resi }}</td>
                     <td>{{ $d->nama_penerima }}</td>
                     <td>{{ $d->kecamatan_penerima->kota->nama }}</td>

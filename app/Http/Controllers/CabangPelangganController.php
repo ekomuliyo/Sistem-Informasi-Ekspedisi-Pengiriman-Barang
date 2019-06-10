@@ -31,6 +31,7 @@ class CabangPelangganController extends Controller
         $pelanggan = Pelanggan::with('user')->select('pelanggan.*');
 
         return datatables()->of($pelanggan)
+            ->addIndexColumn()
             ->addColumn('action', function($pelanggan){
                 return '<a href="' . route('cabang.pelanggan.show',$pelanggan->id) . '" class="btn btn-sm btn-outline-info" style="padding-bottom: 0px; padding-top: 0px;">
                         Tampilkan

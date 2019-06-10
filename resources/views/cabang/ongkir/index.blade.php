@@ -24,7 +24,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Nomor</th>
                     <th>Asal</th>
                     <th>Kota Tujuan</th>
                     <th>Kecamatan</th>
@@ -55,7 +55,7 @@
             serverSide: true,
             ajax: "{{ route('cabang.api.datatable.ongkir') }}",
             columns:[
-              {data: 'id', name: 'id'},
+              {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
               {data: 'asal', name: 'asal'},
               {data: 'kecamatan.kota.nama', name: 'kecamatan.kota.nama'},
               {data: 'kecamatan.nama', name: 'kecamatan.nama'},

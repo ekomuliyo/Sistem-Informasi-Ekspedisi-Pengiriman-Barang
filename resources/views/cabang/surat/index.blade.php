@@ -24,7 +24,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Nomor</th>
                     <th>Nomor Surat</th>
                     <th>Tanggal Surat</th>
                     <th>Keterangan</th>
@@ -57,7 +57,7 @@
             serverSide: true,
             ajax: "{{ route('cabang.api.datatable.surat') }}",
             columns:[
-              {data: 'id', name: 'id'},
+              {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
               {data: 'nomor_surat', name: 'nomor_surat'},
               {data: 'tgl_surat', name: 'tgl_surat'},
               {data: 'keterangan', name: 'keterangan'},

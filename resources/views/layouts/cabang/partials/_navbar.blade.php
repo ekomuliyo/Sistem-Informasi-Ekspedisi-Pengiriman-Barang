@@ -46,6 +46,19 @@
             <span class="nav-link-text">Data Pelanggan</span>
             </a>
         </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
+            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiPembayaran" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-money"></i>
+            <span class="nav-link-text">Pembayaran</span>
+            </a>
+            <ul class="sidenav-second-level collapse" id="collapseMultiPembayaran">
+            <li>
+                <a href="{{ route('cabang.pembayaran.index') }}">Pelanggan Langganan</a>
+            </li>
+            </ul>
+        </li>
+
         </ul>
         <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">

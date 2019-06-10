@@ -163,8 +163,6 @@ class CabangPengirimanController extends Controller
     public function createStatusBarang()
     {
         $id_pengiriman = Input::get('id_pengiriman');
-        // $pengiriman = Pengiriman::with('kecamatan_penerima.kota')->where('id', $id_pengiriman)->first();
-        // return response()->json($pengiriman);
         $status_pengiriman = StatusPengiriman::with('pengiriman.kecamatan_penerima.kota')
                             ->where('status_pengiriman.id_pengiriman', $id_pengiriman)
                             ->where('status_pengiriman.status', 0)->first();
@@ -240,17 +238,30 @@ class CabangPengirimanController extends Controller
     public function storeStatus(Request $request)
     {
         $id_pengiriman = $request->id_pengiriman;
+        $pengiriman = Pengiriman::findOrFail($id_pengiriman);
         $validasi = $request->validasi;
 
-        $pengiriman = Pengiriman::findOrFail($id_pengiriman);
-        $pengiriman->update([
-            'status_valid' => $validasi
-        ]);
-
         if ($validasi == 1) {
+            if($pengiriman->metode_pembayaran == 2){
+                $pengiriman->update([
+                    'status_valid' => $validasi,
+                    'status_bayar' => false
+                ]);
+            }else if($pengiriman->metode_pembayaran == 4){
+                $pengiriman->update([
+                    'status_valid' => $validasi,
+                    'status_bayar' => false
+                ]);
+            }else{
+                $pengiriman->update([
+                    'status_valid' => $validasi,
+                    'status_bayar' => true
+                ]);
+            }
             return redirect()->route('cabang.pengiriman.index')->with('alert', 'Data berhasil divalidasi!');
+        }else{
+            return redirect()->route('cabang.pengiriman.index')->with('alert', 'Data gagal divalidasi!');
         }
-        return redirect()->route('cabang.pengiriman.index')->with('alert', 'Data gagal divalidasi!');
     }
 
     public function dataTable()
@@ -259,6 +270,7 @@ class CabangPengirimanController extends Controller
         $pengiriman = Pengiriman::with('kecamatan_penerima.kota')->select('pengiriman.*');
 
         return datatables()->eloquent($pengiriman)
+        ->addIndexColumn()
         ->addColumn('ubah', function($pengiriman){
             return '<a href="'. route('cabang.pengiriman.edit', $pengiriman->id) . '" class="btn btn-sm btn-outline-secondary" style="padding-bottom: 0px; padding-top: 0px;">
             Ubah
@@ -266,10 +278,10 @@ class CabangPengirimanController extends Controller
         })
         ->addColumn('action_status', function ($pengiriman){
             if($pengiriman->status_valid == 1){
-                return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;"> Valid <span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
+                return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">Valid<span class="btn-label btn-label-right"></span></a>';
             }
             else {
-                return '<a href="' . route('cabang.pengiriman.status.create', $pengiriman->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Belum valid<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
+                return '<label>Belum Valid</label> <a href="' . route('cabang.pengiriman.status.create', $pengiriman->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Validasi<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
             }
         })
         ->rawColumns(['ubah', 'action_status'])

@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header text-white bg-primary">
-                    Perbarui Surat Perjalanan dan Pengiriman Barang
+                    Perbarui Status Barang dan Surat Perjalanan  
                 </div></br>
 
                 @if ($message = Session::get('alert'))
@@ -20,22 +20,6 @@
                     <strong>{{ $message }}</strong>
                 </div>
                 @endif
-
-                {!! Form::model($surat, ['route' => ['cabang.surat.update', $surat->id], 'method' => 'PUT']) !!}
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Keterangan Surat</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        {!! Form::select('keterangan', ['Surat dalam perjalanan menuju Palembang' => 'Surat dalam
-                        perjalanan menuju Palembang',
-                        'Diterima oleh Cabang Palembang' =>'Diterima oleh Cabang Palembang',
-                        'Sedang dalam perjalanan menuju Pekanbaru'=>'Sedang dalam perjalanan menuju Pekanbaru',
-                        'Diterima oleh Cabang Pekanbaru' =>'Diterima oleh Cabang Pekanbaru',
-                        'Sedang dalam perjalanan menuju Bukit Tinggi'=>'Sedang dalam perjalanan menuju Bukit Tinggi',
-                        'Diterima oleh Cabang Bukit Tinggi / Pusat' =>'Diterima oleh Cabang Bukit Tinggi / Pusat'],
-                        null , ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
                 @if($surat->status_terima == 1)
                 <div class="card-body">
                     <label>Perbarui status barang : </label>
@@ -73,22 +57,34 @@
                 @else
                 <div class="row col-lg-12">
                     <div class="alert alert-danger">
-                        <span>Tidak dapat memperbarui status barang, silahkan terima surat terlebih dahulu!</span>
+                        <span>Tidak dapat memperbarui status barang, silahkan perbarui keterangan surat!</span>
                     </div>
                 </div>
                 @endif
+                {!! Form::model($surat, ['route' => ['cabang.surat.update', $surat->id], 'method' => 'PUT']) !!}
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Keterangan Surat</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        {!! Form::select('keterangan', ['Surat dalam perjalanan menuju Palembang' => 'Surat dalam
+                        perjalanan menuju Palembang',
+                        'Diterima oleh Cabang Palembang' =>'Diterima oleh Cabang Palembang',
+                        'Sedang dalam perjalanan menuju Pekanbaru'=>'Sedang dalam perjalanan menuju Pekanbaru',
+                        'Diterima oleh Cabang Pekanbaru' =>'Diterima oleh Cabang Pekanbaru',
+                        'Sedang dalam perjalanan menuju Bukit Tinggi'=>'Sedang dalam perjalanan menuju Bukit Tinggi',
+                        'Diterima oleh Cabang Bukit Tinggi / Pusat' =>'Diterima oleh Cabang Bukit Tinggi / Pusat'],
+                        null , ['class' => 'form-control', 'placeholder' => 'Keterangan']) !!}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="card-footer bg-transparent">
                         <button class="btn btn-primary" type="submit">
                             Simpan
                         </button>
-                    </div>
-                    {!! Form::close() !!}
-                    <div class="col-md-2">
-                        <a href="{{ route('cabang.surat.index') }}" class="btn btn-primary" style="padding-bottom: 0px; padding-top: 0px;">Kembali<span
+                        <a href="{{ route('cabang.surat.index') }}" class="btn btn-primary">Kembali<span
                                 class="btn-label btn-label-right"></span></a>
                     </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -142,10 +138,9 @@
                         <div class="col-md-3">
                             Alamat Lengkap
                         </div>
-                        <div class="col-md-4">:
+                        <div class="col-md-6">:
                             <label for="alamat" id="alamat"></label>
                         </div>
-                        <div class="col-md-2"></div>
                     </div>
                     {!! Form::open(['route' => 'cabang.perbarui.status.barang', 'method' => 'POST', 'onsubmit' =>
                     "return validasiStatusPengiriman();"]) !!}
@@ -197,15 +192,16 @@ function scanStart() {
                 var id_pengiriman = data.data.id_pengiriman;
                 var pengirim = data.data.pengiriman.nama_pengirim;
                 var penerima = data.data.pengiriman.nama_penerima;
-                var alamat = data.data.pengiriman.kecamatan_penerima.kota.nama;
-                var kota = data.data.pengiriman.alamat_penerima;
+                var alamat = data.data.pengiriman.alamat_penerima;
+                var kota = data.data.pengiriman.kecamatan_penerima.kota.nama;
                 document.getElementById('pengirim').innerHTML = pengirim;
                 document.getElementById('penerima').innerHTML = penerima;
                 document.getElementById('kota').innerHTML = kota;
                 document.getElementById('alamat').innerHTML = alamat;
                 document.getElementById('id_pengiriman').value = id_pengiriman;
+            }else{
+                alert("Gagal dipindai, barang tidak ditemukan!");
             }
-            alert("Gagal dipindai karena barang sudah terkirim!")
         });
     });
     Instascan.Camera.getCameras().then(cameras => {

@@ -61,7 +61,7 @@
     <!-- akhir kop atas -->
 
     <!-- awal isi laporan harian -->
-    <table width="100%" border="1px" class="tabel_isi_2">
+    <table width="100%" border="1px" class="tabel_isi_2" id="tabel_isi_2">
         <tr>
             <th rowspan="2">No.</th>
             <th rowspan="2">No. SPB</th>
@@ -69,44 +69,55 @@
             <th rowspan="2">Penerima</th>
             <th rowspan="2">Koli</th>
             <th rowspan="2">Kg</th>
-            <th colspan="2">Keterangan</th>
+            <th colspan="4">Keterangan</th>
         </tr>
         <tr>
-            <th>COD</th>
             <th>Cash</th>
+            <th>COD</th>
+            <th>Transfer</th>
+            <th>Langganan</th>
         </tr>
+        <?php $no=0; ?>
+        @foreach($transaksi_pengiriman as $d)
+        <?php $no++ ?>
         <tr>
-            <td>1</td>
-            <td>098765</td>
-            <td>Andi</td>
-            <td>Rudi</td>
-            <td>11</td>
-            <td>10</td>
-            <td>Y</td>
-            <td>-</td>
+            <td>{{ $no }}</td>
+            <td>{{ $d->pengiriman->no_resi }}</td>
+            <td>{{ $d->pengiriman->nama_pengirim }}</td>
+            <td>{{ $d->pengiriman->nama_penerima }}</td>
+            <td>{{ $d->pengiriman->koli->count() }}</td>
+            <td>{{ $d->pengiriman->berat }}</td>
+            @if($d->pengiriman->metode_pembayaran == 1)
+            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            @elseif($d->pengiriman->metode_pembayaran == 2)
+            <td></td>
+            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td></td>
+            <td></td>
+            @elseif($d->pengiriman->metode_pembayaran == 3)
+            <td></td>
+            <td></td>
+            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td></td>
+            @else
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            @endif
         </tr>
-        <tr>
-            <td>2</td>
-            <td>095859</td>
-            <td>Aan</td>
-            <td>Toni</td>
-            <td>8</td>
-            <td>5</td>
-            <td>Y</td>
-            <td>-</td>
-        </tr>
+        @endforeach
         <tr>
             <td rowspan="2" colspan="4">Jumlah</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="total_koli"></td>
+            <td id="total_kg"></td>
+            <td id="total_cash"></td>
+            <td id="total_cod"></td>
+            <td id="total_transfer"></td>
+            <td id="total_langganan"></td>
         </tr>
     </table>
     <p align="right">Jakarta, 12-12-2019</p>
@@ -193,4 +204,67 @@
     @endforeach
     <!-- akhir isi surat perjalanan -->
 </body>
+
+<script type="text/javascript">
+    var table = document.getElementById("tabel_isi_2");
+    var sumKoli = 0;
+    var sumKg = 0;
+    var sumCash = 0;
+    var sumCOD = 0;
+    var sumTransfer = 0;
+    var sumLangganan = 0;
+
+    for (let i = 2; i < table.rows.length-1; i++) {
+        // menjumlahkan total koli
+        sumKoliTampung = parseInt(table.rows[i].cells[4].innerHTML);
+        if (isNaN(sumKoliTampung)) {
+            sumKoliTampung = 0
+        }
+        sumKoli = sumKoli + sumKoliTampung;
+
+        // menjumlahkan total kg
+        sumKgTampung = parseInt(table.rows[i].cells[5].innerHTML);
+        if (isNaN(sumKoliTampung)) {
+            sumKgTampung = 0
+        }
+        sumKg = sumKg + sumKgTampung;
+
+        // menjumlahkan total cash
+        sumCashTampung = parseInt(table.rows[i].cells[6].innerHTML);
+        if (isNaN(sumCashTampung)) {
+            sumCashTampung = 0
+        }
+        sumCash = sumCash + sumCashTampung;
+
+        // menjumlahkan total cod
+        sumCODTampung = parseInt(table.rows[i].cells[7].innerHTML);
+        if (isNaN(sumCODTampung)) {
+            sumCODTampung = 0
+        }
+        sumCOD = sumCOD + sumCODTampung;
+
+        // menjumlahkan total transfer
+        sumTransferTampung = parseInt(table.rows[i].cells[8].innerHTML);
+        if (isNaN(sumTransferTampung)) {
+            sumTransferTampung = 0
+        }
+        sumTransfer = sumTransfer + sumTransferTampung;
+                
+        // menjumlahkan total langganan
+        sumLanggananTampung = parseInt(table.rows[i].cells[9].innerHTML);
+        if (isNaN(sumLanggananTampung)) {
+            sumLanggananTampung = 0
+        }
+        sumLangganan = sumLangganan + sumLanggananTampung;
+    }   
+
+    document.getElementById("total_koli").innerHTML = sumKoli;
+    document.getElementById("total_kg").innerHTML = sumKg;
+    document.getElementById("total_cash").innerHTML = sumCash;
+    document.getElementById("total_cod").innerHTML = sumCOD;
+    document.getElementById("total_transfer").innerHTML = sumTransfer;
+    document.getElementById("total_langganan").innerHTML = sumLangganan;
+
+</script>
+
 </html>

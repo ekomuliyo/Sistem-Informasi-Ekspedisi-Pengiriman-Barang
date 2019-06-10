@@ -15,19 +15,22 @@
             <div class="card">
                 <div class="form-control">
                     <div class="form-group">
-                        <label for="bulan">Pilih bulan :</label>
                         <div class="col-md-6">
-                            <input type="month" class="form-control" name="bulan" min="2019-01" value="2019-01">
-                            <div class="card-footer bg-transparent">
-                                <button class="btn btn-primary" type="submit">
-                                    Tampilkan
-                                </button>
-                            </div>
+                            {!! Form::open(['route' => 'direktur.laporan.akhir.create', 'method' => 'POST']) !!}
+                            <label for="awal">Tanggal Awal</label>
+                            <input type="date" name="date_awal">
+                            <label for="akhir">Tanggal Akhir</label>
+                            <input type="date" name="date_akhir">
+                            <button class="btn btn-primary" type="submit">
+                                Cetak
+                            </button>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @endsection
+@endsection

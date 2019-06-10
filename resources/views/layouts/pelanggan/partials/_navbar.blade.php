@@ -14,14 +14,14 @@
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Posts">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiCabang" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-cogs"></i>
-            <span class="nav-link-text">Pengiriman Barang</span>
+            <span class="nav-link-text">Pengiriman</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMultiCabang">
             <li>
                 <a href="{{ route('pelanggan.pengiriman.create') }}">Buat Pengiriman</a>
             </li>
             <li>
-                <a href="{{ route('pelanggan.pengiriman.index') }}">Data Pengiriman</a>
+                <a href="{{ route('pelanggan.pengiriman.index') }}">Pengiriman Barang</a>
             </li>
             </ul>
         </li>

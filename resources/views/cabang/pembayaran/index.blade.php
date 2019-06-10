@@ -1,6 +1,5 @@
 @extends('layouts.cabang.app')
 
-
 @section('assets-top')
     <link href="{{ asset('assets/blog-admin/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <!-- Responsive datatable examples -->
@@ -12,8 +11,9 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Pelanggan / Tabel</a>
+            <a href="#">Pembayaran</a>
           </li>
+          <li class="breadcrumb-item active">Pelanggan Langganan</li>
         </ol>
         @if (session('alert'))
             <div class="alert alert-success">
@@ -25,13 +25,10 @@
                 <thead>
                   <tr>
                     <th>Nomor</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Kota</th>
-                    <th>Alamat Lengkap</th>
-                    <th>Aksi</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Total Pengiriman</th>
+                    <th>Total Bayar</th>
+                    <th>Status Pembayaran</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -54,36 +51,13 @@
         $("#dataTable").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('cabang.api.datatable.pelanggan') }}",
+            ajax: "{{ route('cabang.api.datatable.pembayaran') }}",
             columns:[
-              {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
-              {data: 'user.nama', name: 'user.nama'},
-              {data: 'user.email', name: 'user.email'},
-              {data: 'jenis_kelamin', name: 'jenis_kelamin', 
-                    render: function(data){
-                        if (data == 1) {
-                            return "Laki-Laki";
-                        }else{
-                            return "Perempuan"
-                        }
-                    }},
-              {data: 'tgl_lahir', name: 'tgl_lahir'},
-              {data: 'kota', name: 'kota',
-                    render: function(data){
-                        var kota;
-                        if (data == 5) {
-                            kota = "Jakarta Pusat";
-                        }else if(data == 6){
-                            kota = "Jakarta Barat";
-                        }else if(data == 7){
-                            kota = "Jakarta Utara";
-                        }else{
-                            kota = "Jakarta Timur"
-                        }
-                        return kota;
-                    }},
-              {data: 'alamat', name: 'alamat'},
-              {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'nama', name: 'nama'},
+                {data: 'total_pengiriman', name: 'total_pengiriman'},
+                {data: 'total_bayar', name: 'total_bayar'},
+                {data: 'action_bayar', name: 'action_bayar', searchable: false, orderable: false}
             ]
         });
     });

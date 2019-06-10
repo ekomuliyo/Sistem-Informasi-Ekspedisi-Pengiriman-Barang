@@ -13,6 +13,7 @@
   <link href="{{ asset('assets/blog-admin/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
   {{-- Assets Plugin --}}
 
+  
   <style>
     #profilId{
       margin-right: 60px;

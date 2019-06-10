@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\StatusPengiriman;
 
 class DirekturLaporanController extends Controller
 {
@@ -24,5 +25,16 @@ class DirekturLaporanController extends Controller
     public function laporanAkhir()
     {
         return view('direktur.laporan.laporan_akhir');
+    }
+
+    public function createLaporanAkhir(Request $request)
+    {
+        $awal = $request->input('date_awal');
+        $akhir = $request->input('date_akhir');
+        $status_pengiriman = StatusPengiriman::where('status', 1)
+            ->whereBetween('created_at', [$awal.'%', $akhir.'%'])->get();
+        // dd($pengiriman);
+        
+        return view('direktur.laporan.cetak', compact('status_pengiriman', 'awal', 'akhir'));
     }
 }

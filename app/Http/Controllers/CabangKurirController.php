@@ -140,6 +140,7 @@ class CabangKurirController extends Controller
         $kurir = Kurir::with('user')->select('kurir.*');
 
         return datatables()->of($kurir)
+            ->addIndexColumn()
             ->addColumn('action', function ($kurir){
                 return view('layouts.cabang.partials._action', [
                     'model' => $kurir,

@@ -62,6 +62,7 @@ class PelangganPengirimanController extends Controller
          $pengiriman->berat = $berat;
          $pengiriman->jumlah_biaya = $jumlah_biaya;
          $pengiriman->status_valid = false;
+         $pengiriman->status_bayar = false;
          $pengiriman->id_user = Auth::user()->id;
          $pengiriman->save();
 
@@ -117,24 +118,32 @@ class PelangganPengirimanController extends Controller
                                     ->where('pengiriman.id_user', Auth::user()->id);
 
         return datatables()->of($pengiriman)
-        ->addColumn('status', function ($pengiriman){
-            if($pengiriman->status_valid == 0){
-                if ($pengiriman->metode_pembayaran == 1) {
-                    return 'Belum valid';
-                }else if($pengiriman->metode_pembayaran == 2){
-                    return 'Belum valid';
+            ->addIndexColumn()
+            ->addColumn('status', function ($pengiriman){
+                if($pengiriman->status_valid == 0){
+                    if ($pengiriman->metode_pembayaran == 1) {
+                        return 'Belum valid';
+                    }else if($pengiriman->metode_pembayaran == 2){
+                        return 'Belum valid';
+                    }
+                    elseif ($pengiriman->metode_pembayaran == 3) {
+                        return '<a href="'. route('pelanggan.pengiriman.konfirmasi.create', $pengiriman->id) .'" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Konfirmasi Pembayaran<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
+                    }else{
+                        return 'Belum valid';
+                    }
                 }
-                elseif ($pengiriman->metode_pembayaran == 3) {
-                    return '<a href="'. route('pelanggan.pengiriman.konfirmasi.create', $pengiriman->id) .'" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Konfirmasi Pembayaran<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
+                else {
+                    return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">Valid<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
+                }
+            })
+            ->addColumn('status_bayar', function($pengiriman){
+                if($pengiriman->status_bayar == 0){
+                    return '<label>Belum Dibayar</label>';
                 }else{
-                    return 'Belum valid';
+                    return '<label>Lunas</label>';
                 }
-            }
-            else {
-                return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">Valid<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
-            }
-        })
-        ->rawColumns(['status'])
-        ->make(true);
+            })
+            ->rawColumns(['status', 'status_bayar'])
+            ->make(true);
     }
 }

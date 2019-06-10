@@ -26,7 +26,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Nomor</th>
                     <th>Nama Kurir</th>
                     <th>Alamat</th>
                     <th>No HP</th>
@@ -58,7 +58,7 @@
             serverSide: true,
             ajax: "{{ route('cabang.api.datatable.kurir') }}",
             columns:[
-              {data: 'id', name: 'id'},
+              {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
               {data: 'user.nama', name: 'user.nama'},
               {data: 'alamat', name: 'alamat'},
               {data: 'no_hp', name: 'no_hp'},

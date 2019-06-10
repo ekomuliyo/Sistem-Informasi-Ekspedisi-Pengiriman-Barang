@@ -13,6 +13,7 @@
           <li class="breadcrumb-item">
             <a href="#">Pengiriman &nbsp;</a>
           </li>
+          <a href="{{ route('pelanggan.pengiriman.create') }}" class="btn btn-sm btn-primary">Tambah</a>
         </ol>
         @if (session('alert'))
             <div class="alert alert-success">
@@ -23,6 +24,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
+                    <th>Nomor</th>
                     <th>No Resi</th>
                     <th>Pengirim</th>
                     <th>Penerima</th>
@@ -30,7 +32,8 @@
                     <th>Alamat</th>
                     <th>Jumlah Biaya</th>
                     <th>Metode Pembayaran</th>
-                    <th>Status</th>
+                    <th>Status Validasi</th>
+                    <th>Status Pembayaran</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -55,6 +58,7 @@
             serverSide: true,
             ajax: "{{ route('pelanggan.api.datatable.pengiriman') }}",
             columns:[
+              {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
               {data: 'no_resi', name: 'no_resi'},
               {data: 'nama_pengirim', name: 'nama_pengirim'},
               {data: 'nama_penerima', name: 'nama_penerima'},
@@ -75,7 +79,9 @@
                         }
                         return metode;
                       }},
-              {data: 'status', name: 'status'}
+              {data: 'status', name: 'status', searchable: false, orderable: false},
+              {data: 'status_bayar', name: 'status_bayar', searchable: false, orderable: false},
+
             ]
         });
     });

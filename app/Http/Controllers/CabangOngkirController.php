@@ -154,6 +154,7 @@ class CabangOngkirController extends Controller
         $ongkir = Ongkir::with('kecamatan.kota')->select('ongkir.*');
 
         return datatables()->eloquent($ongkir)
+            ->addIndexColumn()
             ->addColumn('action', function ($ongkir){
                 return view('layouts.cabang.partials._action', [
                     'model' => $ongkir,

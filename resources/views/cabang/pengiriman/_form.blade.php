@@ -122,7 +122,6 @@
                     <option value="" disabled selected hidden>Pilih metode pembayaran</option>
                     <option value="1">Cash</option>
                     <option value="2">COD</option>
-                    <option value="4">Langganan</option>
                 </select>
             </div></br>
             <div class="berat">

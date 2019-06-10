@@ -32,6 +32,7 @@ Route::group(['middleware' => 'App\Http\Middleware\DirekturMiddleware'], functio
         Route::get('laporan/statistik_pengiriman', 'DirekturLaporanController@statistikPengiriman')->name('laporan.statistik.pengiriman');
         Route::get('laporan/statistik_penerimaan', 'DirekturLaporanController@statistikPenerimaan')->name('laporan.statistik.penerimaan');
         Route::get('laporan/akhir', 'DirekturLaporanController@laporanAkhir')->name('laporan.akhir');
+        Route::post('laporan/akhir', 'DirekturLaporanController@createLaporanAkhir')->name('laporan.akhir.create');
 
         Route::get('/api/datatable/users', 'DirekturUsersController@dataTable')->name('api.datatable.users');
         Route::get('/api/datatable/cabang', 'DirekturCabangController@dataTable')->name('api.datatable.cabang');
@@ -52,6 +53,9 @@ Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function 
         Route::resource('pengiriman', 'CabangPengirimanController');
         Route::get('pelanggan', 'CabangPelangganController@index')->name('pelanggan.index');
         Route::get('pelanggan/{id}', 'CabangPelangganController@show')->name('pelanggan.show');
+        Route::get('pembayaran', 'CabangPembayaranController@index')->name('pembayaran.index');
+        Route::put('pembayaran/{id}', 'CabangPembayaranController@update')->name('pembayaran.update');
+        Route::get('pembayaran/{id}', 'CabangPembayaranController@createPembayaran')->name('pembayaran.create');
         Route::post('pengiriman/status', 'CabangPengirimanController@storeStatus')->name('pengiriman.status.store');
         Route::get('pengiriman/status/{id}', 'CabangPengirimanController@createStatus')->name('pengiriman.status.create');
         Route::get('surat/cetak/{id}', 'CabangSuratController@cetak')->name('surat.cetak');
@@ -68,6 +72,7 @@ Route::group(['middleware' => 'App\Http\Middleware\CabangMiddleware'], function 
         Route::get('/api/datatable/surat', 'CabangSuratController@dataTable')->name('api.datatable.surat');
         Route::get('/api/datatable/pengiriman', 'CabangPengirimanController@dataTable')->name('api.datatable.pengiriman');
         Route::get('/api/datatable/pelanggan', 'CabangPelangganController@dataTable')->name('api.datatable.pelanggan');
+        Route::get('/api/datatable/pembayaran', 'CabangPembayaranController@dataTable')->name('api.datatable.pembayaran');
 
     });
 });

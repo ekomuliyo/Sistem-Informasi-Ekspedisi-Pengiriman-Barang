@@ -27,8 +27,10 @@ class Pengiriman extends Migration
             $table->char('metode_pembayaran', 1);
             $table->float('berat');
             $table->integer('jumlah_biaya');
+            $table->integer('jumlah_bayar')->nullable();
             $table->boolean('status_valid')->default(0);
             $table->boolean('status_surat')->default(0);
+            $table->boolean('status_bayar')->default(1);
             $table->string('foto')->nullable();
             $table->integer('id_user')->unsigned()->nullable();
             $table->rememberToken();

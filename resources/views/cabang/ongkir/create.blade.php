@@ -38,7 +38,7 @@
         $.each(data, function(value, key){
           kecamatan.append($("<option></option>").attr("value", value).text(key));
         });
-        kecamatan.select2();
+        kecamatan.select2({placeholder : 'Pilih kecamatan'});
       }
     });
   }).trigger('change');

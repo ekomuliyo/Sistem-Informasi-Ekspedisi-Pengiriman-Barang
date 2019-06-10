@@ -50,6 +50,10 @@
                             <td>Langganan</td>
                             @endif
                         </tr>
+                        <tr>
+                            <th>Jumlah Bayar</th>
+                            <td>Rp. {{ $pengiriman[0]->jumlah_biaya }}</td>
+                        </tr>
                     </table>
                     @if($pengiriman[0]->metode_pembayaran == 3)
                     @if($pengiriman[0]->foto != null)

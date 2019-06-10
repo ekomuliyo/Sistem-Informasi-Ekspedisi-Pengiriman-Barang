@@ -9,7 +9,7 @@ class Pengiriman extends Model
     protected $table = 'pengiriman';
     protected $fillable = ['no_resi', 'nama_pengirim', 'no_hp_pengirim', 'id_kecamatan_pengirim', 'alamat_pengirim',
                                     'nama_penerima', 'no_hp_penerima', 'id_kecamatan_penerima', 'alamat_penerima', 'metode_pembayaran', 
-                                    'berat', 'jumlah_biaya', 'status_valid', 'status_surat', 'id_user'];
+                                    'berat', 'jumlah_biaya', 'status_valid', 'status_surat', 'status_bayar', 'id_user'];
 
 
     public function kecamatan_pengirim()

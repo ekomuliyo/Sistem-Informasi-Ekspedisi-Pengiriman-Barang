@@ -37,7 +37,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Nomor Resi</th>
                     <th>Pengirim</th>
                     <th>Penerima</th>
                     <th>Kota Tujuan</th>
@@ -136,30 +136,17 @@
                 serverSide: true,
                 ajax: "{{ route('kurir.api.datatable.status_pengiriman') }}",
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'pelanggan_pengirim.user.nama', name: 'pelanggan_pengirim.user.nama'},
-                    {data: 'pelanggan_penerima.user.nama', name: 'pelanggan_penerima.user.nama'},
-                    {data: 'pelanggan_penerima.kota', name: 'pelanggan_penerima.kota', 
-                        render: function(data){
-                        var kota;
-                        if (data == 2){
-                            kota = "Palembang";
-                        }
-                        else if(data == 3){
-                            kota = "Jambi";
-                        }else if(data == 4){
-                            kota = "Pekanbaru";
-                        }else if(data == 5){
-                            kota = "Padang";
-                        }
-                        return kota;
-                        }},
+                    {data: 'no_resi', name: 'no_resi'},
+                    {data: 'nama_pengirim', name: 'nama_pengirim'},
+                    {data: 'nama_penerima', name: 'nama_penerima'},
+                    {data: 'kecamatan_penerima.kota.nama', name: 'kecamatan_penerima.kota.nama'},
                     {data: 'jumlah_biaya', name: 'jumlah_biaya'},
                     {data: 'berat', name: 'berat'},
-                    {data: 'status_pengiriman', name: 'status_pengiriman',
+                    {data: 'status_pengiriman.0.detail_status_pengiriman', name: 'status_pengiriman.detail_status_pengiriman.0.detail_status_pengiriman',
                         render: function(data){
                             return data[data.length-1].keterangan;
-                        }}
+                        }
+                    }
                 ]
             });
         });
@@ -174,26 +161,20 @@
             scanner.addListener('scan', function(content) {
                 // ketika id dari qrcode di tangkap langsung di lempar ke jquery
                 $.get('/kurir/json/perbarui_status_barang?id_pengiriman='+ content, function(data){
-                    var id_pengiriman = data.id;
-                    var pengirim = data.pelanggan_pengirim.user.nama;
-                    var penerima = data.pelanggan_penerima.user.nama;
-                    var alamat = data.pelanggan_penerima.alamat;
-                    var kota;
-                    if (data.pelanggan_penerima.kota == 2) {
-                        kota = "Palembang";
-                    }else if (data.pelanggan.kota == 3){
-                        kota = "Jambi";
-                    }else if (data.pelanggan.kota == 4){
-                        kota = "Pekanbaru";
-                    }else{
-                        kota = "Padang";
-                    }
-
+                    if (data.kode == 1) {
+                    var id_pengiriman = data.data.id_pengiriman;
+                    var pengirim = data.data.pengiriman.nama_pengirim;
+                    var penerima = data.data.pengiriman.nama_penerima;
+                    var alamat = data.data.pengiriman.alamat_penerima;
+                    var kota = data.data.pengiriman.kecamatan_penerima.kota.nama;
                     document.getElementById('pengirim').innerHTML = pengirim;
                     document.getElementById('penerima').innerHTML = penerima;
                     document.getElementById('kota').innerHTML = kota;
                     document.getElementById('alamat').innerHTML = alamat;
                     document.getElementById('id_pengiriman').value = id_pengiriman;
+                }else{
+                    alert("Gagal dipindai, barang tidak ditemukan!")
+                }
                 });
             });
             Instascan.Camera.getCameras().then(cameras => 

@@ -69,6 +69,7 @@ class CabangSuratController extends Controller
         $surat->id_kurir = $request->input('id_kurir');
         $surat->tgl_surat = $request->input('tgl_surat');
         $surat->keterangan = "Data surat belum diperbarui!";
+        $surat->status_terima = true;
         $surat->save();
 
         $id_surat = $surat->id;
@@ -179,7 +180,7 @@ class CabangSuratController extends Controller
         $surat->status_terima = $status_terima;
         $surat->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('alert', 'Data surat berhasil diperbarui!');
     }
 
 
@@ -212,6 +213,7 @@ class CabangSuratController extends Controller
         $surat = Surat::with('kurir.user')->select('surat.*');
 
         return datatables()->of($surat)
+        ->addIndexColumn()
         ->addColumn('ubah', function($surat){
             return '<a href="'. route('cabang.surat.edit', $surat->id) . '" class="btn btn-sm btn-outline-secondary" style="padding-bottom: 0px; padding-top: 0px;">
             Ubah
