@@ -37,8 +37,13 @@ class PelangganPengirimanController extends Controller
             $jumlah_biaya = $request->input('jumlah_biaya_kg');
         }
 
-         // mengambil angka random 6 angka untuk nomor resi
-         $no_resi = sprintf("%06d", mt_rand(1, 999999));
+         // mengambil 6 angka berurutan untuk nomor resi
+         $no_resi = Pengiriman::all()->sortByDesc('no_resi')->first();
+         if ($no_resi == null) {
+             $no_resi = 100000;
+         }else{
+             $no_resi = $no_resi->no_resi + 1;
+         }
         
          // mengambil data pengirim dari user yang login skg
          $nama_pengirim = Auth::user()->nama;
