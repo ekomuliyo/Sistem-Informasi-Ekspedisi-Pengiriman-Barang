@@ -24,7 +24,7 @@
                 @endif
                 {!! Form::open(['route' => 'pelanggan.pengiriman.konfirmasi.store', 'method' => 'POST']) !!}
                 <div class="form-control">
-                    <h6>Silahkan lakukan pembayaran!</br>
+                    <h6>Silahkan lakukan pembayaran!!</br>
                     Nomor Rekening Mandiri : 905098190809809 A/n PT. Bunga Lintas Cargo</br>
                     Sejumlah : Rp. {{ $pengiriman->jumlah_biaya}}</h6>  
                 </div>
