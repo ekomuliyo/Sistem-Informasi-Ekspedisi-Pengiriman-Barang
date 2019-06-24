@@ -16,6 +16,28 @@
 
 <body onload="window.print()">
 
+    <!-- untuk mengambil data tanggal dengan php -->
+    <?php
+    function tanggal_indo($tanggal)
+    {
+    	$bulan = array (1 =>   'Januari',
+    				'Februari',
+    				'Maret',
+    				'April',
+    				'Mei',
+    				'Juni',
+    				'Juli',
+    				'Agustus',
+    				'September',
+    				'Oktober',
+    				'November',
+    				'Desember'
+    			);
+        $split = explode('-', $tanggal);
+        echo $split[2];
+    	return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
+    }?>
+
     <!-- kop atas -->
     <table width="100%">
         <tr>
@@ -49,7 +71,7 @@
     </table>
     <!-- akhir kop atas --></br>
 
-    <h5>Dari Tanggal : {{ $awal }} S/D {{ $akhir }} </h5>
+    <h5>Dari Tanggal : <?php echo tanggal_indo($awal)?> S/D <?php echo tanggal_indo($akhir)?> </h5>
 
     <table class="table table-bordered text-center" id="table">
         <tr>

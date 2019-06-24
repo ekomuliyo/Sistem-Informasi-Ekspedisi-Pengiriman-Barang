@@ -56,7 +56,21 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'nama', name: 'nama'},
                 {data: 'total_pengiriman', name: 'total_pengiriman'},
-                {data: 'total_bayar', name: 'total_bayar'},
+                {data: 'total_bayar', name: 'total_bayar',
+                        render: function(data){
+                          var number_string = data.toString(),
+                          sisa     		= number_string.length % 3,
+                          rupiah     		= number_string.substr(0, sisa),
+                          ribuan     		= number_string.substr(sisa).match(/\d{3}/gi);
+                      
+                          // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                          if(ribuan){
+                              separator = sisa ? '.' : '';
+                              rupiah += separator + ribuan.join('.');
+                          }
+
+                          return "Rp. " + rupiah;
+                        }},
                 {data: 'action_bayar', name: 'action_bayar', searchable: false, orderable: false}
             ]
         });

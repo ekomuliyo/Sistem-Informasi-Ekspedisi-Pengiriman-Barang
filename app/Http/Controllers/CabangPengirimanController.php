@@ -56,6 +56,7 @@ class CabangPengirimanController extends Controller
             $berat = $request->input('berat_kg');
             $jumlah_biaya = $request->input('jumlah_biaya_kg');
         }
+
         
         // mengambil 6 angka berurutan untuk nomor resi
         $no_resi = Pengiriman::all()->sortByDesc('no_resi')->first();
@@ -79,7 +80,7 @@ class CabangPengirimanController extends Controller
         $pengiriman->alamat_penerima = $request->input('alamat_penerima');
         $pengiriman->metode_pembayaran = $request->input('metode_pembayaran');
         $pengiriman->berat = $berat;
-        $pengiriman->jumlah_biaya = $jumlah_biaya;
+        $pengiriman->jumlah_biaya = str_replace('.', '', $jumlah_biaya); // menghilangkan titik dari jumlah biaya agar bisa diopersikan
         $pengiriman->status_valid = true;
         $pengiriman->save();
 

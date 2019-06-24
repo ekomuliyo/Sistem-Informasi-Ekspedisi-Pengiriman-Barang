@@ -24,7 +24,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Nomor</th>
+                    <th>No.</th>
                     <th>No Resi</th>
                     <th>Pengirim</th>
                     <th>Penerima</th>
@@ -64,7 +64,21 @@
               {data: 'nama_penerima', name: 'nama_penerima'},
               {data: 'kecamatan_penerima.kota.nama', name: 'kecamatan_penerima.kota.nama'},
               {data: 'alamat_penerima', name: 'alamat_penerima'},
-              {data: 'jumlah_biaya', name: 'jumlah_biaya'},
+              {data: 'jumlah_biaya', name: 'jumlah_biaya',
+                      render: function(data){
+                        var number_string = data.toString(),
+                        sisa     		= number_string.length % 3,
+                        rupiah     		= number_string.substr(0, sisa),
+                        ribuan     		= number_string.substr(sisa).match(/\d{3}/gi);
+                    
+                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                        if(ribuan){
+                            separator = sisa ? '.' : '';
+                            rupiah += separator + ribuan.join('.');
+                        }
+
+                        return "Rp. " + rupiah;
+                      }},
               {data: 'metode_pembayaran', name: 'metode_pembayaran', 
                       render: function(data){
                         var metode;

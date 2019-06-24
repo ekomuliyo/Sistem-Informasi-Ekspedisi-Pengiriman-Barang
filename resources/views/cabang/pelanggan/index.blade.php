@@ -67,7 +67,24 @@
                             return "Perempuan"
                         }
                     }},
-              {data: 'tgl_lahir', name: 'tgl_lahir'},
+              {data: 'tgl_lahir', name: 'tgl_lahir',
+                  render: function(data){
+                    bulan = ['Januari',
+                              'Februari',
+                              'Maret',
+                              'April',
+                              'Mei',
+                              'Juni',
+                              'Juli',
+                              'Agustus',
+                              'September',
+                              'Oktober',
+                              'November',
+                              'Desember'];
+                    split = data.split('-');
+                    // return split;
+                    return split[2] + ' ' + bulan[parseInt(split[1])-1] + ' ' + split[0];
+                  }},
               {data: 'kota', name: 'kota',
                     render: function(data){
                         var kota;

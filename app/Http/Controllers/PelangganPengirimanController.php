@@ -65,7 +65,7 @@ class PelangganPengirimanController extends Controller
          $pengiriman->alamat_penerima = $request->input('alamat_penerima');
          $pengiriman->metode_pembayaran = $request->input('metode_pembayaran');
          $pengiriman->berat = $berat;
-         $pengiriman->jumlah_biaya = $jumlah_biaya;
+         $pengiriman->jumlah_biaya = str_replace('.', '', $jumlah_biaya); // menghilangkan titik dari jumlah biaya agar bisa diopersikan;
          $pengiriman->status_valid = false;
          $pengiriman->status_bayar = false;
          $pengiriman->id_user = Auth::user()->id;

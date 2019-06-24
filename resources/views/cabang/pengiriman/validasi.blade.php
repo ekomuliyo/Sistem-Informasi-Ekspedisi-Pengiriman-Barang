@@ -2,6 +2,13 @@
 
 @section('content')
 
+<?php
+    function formatRupiah($angka){
+        $hasil_rupiah = number_format($angka,0,'.','.');
+        return $hasil_rupiah;
+    } 
+?>
+
 <div class="container-fluid">
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
@@ -52,7 +59,7 @@
                         </tr>
                         <tr>
                             <th>Jumlah Bayar</th>
-                            <td>Rp. {{ $pengiriman[0]->jumlah_biaya }}</td>
+                            <td>Rp. {{  formatRupiah($pengiriman[0]->jumlah_biaya) }}</td>
                         </tr>
                     </table>
                     @if($pengiriman[0]->metode_pembayaran == 3)

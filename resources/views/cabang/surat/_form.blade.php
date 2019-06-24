@@ -40,7 +40,7 @@
             <h5>Data pengiriman barang</h5>
             <table class="table table-striped">
                 <tr>
-                    <th>Nomor</th>
+                    <th>No.</th>
                     <th>Nomor Resi</th>
                     <th>Penerima</th>
                     <th>Kota Tujuan</th>

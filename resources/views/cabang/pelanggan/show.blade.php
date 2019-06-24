@@ -2,6 +2,27 @@
 
 @section('content')
 
+<!-- untuk mengambil data tanggal dengan php -->
+<?php
+    function tanggal_indo($tanggal)
+    {
+    	$bulan = array (1 =>   'Januari',
+    				'Februari',
+    				'Maret',
+    				'April',
+    				'Mei',
+    				'Juni',
+    				'Juli',
+    				'Agustus',
+    				'September',
+    				'Oktober',
+    				'November',
+    				'Desember'
+    			);
+    	$split = explode('-', $tanggal);
+    	return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
+    }?>
+
 <div class="container-fluid">
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
@@ -39,7 +60,7 @@
                         </tr>
                         <tr>
                             <th>Jenis Kelamin</th>
-                            @if($pelanggan->tgl_lahir == 1)
+                            @if($pelanggan->jenis_kelamin == 1)
                             <td>Laki-Laki</td>
                             @else
                             <td>Perempuan</td>
@@ -47,7 +68,7 @@
                         </tr>
                         <tr>
                             <th>Tanggal Lahir</th>
-                            <td>{{ $pelanggan->tgl_lahir }}</td>
+                            <td>{{ tanggal_indo($pelanggan->tgl_lahir) }}</td>
                         </tr>
                         <tr>
                             <th>Kota</th>

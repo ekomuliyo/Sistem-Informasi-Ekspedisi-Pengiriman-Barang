@@ -201,7 +201,6 @@
     tinggi = 0;
 
 
-
     var berat_volume = document.getElementById("berat_volume");
     var jumlah_biaya_volume = document.getElementById("jumlah_biaya_volume");
     $("#panjang").on("input", function() {
@@ -210,7 +209,7 @@
         var berat_pembulatan = Math.round(berat_volumeTampung);
         berat_volume.value = berat_pembulatan;
         var jumlah_volume = berat_volume.value * ongkir;
-        jumlah_biaya_volume.value = jumlah_volume;
+        jumlah_biaya_volume.value = formatRupiahJumlah(jumlah_volume);
     });
 
     $("#lebar").on("input", function() {
@@ -219,7 +218,7 @@
         var berat_pembulatan = Math.round(berat_volumeTampung);
         berat_volume.value = berat_pembulatan;
         var jumlah_volume = berat_volume.value * ongkir;
-        jumlah_biaya_volume.value = jumlah_volume;
+        jumlah_biaya_volume.value = formatRupiahJumlah(jumlah_volume);
 
     });
 
@@ -229,16 +228,31 @@
         var berat_pembulatan = Math.round(berat_volumeTampung);
         berat_volume.value = berat_pembulatan;
         var jumlah_volume = berat_volume.value * ongkir;
-        jumlah_biaya_volume.value = jumlah_volume;
-
+        jumlah_biaya_volume.value = formatRupiahJumlah(jumlah_volume);
     });
 
     // hitung jumlah biaya dari kg
     $("#berat_kg").on('input', function() {
         var jumlah_biaya_kg = document.getElementById('jumlah_biaya_kg');
         var berat_kg = document.getElementById("berat_kg").value;
-        jumlah_biaya_kg.value = ongkir * berat_kg;
+        jumlah_biaya_kg.value = formatRupiahJumlah(ongkir * berat_kg);
     })
+
+    // fungsi format rupiah untuk jumlah kg dan volume
+    function formatRupiahJumlah(angka){
+        var number_string = angka.toString(),
+        sisa     		= number_string.length % 3,
+        rupiah     		= number_string.substr(0, sisa),
+        ribuan     		= number_string.substr(sisa).match(/\d{3}/gi);
+    
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        return rupiah;
+    }
 
 
     // mengambil data kecamatan pengirim berdasarkan kota
@@ -289,7 +303,7 @@
             url: '/cabang/json-ongkir/' + kecamatan_penerima.val(),
             type: 'GET',
             success: function(data) {
-                document.getElementById('ongkir').innerHTML = data;
+                document.getElementById('ongkir').innerHTML = formatRupiahJumlah(data);
                 ongkir = data;
             }
         });

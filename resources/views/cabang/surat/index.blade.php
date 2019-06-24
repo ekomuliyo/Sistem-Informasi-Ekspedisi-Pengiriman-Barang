@@ -24,7 +24,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Nomor</th>
+                    <th>No.</th>
                     <th>Nomor Surat</th>
                     <th>Tanggal Surat</th>
                     <th>Keterangan</th>
@@ -59,7 +59,23 @@
             columns:[
               {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
               {data: 'nomor_surat', name: 'nomor_surat'},
-              {data: 'tgl_surat', name: 'tgl_surat'},
+              {data: 'tgl_surat', name: 'tgl_surat',
+                  render: function(data){
+                    $bulan = ['Januari',
+                              'Februari',
+                              'Maret',
+                              'April',
+                              'Mei',
+                              'Juni',
+                              'Juli',
+                              'Agustus',
+                              'September',
+                              'Oktober',
+                              'November',
+                              'Desember'];
+                    $split = data.split('-');
+                    return $split[2] + ' ' + $bulan[parseInt($split[1])] + ' ' + $split[0];
+                  }},
               {data: 'keterangan', name: 'keterangan'},
               {data: 'kurir.user.nama', name: 'kurir.user.nama'},
               {data: 'perbarui', name: 'perbarui', orderable: false, searchable: false},

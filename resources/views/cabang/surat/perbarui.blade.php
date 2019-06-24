@@ -78,10 +78,10 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="card-footer bg-transparent">
-                        <button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>
                             Simpan
-                        </button>
-                        <a href="{{ route('cabang.surat.index') }}" class="btn btn-primary">Kembali<span
+                        </button></br></br>
+                        <a href="{{ route('cabang.surat.index') }}" class="btn btn-primary"><i class="fa fa-angle-double-left"></i>Kembali<span
                                 class="btn-label btn-label-right"></span></a>
                     </div>
                     {!! Form::close() !!}

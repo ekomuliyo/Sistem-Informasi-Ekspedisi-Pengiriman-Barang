@@ -17,9 +17,11 @@
             <span class="nav-link-text">Pengiriman</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMulti">
+            @if(Auth::user()->email == 'cabangjakarta@mail.com')
             <li>
                 <a href="{{ route('cabang.pengiriman.index') }}">Pengiriman Barang</a>
             </li>
+            @endif
             <li>
                 <a href="{{ route('cabang.surat.index') }}">Surat Pengiriman</a>
             </li>

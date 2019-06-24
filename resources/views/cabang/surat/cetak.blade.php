@@ -60,6 +60,13 @@
     </table>
     <!-- akhir kop atas -->
 
+    <?php
+        function rupiah($angka){
+            $hasil_rupiah = number_format($angka,0,'.','.');
+            return $hasil_rupiah;
+        } 
+    ?>
+
     <!-- awal isi laporan harian -->
     <table width="100%" border="1px" class="tabel_isi_2" id="tabel_isi_2">
         <tr>
@@ -88,25 +95,25 @@
             <td>{{ $d->pengiriman->koli->count() }}</td>
             <td>{{ $d->pengiriman->berat }}</td>
             @if($d->pengiriman->metode_pembayaran == 1)
-            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             <td></td>
             <td></td>
             @elseif($d->pengiriman->metode_pembayaran == 2)
             <td></td>
-            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             <td></td>
             @elseif($d->pengiriman->metode_pembayaran == 3)
             <td></td>
             <td></td>
-            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             @else
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ $d->pengiriman->jumlah_biaya }}</td>
+            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
             @endif
         </tr>
         @endforeach
@@ -183,8 +190,8 @@
         </tr>
         <tr>
             <td align="center">{{ $d->pengiriman->berat }}</td>
-            <td align="center">Rp. {{ $d->pengiriman->kecamatan_penerima->ongkir[0]->harga }}</td>
-            <td align="center">Rp. {{ $d->pengiriman->jumlah_biaya }}</td>
+            <td align="center">Rp. {{ rupiah($d->pengiriman->kecamatan_penerima->ongkir[0]->harga) }}</td>
+            <td align="center">Rp. {{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
         </tr>
         <tr>
             <td align="center">Tanda Tangan Penerima</td>
@@ -230,40 +237,55 @@
         sumKg = sumKg + sumKgTampung;
 
         // menjumlahkan total cash
-        sumCashTampung = parseInt(table.rows[i].cells[6].innerHTML);
+        sumCashTampung = table.rows[i].cells[6].innerHTML;
         if (isNaN(sumCashTampung)) {
             sumCashTampung = 0
         }
-        sumCash = sumCash + sumCashTampung;
+        sumCash = sumCash + parseInt(sumCashTampung.replace('.',''));
 
         // menjumlahkan total cod
-        sumCODTampung = parseInt(table.rows[i].cells[7].innerHTML);
+        sumCODTampung = table.rows[i].cells[7].innerHTML;
         if (isNaN(sumCODTampung)) {
             sumCODTampung = 0
         }
-        sumCOD = sumCOD + sumCODTampung;
+        sumCOD = sumCOD + parseInt(sumCODTampung.replace('.',''));
 
         // menjumlahkan total transfer
-        sumTransferTampung = parseInt(table.rows[i].cells[8].innerHTML);
+        sumTransferTampung = table.rows[i].cells[8].innerHTML;
         if (isNaN(sumTransferTampung)) {
             sumTransferTampung = 0
         }
-        sumTransfer = sumTransfer + sumTransferTampung;
+        sumTransfer = sumTransfer + parseInt(sumTransferTampung.replace('.',''));
                 
         // menjumlahkan total langganan
-        sumLanggananTampung = parseInt(table.rows[i].cells[9].innerHTML);
+        sumLanggananTampung = table.rows[i].cells[9].innerHTML;
         if (isNaN(sumLanggananTampung)) {
             sumLanggananTampung = 0
         }
-        sumLangganan = sumLangganan + sumLanggananTampung;
+        sumLangganan = sumLangganan + parseInt(sumLanggananTampung.replace('.','')) ;
     }   
 
     document.getElementById("total_koli").innerHTML = sumKoli;
     document.getElementById("total_kg").innerHTML = sumKg;
-    document.getElementById("total_cash").innerHTML = sumCash;
-    document.getElementById("total_cod").innerHTML = sumCOD;
-    document.getElementById("total_transfer").innerHTML = sumTransfer;
-    document.getElementById("total_langganan").innerHTML = sumLangganan;
+    document.getElementById("total_cash").innerHTML = formatRupiah(sumCash);
+    document.getElementById("total_cod").innerHTML = formatRupiah(sumCOD);
+    document.getElementById("total_transfer").innerHTML = formatRupiah(sumTransfer);
+    document.getElementById("total_langganan").innerHTML = formatRupiah(sumLangganan);
+
+    // fungsi format rupiah
+    function formatRupiah(angka){
+        var number_string = angka.toString(),
+        sisa     		= number_string.length % 3,
+        rupiah     		= number_string.substr(0, sisa),
+        ribuan     		= number_string.substr(sisa).match(/\d{3}/gi);
+    
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        return rupiah;
+    }
 
 </script>
 

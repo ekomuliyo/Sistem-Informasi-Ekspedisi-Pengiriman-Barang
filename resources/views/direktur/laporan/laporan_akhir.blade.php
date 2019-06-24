@@ -15,16 +15,28 @@
             <div class="card">
                 <div class="form-control">
                     <div class="form-group">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             {!! Form::open(['route' => 'direktur.laporan.akhir.create', 'method' => 'POST']) !!}
-                            <label for="awal">Tanggal Awal</label>
-                            <input type="date" name="date_awal">
-                            <label for="akhir">Tanggal Akhir</label>
-                            <input type="date" name="date_akhir">
-                            <button class="btn btn-primary" type="submit">
-                                Cetak
-                            </button>
-                            {!! Form::close() !!}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="awal">Tanggal Awal :</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" name="date_awal">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="akhir">Tanggal Akhir : </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="date" name="date_akhir">
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" type="submit">
+                                        Cetak
+                                    </button>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

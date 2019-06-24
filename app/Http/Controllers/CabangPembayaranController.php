@@ -23,10 +23,13 @@ class CabangPembayaranController extends Controller
     {
         $pengiriman = Pengiriman::where('id_user', $id)
                         ->where('metode_pembayaran', 4)
-                        ->where('status_surat', 1)
-                        ->get();
-        // return response()->json($pengiriman);
-        return view('cabang.pembayaran.create', compact('pengiriman'));
+                        ->where('status_surat', 1)->get();
+
+        if( $pengiriman->isEmpty()){
+            return redirect()->back()->with('alert', 'Data tidak bisa dibayar!');
+        }else{
+            return view('cabang.pembayaran.create', compact('pengiriman'));
+        } 
     }
 
     public function update(Request $request, $id)
