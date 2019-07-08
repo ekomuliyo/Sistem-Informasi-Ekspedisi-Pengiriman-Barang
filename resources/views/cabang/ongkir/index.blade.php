@@ -28,7 +28,7 @@
                     <th>Asal</th>
                     <th>Kota Tujuan</th>
                     <th>Kecamatan</th>
-                    <th>Estimari (Hari)</th>
+                    <th>Estimasi (Hari)</th>
                     <th>Harga (Kg)</th>
                     <th>Aksi</th>
                   </tr>
@@ -60,7 +60,24 @@
               {data: 'kecamatan.kota.nama', name: 'kecamatan.kota.nama'},
               {data: 'kecamatan.nama', name: 'kecamatan.nama'},
               {data: 'estimasi', name: 'estimasi'},
-              {data: 'harga', name: 'harga'},
+              {data: 'harga', name: 'harga', 
+                      render: function(data){
+                          var number_string = data.replace(/[^,\d]/g, '').toString(),
+                          split   		= number_string.split(','),
+                          sisa     		= split[0].length % 3,
+                          rupiah     		= split[0].substr(0, sisa),
+                          ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+                          console.log(number_string);
+                            
+                      
+                          // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                          if(ribuan){
+                              separator = sisa ? '.' : '';
+                              rupiah += separator + ribuan.join('.');
+                          }
+                          return "Rp. " +  rupiah;
+                      }},
               {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });

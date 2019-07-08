@@ -36,28 +36,29 @@
             </button>
             </div>
         </div>
-        <div class="col-md-6">
-            <h5>Data pengiriman barang</h5>
+        <div class="col-md-6" id="app">
+            <!-- <label>selected : @{{ selected }}</label> -->
             <table class="table table-striped">
                 <tr>
                     <th>No.</th>
                     <th>Nomor Resi</th>
                     <th>Penerima</th>
-                    <th>Kota Tujuan</th>
                     <th>Alamat Lengkap</th>
+                    <!-- <th>
+                        <input type="checkbox" v-model="selectAll" @click="select">
+                    </th> -->
                 </tr>
-                <?php $no=0; ?>
-                @foreach($pengiriman as $d)
-                <?php $no++; ?>
-                <tr>
-                    <td>{{ $no }}</td>
-                    <td>{{ $d->no_resi }}</td>
-                    <td>{{ $d->nama_penerima }}</td>
-                    <td>{{ $d->kecamatan_penerima->kota->nama }}</td>
-                    <td>{{ $d->alamat_penerima }}</td>
+                <tr v-for="(result, index, i) in results">
+                    <td>@{{ index+1 }}</td>
+                    <td>@{{ result.no_resi }}</td>
+                    <td>@{{ result.nama_penerima }}</td>
+                    <td>@{{ result.alamat_penerima }}</td>
+                    <!-- <td>
+                        <input type="checkbox" id="item" :value="result.no_resi + ' ' + result.nama_penerima" v-model="selected">
+                    </td> -->
                 </tr>
-                @endforeach
             </table>
         </div>
     </div>
+
 

@@ -44,9 +44,15 @@
     <script src="{{ asset('assets/blog-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/blog-admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+      
+    <!-- library sweet alert -->
+    @include('sweetalert::alert')
+    
     @yield('assets-bottom')
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/blog-admin/js/sb-admin.min.js') }}"></script>
+
+    <!-- library sweet alert -->
   </div>
 </body>
 

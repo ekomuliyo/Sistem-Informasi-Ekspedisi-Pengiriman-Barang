@@ -22,6 +22,7 @@
     }
     @media print {
         p { page-break-after: always; }
+
     }
     </style>
 </head>
@@ -61,7 +62,7 @@
     <!-- akhir kop atas -->
 
     <?php
-        function rupiah($angka){
+        function formatRupiah($angka){
             $hasil_rupiah = number_format($angka,0,'.','.');
             return $hasil_rupiah;
         } 
@@ -95,25 +96,25 @@
             <td>{{ $d->pengiriman->koli->count() }}</td>
             <td>{{ $d->pengiriman->berat }}</td>
             @if($d->pengiriman->metode_pembayaran == 1)
-            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
+            <td>{{ formatRupiah($d->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             <td></td>
             <td></td>
             @elseif($d->pengiriman->metode_pembayaran == 2)
             <td></td>
-            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
+            <td>{{ formatRupiah($d->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             <td></td>
             @elseif($d->pengiriman->metode_pembayaran == 3)
             <td></td>
             <td></td>
-            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
+            <td>{{ formatRupiah($d->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             @else
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
+            <td>{{ formatRupiah($d->pengiriman->jumlah_biaya) }}</td>
             @endif
         </tr>
         @endforeach
@@ -190,8 +191,8 @@
         </tr>
         <tr>
             <td align="center">{{ $d->pengiriman->berat }}</td>
-            <td align="center">Rp. {{ rupiah($d->pengiriman->kecamatan_penerima->ongkir[0]->harga) }}</td>
-            <td align="center">Rp. {{ rupiah($d->pengiriman->jumlah_biaya) }}</td>
+            <td align="center">Rp. {{ formatRupiah($d->pengiriman->kecamatan_penerima->ongkir[0]->harga) }}</td>
+            <td align="center">Rp. {{ formatRupiah($d->pengiriman->jumlah_biaya) }}</td>
         </tr>
         <tr>
             <td align="center">Tanda Tangan Penerima</td>
@@ -200,14 +201,14 @@
             <td align="center"> Tanggal</td>
         </tr>
         <tr>
-            <td height="50"></td>
+            <td height="27"></td>
             <td></td>
             <td></td>
             <td align="center"><?php echo date("d-m-Y"); ?></td>
         </tr>
     </table>
-    <label for="catatan"><font size="0.5">Catatan : Barang tidak kami periksa, isi paket kiriman sepenuhnya tanggung jawab pengirim dan penerima</font></label>
-    <br>
+    <label for="catatan"><font size="0.5" id="catatan">Catatan : Barang tidak kami periksa, isi paket kiriman sepenuhnya tanggung jawab pengirim dan penerima</font></label>
+    <br><br><br>
     @endforeach
     <!-- akhir isi surat perjalanan -->
 </body>
@@ -238,31 +239,35 @@
 
         // menjumlahkan total cash
         sumCashTampung = table.rows[i].cells[6].innerHTML;
+        sumCashTampung = parseInt(sumCashTampung.replace('.',''));
         if (isNaN(sumCashTampung)) {
             sumCashTampung = 0
         }
-        sumCash = sumCash + parseInt(sumCashTampung.replace('.',''));
+        sumCash = sumCash + sumCashTampung
 
         // menjumlahkan total cod
         sumCODTampung = table.rows[i].cells[7].innerHTML;
+        sumCODTampung = parseInt(sumCODTampung.replace('.',''));
         if (isNaN(sumCODTampung)) {
             sumCODTampung = 0
         }
-        sumCOD = sumCOD + parseInt(sumCODTampung.replace('.',''));
+        sumCOD = sumCOD + sumCODTampung;
 
         // menjumlahkan total transfer
         sumTransferTampung = table.rows[i].cells[8].innerHTML;
+        sumTransferTampung = parseInt(sumTransferTampung.replace('.',''));
         if (isNaN(sumTransferTampung)) {
             sumTransferTampung = 0
         }
-        sumTransfer = sumTransfer + parseInt(sumTransferTampung.replace('.',''));
+        sumTransfer = sumTransfer + sumTransferTampung;
                 
         // menjumlahkan total langganan
         sumLanggananTampung = table.rows[i].cells[9].innerHTML;
+        sumLanggananTampung = parseInt(sumLanggananTampung.replace('.',''));
         if (isNaN(sumLanggananTampung)) {
             sumLanggananTampung = 0
         }
-        sumLangganan = sumLangganan + parseInt(sumLanggananTampung.replace('.','')) ;
+        sumLangganan = sumLangganan + sumLanggananTampung;
     }   
 
     document.getElementById("total_koli").innerHTML = sumKoli;

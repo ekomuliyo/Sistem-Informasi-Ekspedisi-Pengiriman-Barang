@@ -224,7 +224,7 @@
             url: '/pelanggan/json-ongkir/' + kecamatan_penerima.val(),
             type: 'GET',
             success: function(data) {
-                document.getElementById('ongkir').innerHTML = data;
+                document.getElementById('ongkir').innerHTML = formatRupiahJumlah(data);
                 ongkir = data;
             }
         });
@@ -232,7 +232,8 @@
 
 
     // menampilkan metode perhitungan kg / volume
-    $("#hideLink").on("click", function() {
+    $("#hideLink").on("click", function(e) {
+        e.preventDefault()
         if ($(this).text() == "Hitung volume") {
             $(this).text("Hitung berat");
             $(".berat").hide();

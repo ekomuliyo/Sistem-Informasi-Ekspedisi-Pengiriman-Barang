@@ -7,6 +7,8 @@ use App\Kecamatan;
 use App\Pengiriman;
 use App\Koli;
 use Auth;
+use App\StatusPengiriman;
+use DB;
 
 class PelangganPengirimanController extends Controller
 {
@@ -127,18 +129,18 @@ class PelangganPengirimanController extends Controller
             ->addColumn('status', function ($pengiriman){
                 if($pengiriman->status_valid == 0){
                     if ($pengiriman->metode_pembayaran == 1) {
-                        return 'Belum valid';
+                        return '<a href="#" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">BELUM VALID<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
                     }else if($pengiriman->metode_pembayaran == 2){
-                        return 'Belum valid';
+                        return '<a href="#" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">BELUM VALID<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
                     }
                     elseif ($pengiriman->metode_pembayaran == 3) {
-                        return '<a href="'. route('pelanggan.pengiriman.konfirmasi.create', $pengiriman->id) .'" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Konfirmasi Pembayaran<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
+                        return '<a href="'. route('pelanggan.pengiriman.konfirmasi.create', $pengiriman->id) .'" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">KONFIRMASI PEMBAYARAN<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
                     }else{
-                        return 'Belum valid';
+                        return '<a href="#" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">BELUM VALID<span class="btn-label btn-label-right"><i class="fa fa-close"></i></span></a>';
                     }
                 }
                 else {
-                    return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">Valid<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
+                    return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">VALID<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
                 }
             })
             ->addColumn('status_bayar', function($pengiriman){
@@ -149,6 +151,17 @@ class PelangganPengirimanController extends Controller
                 }
             })
             ->rawColumns(['status', 'status_bayar'])
+            ->make(true);
+    }
+
+    public function dataTablePenerimaan(){
+    
+        $status_pengiriman = StatusPengiriman::all()
+                            ->where('status', 1)
+                            ->where('pengiriman.id_user', Auth::user()->id);
+
+        return datatables()->of($status_pengiriman)
+            ->addIndexColumn()
             ->make(true);
     }
 }

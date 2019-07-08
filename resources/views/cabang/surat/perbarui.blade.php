@@ -14,12 +14,6 @@
                     Perbarui Status Barang dan Surat Perjalanan  
                 </div></br>
 
-                @if ($message = Session::get('alert'))
-                <div class="alert alert-success alert-block">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>{{ $message }}</strong>
-                </div>
-                @endif
                 @if($surat->status_terima == 1)
                 <div class="card-body">
                     <label>Perbarui status barang : </label>
@@ -40,6 +34,7 @@
                         </thead>
                         <tbody>
                             @foreach($transaksi_pengiriman as $d)
+                            @if($d->pengiriman->status_pengiriman[0]->status == 0)
                             <tr>
                                 <td>{{ $d->pengiriman->no_resi }}</td>
                                 <td>{{ $d->pengiriman->nama_pengirim }}</td>
@@ -50,45 +45,22 @@
                                         detail_status_pengiriman[$d->pengiriman->status_pengiriman[0]->detail_status_pengiriman->count()-1]->keterangan }}
                                 </td>
                             </tr>
+                            @endif
                             @endforeach
+                            <tr>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 @else
-                <div class="row col-lg-12">
-                    <div class="alert alert-danger">
-                        <span>Tidak dapat memperbarui status barang, silahkan perbarui keterangan surat!</span>
-                    </div>
+                <div class="alert alert-danger">
+                    <span>Tidak dapat memperbarui status barang, silahkan perbarui keterangan surat!</span>
                 </div>
                 @endif
-                {!! Form::model($surat, ['route' => ['cabang.surat.update', $surat->id], 'method' => 'PUT']) !!}
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Keterangan Surat</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        {!! Form::select('keterangan', ['Surat dalam perjalanan menuju Palembang' => 'Surat dalam
-                        perjalanan menuju Palembang',
-                        'Diterima oleh Cabang Palembang' =>'Diterima oleh Cabang Palembang',
-                        'Sedang dalam perjalanan menuju Pekanbaru'=>'Sedang dalam perjalanan menuju Pekanbaru',
-                        'Diterima oleh Cabang Pekanbaru' =>'Diterima oleh Cabang Pekanbaru',
-                        'Sedang dalam perjalanan menuju Bukit Tinggi'=>'Sedang dalam perjalanan menuju Bukit Tinggi',
-                        'Diterima oleh Cabang Bukit Tinggi / Pusat' =>'Diterima oleh Cabang Bukit Tinggi / Pusat'],
-                        null , ['class' => 'form-control', 'placeholder' => 'Keterangan']) !!}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="card-footer bg-transparent">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>
-                            Simpan
-                        </button></br></br>
-                        <a href="{{ route('cabang.surat.index') }}" class="btn btn-primary"><i class="fa fa-angle-double-left"></i>Kembali<span
-                                class="btn-label btn-label-right"></span></a>
-                    </div>
-                    {!! Form::close() !!}
-                </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- modal perbarui status barang -->
     <div div class="modal fade" id="scanModal" role="dialog">
@@ -171,7 +143,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 

@@ -24,7 +24,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Nomor</th>
+                    <th>No.</th>
                     <th>Nama Pelanggan</th>
                     <th>Total Pengiriman</th>
                     <th>Total Bayar</th>

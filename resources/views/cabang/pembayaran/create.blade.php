@@ -2,6 +2,13 @@
 
 @section('content')
 
+<?php
+    function formatRupiah($angka){
+        $hasil_rupiah = number_format($angka,0,'.','.');
+        return $hasil_rupiah;
+    } 
+?>
+
 <div class="container-fluid">
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
@@ -34,13 +41,13 @@
                         @endforeach
                         <tr>
                             <th>Total Bayar</th>
-                            <td id="id_total_bayar">{{ $sum_total_bayar }}</td>
+                            <td id="id_total_bayar">Rp. {{ formatRupiah($sum_total_bayar) }}</td>
                         </tr>
                     </table>
                     
                     <table class="table table-bordered">
                         <tr>
-                            <th>Nomor</th>
+                            <th>No.</th>
                             <th>Nama Penerima</th>
                             <th>Kota Penerima</th>
                             <th>Alamat Lengkap</th>
@@ -68,7 +75,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-12">Masukan Uang Bayar</label>
                                 <div class="col-md-12">
-                                    <input type="number" class="form-control" id="id_jumlah_bayar" name="jumlah_bayar" min="1"
+                                    <input type="text" class="form-control" id="id_jumlah_bayar" name="jumlah_bayar" min="1"
                                     placeholder="Jumlah Bayar" required>
                                 </div>
                             </div>
@@ -86,19 +93,47 @@
 @endsection
 
 @section('assets-bottom')
-<script>
-
-function validasiPembayaran() {
-
+<script type="text/javascript">
     var total_bayar = document.getElementById('id_total_bayar').textContent;
-    var jumlah_bayar = document.getElementById('id_jumlah_bayar').value;
+    var jumlah_bayar = document.getElementById('id_jumlah_bayar');
 
-    if (jumlah_bayar < total_bayar) {
-        alert("Uang yang anda masukan tidak cukup!");
-        return false;
-    }else{
-        return true;
+    jumlah_bayar.addEventListener('keyup', function(e){
+        var bayar = this.value;
+        jumlah_bayar.value = formatRupiah(bayar);
+    });
+
+    function formatRupiah(angka){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split   		= number_string.split(','),
+        sisa     		= split[0].length % 3,
+        rupiah     		= split[0].substr(0, sisa),
+        ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        return rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
     }
-}
+
+
+    function validasiPembayaran() {
+
+        total_bayar = total_bayar.split('Rp. ').join('');
+        total_bayar = total_bayar.split('.').join('');
+        
+        jumlah_bayar = jumlah_bayar.value;
+        jumlah_bayar = jumlah_bayar.split('.').join('');
+
+        
+        if (parseInt(jumlah_bayar) < parseInt(total_bayar)) {
+            alert("Uang yang anda masukan tidak cukup!");
+            return false;
+        }else{
+            return true;
+        }
+    }
 </script>
 @endsection

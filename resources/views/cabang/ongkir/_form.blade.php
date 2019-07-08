@@ -6,7 +6,7 @@
         </div>
     @endif
     <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-12">Kota</label>
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Kota Tujuan</label>
         <div class="col-md-6">
             <select name="id_kota" id="id_kota" class ="form-control" required >
                     <option value="" disabled selected hidden>Pilih Kota</option>
@@ -44,7 +44,7 @@
     </div>
     <div class="form-group">
         <label for="harga">Harga (Kg)</label>
-        {!! Form::number('harga', null, ['class' => $errors->has('harga') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'min' => '1']) !!}
+        {!! Form::text('harga', null, ['class' => $errors->has('harga') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'min' => '1', 'id' => 'harga']) !!}
         @if ($errors->has('harga'))
                 <span class="invalid-feedback">
                     <strong>{{ $errors->first('harga') }}</strong>
@@ -53,6 +53,7 @@
     </div>
     <div class="card-footer bg-transparent">
     <button class="btn btn-primary" type="submit">
-        Masukan
+        Tambah
     </button>
     </div>
+

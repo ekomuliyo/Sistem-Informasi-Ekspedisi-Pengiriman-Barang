@@ -5,10 +5,19 @@
         .volume{
             display: none;
         }
+        #btn_ubah_volume{
+            display: none;
+        }
     </style>
 @endsection
 
 @section('content')
+<?php
+    function formatRupiah($angka){
+        $hasil_rupiah = number_format($angka,0,'.','.');
+        return $hasil_rupiah;
+    } 
+?>
 
 <div class="container-fluid">
     <ol class="breadcrumb">
@@ -181,7 +190,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label for="jumlah_biaya" class="control-label col-md-12">
-                                Rp : <input name="jumlah_biaya_kg" id="jumlah_biaya_kg" readonly="readonly" class="control-label col-md-6" value="{{ $pengiriman->jumlah_biaya }}">
+                                Rp : <input name="jumlah_biaya_kg" id="jumlah_biaya_kg" readonly="readonly" class="control-label col-md-6" value="{{ formatRupiah($pengiriman->jumlah_biaya) }}">
                                 </label>
                             </div>
                         </div>
@@ -226,8 +235,11 @@
                     <a id="hideLink" class="control-label col-md-3 col-sm-3 col-xs-12" href="#">Hitung volume</a>
                     </br></br>
                     <div class="card-footer bg-transparent">
-                    <button class="btn btn-primary" type="submit">
-                        Ubah
+                    <button class="btn btn-primary" type="submit" id="btn_ubah_kg" onclick="return validateKG();">
+                        UBAH
+                    </button>
+                    <button class="btn btn-primary" type="submit" id="btn_ubah_volume" onclick="return validateVolume();">
+                        UBAH
                     </button>
                 </div>
                 </div>
@@ -243,12 +255,36 @@
 
 <script type="text/javascript">
 
+
+        // validate jumlah kg dan volume
+        function validateKG(){
+            if($("#berat_kg").val() == ""){
+                alert("Data berat kg harus diisi !!")
+                return false;
+            }else{
+                return true;
+            }
+        }
+        function validateVolume(){
+            if ($("#panjang").val() == ""){
+                alert("Data panjang harus diisi!")
+                return false
+            }else if ($("#lebar").val() == ""){
+                alert("Data lebar harus diisi!")
+                return false
+            }else if ($("#tinggi").val() == ""){
+                alert("Data tinggi harus diisi!")
+                return false
+            }else{
+                return true;
+            }
+        }
+
         const arrayKoli = [
             @foreach($koli as $d)
                 "{{ $d->deskripsi }}",
             @endforeach
         ];
-
 
 
         $(document).ready(function(){
@@ -307,7 +343,7 @@
                 url: '/cabang/json-ongkir/' + kecamatan_penerima_terpilih,
                 type: 'GET',
                 success: function(data){
-                    document.getElementById('ongkir').innerHTML = data;
+                    document.getElementById('ongkir').innerHTML = formatRupiahJumlah(data);
                     ongkir = data;
                 }
             });
@@ -318,19 +354,11 @@
                     url: '/cabang/json-ongkir/' + kecamatan_penerima.val(),
                     type: 'GET',
                     success: function(data){
-                        document.getElementById('ongkir').innerHTML = data;
+                        document.getElementById('ongkir').innerHTML = formatRupiahJumlah(data);
                         ongkir = data;
                     }
                 });
             });
-
-
-            // hitung jumlah biaya dari kg
-            $("#berat_kg").on('input', function(){
-                var jumlah_biaya_kg = document.getElementById('jumlah_biaya_kg');
-                var berat_kg = document.getElementById("berat_kg").value; 
-                jumlah_biaya_kg.value = ongkir * berat_kg;
-            })
 
             // mengambil data koli dari data sebelumnya
             if($("#input_koli").val()){
@@ -361,13 +389,16 @@
             
 
             // menampilkan metode perhitungan kg / volume
-            $("#hideLink").on("click", function (){
+            $("#hideLink").on("click", function (e){
+                e.preventDefault();
                 if ($(this).text() == "Hitung volume") {
                     $(this).text("Hitung berat");
                     $(".berat").hide();
                     $("#berat_kg").val("");
                     $("#jumlah_biaya_kg").val("");
-                    $(".volume").show("slow")
+                    $(".volume").show("slow");
+                    $("#btn_ubah_volume").show();
+                    $("#btn_ubah_kg").hide();
                 }else{
                     $(this).text("Hitung volume");
                     $(".volume").hide();
@@ -376,7 +407,9 @@
                     $("#tinggi").val("");
                     $("#berat_volume").val("");
                     $("#jumlah_biaya_volume").val(""); 
-                    $(".berat").show("slow");                    
+                    $(".berat").show("slow");  
+                    $("#btn_ubah_kg").show();
+                    $("#btn_ubah_volume").hide();                  
                 }
             });
 
@@ -386,26 +419,55 @@
             $("#panjang").on("input", function(){
                 panjang = document.getElementById("panjang").value;
                 berat_volume.value = (panjang * lebar * tinggi) / 4000;
-                jumlah_biaya_volume.value = berat_volume.value * ongkir;
+                jumlah_biaya_volume.value = formatRupiahJumlah(berat_volume.value * ongkir);
             });
 
             $("#lebar").on("input", function(){
                 lebar = document.getElementById("lebar").value;
                 berat_volume.value = (panjang * lebar * tinggi) / 4000;
-                jumlah_biaya_volume.value = berat_volume.value * ongkir;
+                jumlah_biaya_volume.value = formatRupiahJumlah(berat_volume.value * ongkir);
 
             });
 
             $("#tinggi").on("input", function(){
                 tinggi = document.getElementById("tinggi").value;
                 berat_volume.value = (panjang * lebar * tinggi) / 4000;
-                jumlah_biaya_volume.value = berat_volume.value * ongkir;
+                jumlah_biaya_volume.value = formatRupiahJumlah(berat_volume.value * ongkir);
 
             });
+
+            // hitung jumlah biaya dari kg
+            $("#berat_kg").on('input', function(){
+                var jumlah_biaya_kg = document.getElementById('jumlah_biaya_kg');
+                var berat_kg = document.getElementById("berat_kg").value; 
+                jumlah_biaya_kg.value = formatRupiahJumlah(ongkir * berat_kg);
+            });
+
+
         });
+
+        // fungsi format rupiah untuk jumlah kg dan volume
+        function formatRupiahJumlah(angka){
+            var number_string = angka.toString(),
+            sisa     		= number_string.length % 3,
+            rupiah     		= number_string.substr(0, sisa),
+            ribuan     		= number_string.substr(sisa).match(/\d{3}/gi);
+        
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if(ribuan){
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            return rupiah;
+        }
+
+ 
+
 
 
         $("#id_pengirim").select2();
+        
         
 </script>
 

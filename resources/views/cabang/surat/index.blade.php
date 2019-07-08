@@ -15,11 +15,13 @@
           </li>
           <a href="{{ route('cabang.surat.create') }}" class="btn btn-sm btn-primary">Tambah</a>
         </ol>
+
         @if (session('alert'))
             <div class="alert alert-success">
                 {{ session('alert') }}
             </div>
         @endif
+
         <!-- Example DataTables Card-->
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -29,8 +31,9 @@
                     <th>Tanggal Surat</th>
                     <th>Keterangan</th>
                     <th>Nama Kurir</th>
-                    <th>Perbarui</th>
                     <th>Cetak</th>
+                    <th>Perbarui</th>
+                    <th>Terima / Berangkat</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -74,12 +77,13 @@
                               'November',
                               'Desember'];
                     $split = data.split('-');
-                    return $split[2] + ' ' + $bulan[parseInt($split[1])] + ' ' + $split[0];
+                    return $split[2] + ' ' + $bulan[parseInt($split[1])-1] + ' ' + $split[0];
                   }},
               {data: 'keterangan', name: 'keterangan'},
               {data: 'kurir.user.nama', name: 'kurir.user.nama'},
+              {data: 'cetak', name: 'cetak', orderable: false, searchable: false},
               {data: 'perbarui', name: 'perbarui', orderable: false, searchable: false},
-              {data: 'cetak', name: 'cetak', orderable: false, searchable: false},              
+              {data: 'status', name: 'status', orderable: false, searchable: false},
               {data: 'ubah', name: 'ubah', orderable: false, searchable: false}
             ]
         });

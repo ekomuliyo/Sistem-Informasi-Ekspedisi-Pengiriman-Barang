@@ -30,7 +30,7 @@ Highcharts.chart('container', {
         type: 'column'
     },
     title: {
-        text: 'Statistik Penerimaan Barang'
+        text: 'Statistik Penerimaan Barang pada tahun <?php echo date("Y") ?>'
     },
     subtitle: {
         text: 'PT Bunga Lintas Cargo'
@@ -54,6 +54,7 @@ Highcharts.chart('container', {
     },
     yAxis: {
         min: 0,
+        tickInterval: 1,
         title: {
             text: 'Jumlah Penerimaan'
         }
@@ -61,7 +62,7 @@ Highcharts.chart('container', {
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -74,7 +75,21 @@ Highcharts.chart('container', {
     },
     series: [{
         name: 'Penerimaan',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+        data: [
+            {{ $bulan_januari->count()}},
+            {{ $bulan_februari->count()}},
+            {{ $bulan_maret->count()}},
+            {{ $bulan_april->count()}},
+            {{ $bulan_mei->count()}},
+            {{ $bulan_juni->count()}},
+            {{ $bulan_juli->count()}},
+            {{ $bulan_agustus->count()}},
+            {{ $bulan_september->count()}},
+            {{ $bulan_oktober->count()}},
+            {{ $bulan_november->count()}},
+            {{ $bulan_desember->count()}},
+
+        ]
     }]
 });
 </script>

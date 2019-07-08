@@ -27,6 +27,15 @@
 
 @section('assets-bottom')
     <script type="text/javascript">
+      $(document).ready(function(){
+        $("input").on('click', function(){
+          console.log("HAI");
+        });
+
+        $("#item").on('click', function(){
+          console.log("HAi juga");
+        });
+      })
         $('#id_pengiriman').select2({
         placeholder: 'Cari nomor resi..',
         ajax: {
@@ -37,7 +46,7 @@
               return {
                 results:  $.map(data, function (item) {
                   return {
-                    text: item.no_resi + ' - ' + item.nama_penerima + ' ' + item.id ,
+                    text: item.no_resi + ' - ' + item.nama_penerima,
                     id: item.id
                 }
               })
@@ -48,4 +57,38 @@
         });
         $("#id_kurir").select2();
     </script>
+
+    <!-- Vue JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
+
+    
+    <script language="Javascript">
+      const url = "/cabang/api/surat/create";
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          results: [], selected:[], selectAll: false
+        },
+        mounted(){
+          axios.get('http://localhost:8000/cabang/api/surat/create').then(response => {
+            this.results = response.data
+          })
+        },
+        methods: {
+          select() {
+            this.selected = [];
+            if(!this.selectAll){
+              for(let i in this.results){
+                this.selected.push(this.results[i].no_resi + ' ' + this.results[i].nama_penerima);
+              }
+            }
+          }
+        }
+      });
+
+
+    </script>
+
 @endsection

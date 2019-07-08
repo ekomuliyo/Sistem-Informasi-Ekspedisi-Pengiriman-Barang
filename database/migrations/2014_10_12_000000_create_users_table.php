@@ -39,6 +39,27 @@ class CreateUsersTable extends Migration
             'level' => 'admin',
             'password' => '$2y$10$DurJBMhpVP0y47Sqx/hxiOWXFneseII6s2qaYYcVNco5YAPy6w7hq'
         ]);
+
+        DB::table('users')->insert([
+            'nama' => 'Cabang Palembang',
+            'email' => 'cabangpalembang@mail.com',
+            'level' => 'admin',
+            'password' => '$2y$10$DurJBMhpVP0y47Sqx/hxiOWXFneseII6s2qaYYcVNco5YAPy6w7hq'
+        ]);
+
+        DB::table('users')->insert([
+            'nama' => 'Cabang Pekanbaru',
+            'email' => 'cabangpekanbaru@mail.com',
+            'level' => 'admin',
+            'password' => '$2y$10$DurJBMhpVP0y47Sqx/hxiOWXFneseII6s2qaYYcVNco5YAPy6w7hq'
+        ]);
+
+        DB::table('users')->insert([
+            'nama' => 'Cabang Bukit Tinggi',
+            'email' => 'cabangbukittingi@mail.com',
+            'level' => 'admin',
+            'password' => '$2y$10$DurJBMhpVP0y47Sqx/hxiOWXFneseII6s2qaYYcVNco5YAPy6w7hq'
+        ]);
     }
 
     /**

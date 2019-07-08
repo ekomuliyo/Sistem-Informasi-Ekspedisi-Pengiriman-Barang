@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>PT Bunga Lintas Cargo</title>
+  <title>PT Bunga Lintas Cargo | Register</title>
   <!-- Bootstrap core CSS-->
   <link href="{{ asset('assets/blog-admin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -14,10 +14,12 @@
   <link href="{{ asset('assets/blog-admin/css/sb-admin.css') }}" rel="stylesheet">
 </head>
 
-<body class="bg-dark">
+<body class="bg-dark" background="/images/background_1.jpg" style="background-size:cover;">
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header"><center><h2>PT Bunga Lintas Cargo</h2></center></div>
+      <div class="card-header text-center">
+          <img src="/images/logo.jpeg" alt="PT Bunga Lintas Cargo" width="100px" height="100px">
+          <h2>PT Bunga Lintas Cargo</h2></div>
       <div class="card-body">
         <form class="form-horizontal" method="POST" action="{{ route('register') }}">
             {{ csrf_field() }}
@@ -64,7 +66,6 @@
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="{{ route('login') }}">Halaman Login</a>
-          <a class="d-block small" href="{{ route('password.request') }}">Lupa Password?</a>
         </div>
       </div>
     </div>

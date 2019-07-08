@@ -58,10 +58,10 @@ class CabangOngkirController extends Controller
         $estimasi = $request->input('awal') . " - " . $request->input('akhir') . " hari"; 
 
         $ongkir = new Ongkir();
-        $ongkir->asal = "Jakarta";
+        $ongkir->asal = "Jakarta Pusat";
         $ongkir->id_kecamatan = $request->get('id_kecamatan');
         $ongkir->estimasi = $estimasi;
-        $ongkir->harga = $request->get('harga');
+        $ongkir->harga = str_replace('.', '', $request->get('harga'));
         $ongkir->save();
 
         return redirect()->route('cabang.ongkir.index')->with('alert', 'Berhasil ditambahan!');

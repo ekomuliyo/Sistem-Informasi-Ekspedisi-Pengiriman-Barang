@@ -15,11 +15,11 @@ class Pelanggan extends Migration
     {
         Schema::create('pelanggan', function(Blueprint $table){
             $table->increments('id');
-            $table->string('no_hp')->default('-');
-            $table->char('jenis_kelamin', 1)->default(1);
+            $table->string('no_hp')->default('');
+            $table->char('jenis_kelamin', 1)->default(0);
             $table->date('tgl_lahir')->nullable();
             $table->integer('id_kecamatan')->unsigned()->nullable();
-            $table->string('alamat')->default('-');
+            $table->string('alamat')->default('');
             $table->integer('id_user')->unsigned();
             $table->rememberToken();
             $table->timestamps();

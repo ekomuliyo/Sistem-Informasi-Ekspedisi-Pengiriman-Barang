@@ -45,7 +45,7 @@
     </div>
     <div class="card-footer bg-transparent">
     <button class="btn btn-primary" type="submit">
-        Masukan
+        Tambah
     </button>
 </div>
 

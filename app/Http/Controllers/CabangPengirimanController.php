@@ -146,7 +146,7 @@ class CabangPengirimanController extends Controller
         $pengiriman->alamat_penerima = $request->input('alamat_penerima');
         $pengiriman->metode_pembayaran = $request->input('metode_pembayaran');
         $pengiriman->berat = $berat;
-        $pengiriman->jumlah_biaya = $jumlah_biaya;
+        $pengiriman->jumlah_biaya = str_replace(".", "", $jumlah_biaya);
         $pengiriman->save();
         
         $id_pengiriman = $pengiriman->id; // mengambil id pengiriman setelah di ubah
@@ -223,7 +223,7 @@ class CabangPengirimanController extends Controller
         $no_wa_penerima = "62".$str;
 
         // mengirim pesan ke wa
-        $my_apikey = "738ZKMREU3Q7S2CHDFDH"; 
+        $my_apikey = config('api_key'); 
         $destination = $no_wa_penerima; 
         $message = $keterangan; 
         $api_url = "http://panel.apiwha.com/send_message.php"; 
@@ -243,6 +243,7 @@ class CabangPengirimanController extends Controller
 
     public function storeStatus(Request $request)
     {
+        // dd($request->all());
         $id_pengiriman = $request->id_pengiriman;
         $pengiriman = Pengiriman::findOrFail($id_pengiriman);
         $validasi = $request->validasi;
@@ -284,13 +285,21 @@ class CabangPengirimanController extends Controller
         })
         ->addColumn('action_status', function ($pengiriman){
             if($pengiriman->status_valid == 1){
-                return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">Valid<span class="btn-label btn-label-right"></span></a>';
+                return '<a href="#" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;">VALID<span class="btn-label btn-label-right"></span></a>';
             }
             else {
-                return '<label>Belum Valid</label> <a href="' . route('cabang.pengiriman.status.create', $pengiriman->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">Validasi<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
+                return '<label>Belum Valid</label> <a href="' . route('cabang.pengiriman.status.create', $pengiriman->id) . '" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;">VALIDASI<span class="btn-label btn-label-right"><i class="fa fa-check"></i></span></a>';
             }
         })
         ->rawColumns(['ubah', 'action_status'])
         ->make(true);
+    }
+
+    public function dataTablePenerimaan(){
+        $status_pengiriman = StatusPengiriman::with('pengiriman', 'pengiriman.kecamatan_penerima.kota')->select('status_pengiriman.*')
+            ->where('status_pengiriman.status', 1);
+        return datatables()->eloquent($status_pengiriman)
+            ->addIndexColumn()
+            ->make(true);
     }
 }

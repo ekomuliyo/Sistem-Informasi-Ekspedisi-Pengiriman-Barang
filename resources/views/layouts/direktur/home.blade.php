@@ -17,9 +17,9 @@
                     <div class="card-body-icon">
                         <i class="fa fa-fw fa-list"></i>
                     </div>
-                    <div class="mr-5">11 Pengiriman Barang</div>
+                    <div class="mr-5">{{ $pengiriman->count() }} Pengiriman Barang</div>
                 </div>
-                <a class="card-footer text-white clearfix small z-1" href="#">
+                <a class="card-footer text-white clearfix small z-1" href="{{ route('direktur.detail.pengiriman') }}">
                     <span class="float-left">Lihat Detail</span>
                     <span class="float-right">
                         <i class="fa fa-angle-right"></i>
@@ -33,9 +33,9 @@
                     <div class="card-body-icon">
                         <i class="fa fa-fw fa-comments"></i>
                     </div>
-                    <div class="mr-5">10 Penerimaan Barang</div>
+                    <div class="mr-5">{{ $status_pengiriman->count() }} Penerimaan Barang</div>
                 </div>
-                <a class="card-footer text-white clearfix small z-1" href="#">
+                <a class="card-footer text-white clearfix small z-1" href="{{ route('direktur.detail.penerimaan') }}">
                     <span class="float-left">Lihat Detail</span>
                     <span class="float-right">
                         <i class="fa fa-angle-right"></i>

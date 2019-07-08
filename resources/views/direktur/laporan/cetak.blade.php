@@ -34,9 +34,13 @@
     				'Desember'
     			);
         $split = explode('-', $tanggal);
-        echo $split[2];
     	return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
-    }?>
+    }
+    function formatRupiah($angka){
+        $hasil_rupiah = number_format($angka,0,'.','.');
+        return $hasil_rupiah;
+    } 
+    ?>
 
     <!-- kop atas -->
     <table width="100%">
@@ -100,25 +104,25 @@
             <td>{{ $data->pengiriman->koli->count() }}</td>
             <td>{{ $data->pengiriman->berat }}</td>
             @if($data->pengiriman->metode_pembayaran == 1)
-            <td>{{ $data->pengiriman->jumlah_biaya }}</td>
+            <td>{{ formatRupiah($data->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             <td></td>
             <td></td>
             @elseif($data->pengiriman->metode_pembayaran == 2)
             <td></td>
-            <td>{{ $data->pengiriman->jumlah_biaya }}</td>
+            <td>{{ formatRupiah($data->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             <td></td>
             @elseif($data->pengiriman->metode_pembayaran == 3)
             <td></td>
             <td></td>
-            <td>{{ $data->pengiriman->jumlah_biaya }}</td>
+            <td>{{ formatRupiah($data->pengiriman->jumlah_biaya) }}</td>
             <td></td>
             @else
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ $data->pengiriman->jumlah_biaya }}</td>
+            <td>{{ formatRupiah($data->pengiriman->jumlah_biaya) }}</td>
             @endif
         </tr>
         @endforeach
@@ -137,6 +141,22 @@
 <script src="{{ asset('assets/blog-admin/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/blog-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script type="text/javascript">
+
+    // fungsi format rupiah
+    function formatRupiah(angka){
+        var number_string = angka.toString(),
+        sisa     		= number_string.length % 3,
+        rupiah     		= number_string.substr(0, sisa),
+        ribuan     		= number_string.substr(sisa).match(/\d{3}/gi);
+    
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        return rupiah;
+    }
+
     var table = document.getElementById("table");
     var sumCash = 0;
     var sumCOD = 0
@@ -145,42 +165,47 @@
     for (let i = 2; i < table.rows.length-1; i++) {
 
         // menjumlahkan total cash
-        sumCashTampung = parseInt(table.rows[i].cells[6].innerHTML);
+        sumCashTampung = table.rows[i].cells[6].innerHTML;
+        sumCashTampung = parseInt(sumCashTampung.replace('.', ''));
         if (isNaN(sumCashTampung)) {
             sumCashTampung = 0;
-        }
+        }        
         sumCash = sumCash + sumCashTampung;
 
+        
         // menjumlahkan total cod
-        sumCODTampung = parseInt(table.rows[i].cells[7].innerHTML);
+        sumCODTampung = table.rows[i].cells[7].innerHTML;
+        sumCODTampung = parseInt(sumCODTampung.replace('.', ''));
         if (isNaN(sumCODTampung)) {
             sumCODTampung = 0;
         }
         sumCOD = sumCOD + sumCODTampung;
 
         // menjumlahkan total transfer
-        sumTransferTampung = parseInt(table.rows[i].cells[8].innerHTML);
+        sumTransferTampung = table.rows[i].cells[8].innerHTML;
+        sumTransferTampung = parseInt(sumTransferTampung.replace('.', ''));
         if(isNaN(sumTransferTampung)){
             sumTransferTampung = 0;
         }
         sumTransfer = sumTransfer + sumTransferTampung;
 
         // menjumlahkan total langganan
-        sumLanggananTampung = parseInt(table.rows[i].cells[9].innerHTML);
+        sumLanggananTampung = table.rows[i].cells[9].innerHTML;
+        sumLanggananTampung = parseInt(sumLanggananTampung.replace('.', ''));
         if(isNaN(sumLanggananTampung)){
             sumLanggananTampung = 0;
         }
         sumLangganan = sumLangganan + sumLanggananTampung;
     }
-    document.getElementById("total_cash").innerHTML = sumCash;
-    document.getElementById("total_cod").innerHTML = sumCOD;
-    document.getElementById("total_transfer").innerHTML = sumTransfer;
-    document.getElementById("total_langganan").innerHTML = sumLangganan;
+    document.getElementById("total_cash").innerHTML = formatRupiah(sumCash);
+    document.getElementById("total_cod").innerHTML = formatRupiah(sumCOD);
+    document.getElementById("total_transfer").innerHTML = formatRupiah(sumTransfer);
+    document.getElementById("total_langganan").innerHTML = formatRupiah(sumLangganan);
 
     // menambahkan seluruh total pendapatan
     var total_pendapatan = sumCash + sumCOD + sumTransfer + sumLangganan;
 
-    document.getElementById("total_pendapatan").innerHTML = total_pendapatan;
+    document.getElementById("total_pendapatan").innerHTML = formatRupiah(total_pendapatan);
     
 </script>
 </html>

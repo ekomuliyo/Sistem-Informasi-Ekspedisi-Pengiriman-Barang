@@ -56,7 +56,7 @@
             </a>
             <ul class="sidenav-second-level collapse" id="collapseMultiPembayaran">
             <li>
-                <a href="{{ route('cabang.pembayaran.index') }}">Pelanggan Langganan</a>
+                <a href="{{ route('cabang.pembayaran.index') }}">Pelanggan</a>
             </li>
             </ul>
         </li>

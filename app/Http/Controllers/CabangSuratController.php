@@ -13,6 +13,8 @@ use App\StatusPengiriman;
 use App\DetailStatusPengiriman;
 use Auth;
 use DB;
+Use Alert;
+use Illuminate\Support\Facades\Session;
 
 class CabangSuratController extends Controller
 {
@@ -49,11 +51,16 @@ class CabangSuratController extends Controller
         }
 
         $kurir = Kurir::all();
-        $pengiriman = Pengiriman::all()
-                    ->where('status_surat', 0)
-                    ->where('status_valid', 1);
 
-        return view('cabang.surat.create', compact('nomor_surat', 'kurir', 'pengiriman'));
+        return view('cabang.surat.create', compact('nomor_surat', 'kurir'));
+    }
+
+    public function createSurat(){
+        $pengiriman = Pengiriman::all()
+            ->where('status_surat', 0)
+            ->where('status_valid', 1);
+        
+        return response()->json($pengiriman->values());
     }
 
     /**
@@ -95,9 +102,9 @@ class CabangSuratController extends Controller
             if (substr($str, 0, strlen($prefix)) == $prefix) {$str = substr($str, strlen($prefix));}
             $no_wa_penerima = "62".$str;
 
-            $keterangan = "Barang dalam proses packing di cabang jakarta";
+            $keterangan = "Barang anda dalam proses packing di cabang jakarta, nomor resi: $pengiriman->no_resi";
             // mengirim pesan ke wa
-            $my_apikey = "738ZKMREU3Q7S2CHDFDH"; 
+            $my_apikey = config('api_key'); 
             $destination = $no_wa_penerima; 
             $message = $keterangan; 
             $api_url = "http://panel.apiwha.com/send_message.php"; 
@@ -148,39 +155,15 @@ class CabangSuratController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // handle status terima surat;
-        if ($request->input('keterangan')) {
-            if( $request->input('keterangan') == "Surat dalam perjalanan menuju Palembang" ||
-            $request->input('keterangan') == "Sedang dalam perjalanan menuju Pekanbaru" ||
-            $request->input('keterangan') == "Sedang dalam perjalanan menuju Bukit Tinggi")
-                {
-                    $status_terima = false;
-                }
-            else{
-                $status_terima = true;
-            }
-        }
-        else{
-            $status_terima = false;
-        }
-
-
         $surat = Surat::findOrFail($id);
-        
-        $nomor_surat = $request->input('nomor_surat') ? $request->input('nomor_surat') : $surat->nomor_surat;
-        $id_kurir = $request->input('id_kurir') ? $request->input('id_kurir') : $surat->id_kurir;
-        $tgl_surat = $request->input('tgl_surat') ? $request->input('tgl_surat') : $surat->tgl_surat;
-        $keterangan = $request->input('keterangan') ? $request->input('keterangan') : $surat->keterangan;
-
-        $surat->nomor_surat = $nomor_surat;
-        $surat->id_kurir = $id_kurir;
-        $surat->tgl_surat = $tgl_surat;
-        $surat->keterangan = $keterangan;
-        $surat->status_terima = $status_terima;
+        $surat->nomor_surat = $request->input('nomor_surat');
+        $surat->id_kurir = $request->input('id_kurir');
+        $surat->tgl_surat = $request->input('tgl_surat');
         $surat->save();
 
-        return redirect()->back()->with('alert', 'Data surat berhasil diperbarui!');
+        Alert::success('Berhasil', 'Data surat berhasil diubah!');
+
+        return redirect()->back();
     }
 
 
@@ -193,8 +176,24 @@ class CabangSuratController extends Controller
     public function perbarui($id)
     {
         $surat = Surat::findOrFail($id);
-        $transaksi_pengiriman = TransaksiPengirimanSurat::with('pengiriman.status_pengiriman.detail_status_pengiriman')->where('id_surat', $id)->get();
-        return view('cabang.surat.perbarui', compact('surat', 'transaksi_pengiriman'));
+        $transaksi_pengiriman = TransaksiPengirimanSurat::with('pengiriman.status_pengiriman.detail_status_pengiriman')
+                        ->where('id_surat', $id)->get();
+        return view('cabang.surat.perbarui', compact('transaksi_pengiriman', 'surat'));
+    }
+
+    public function status($id){
+        $surat = Surat::findOrFail($id);
+        if($surat->status_terima == true){
+            $surat->status_terima = false;
+            $surat->keterangan = "Surat berangkat [". Auth::user()->nama . "]";
+            $surat->update();
+        }else{
+            $surat->status_terima =true;
+            $surat->keterangan = "Surat diterima [". Auth::user()->nama . "]";
+            $surat->update();
+        }
+
+        return redirect()->back()->with('alert', 'Keterangan surat berhasil diperbarui!');
     }
 
     public function noResi(Request $request)
@@ -203,7 +202,8 @@ class CabangSuratController extends Controller
             $cari = $request->q;
             $data = DB::table('pengiriman')->select('id', 'no_resi', 'nama_penerima')
             ->where('no_resi', 'LIKE', "%$cari%")
-            ->where('status_surat', 0)->get();
+            ->where('status_surat', 0)
+            ->where('status_valid', 1)->get();
             return response()->json($data);
         }
     }
@@ -222,10 +222,17 @@ class CabangSuratController extends Controller
         ->addColumn('cetak', function ($surat){
             return '<a href="' . route('cabang.surat.cetak', $surat->id) . '" class="btn btn-sm btn-success" style="padding-bottom: 0px; padding-top: 0px;"><span class="btn-label btn-label-right"><i class="fa fa-print"></i></span></a>';
         })
+        ->addColumn('status', function($surat){
+            if ($surat->status_terima == 1) {
+                return '<a href="'. route('cabang.surat.status', $surat->id). '"><button type="submit" class="btn btn-sm btn-warning" style="padding-bottom: 0px; padding-top: 0px;" onclick="return confirm('. "'Anda yakin?'" .');"><i class="fa fa-car"> Berangkat</button></a>';
+            }else{
+                return '<a href="'. route('cabang.surat.status', $surat->id). '"><button type="submit" class="btn btn-sm btn-primary" style="padding-bottom: 0px; padding-top: 0px;" onclick="return confirm('. "'Anda yakin?'" .');"><i class="fa fa-check"></i> Terima</button></a>';
+            }
+        })
         ->addColumn('perbarui', function ($surat){
             return '<a href="' . route('cabang.surat.perbarui', $surat->id) . '" class="btn btn-sm btn-info" style="padding-bottom: 0px; padding-top: 0px;"><span class="btn-label btn-label-right"><i class="fa fa-edit"></i></span></a>';
         })
-        ->rawColumns(['ubah', 'cetak', 'perbarui'])
+        ->rawColumns(['ubah', 'status', 'cetak', 'perbarui'])
         ->make(true);
     }
 }

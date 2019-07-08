@@ -18,6 +18,7 @@ class Surat extends Migration
             $table->string('nomor_surat');
             $table->integer('id_kurir')->unsigned();
             $table->date('tgl_surat');
+            $table->boolean('status_terima')->default(0);
             $table->string('keterangan');
             $table->rememberToken();
             $table->timestamps();

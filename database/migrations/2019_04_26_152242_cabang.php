@@ -25,9 +25,27 @@ class Cabang extends Migration
         });
 
         DB::table('cabang')->insert([
-            'alamat' => 'Jl. Metro',
+            'alamat' => 'Jl. Kebon Kacang I No.27 (Samping Metro Tanah Abang)',
             'no_hp' => '081288482941',
             'id_user' => 2
+        ]);
+
+        DB::table('cabang')->insert([
+            'alamat' => 'Jl. Pandawa Nomor 53B RT.17 RW.04 Lemabang Palembang',
+            'no_hp' => '082114353116',
+            'id_user' => 3
+        ]);
+
+        DB::table('cabang')->insert([
+            'alamat' => 'Jl. Garuda ujung depan SMP 37',
+            'no_hp' => '081275572008',
+            'id_user' => 4
+        ]);
+
+        DB::table('cabang')->insert([
+            'alamat' => 'Jl. Parak Kubang Belakang Pasar Aur Kuning No.40 ',
+            'no_hp' => '081294999742',
+            'id_user' => 5
         ]);
     }
 

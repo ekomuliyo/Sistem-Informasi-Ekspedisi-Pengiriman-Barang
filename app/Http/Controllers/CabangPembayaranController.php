@@ -25,7 +25,7 @@ class CabangPembayaranController extends Controller
                         ->where('metode_pembayaran', 4)
                         ->where('status_surat', 1)->get();
 
-        if( $pengiriman->isEmpty()){
+        if( $pengiriman->isEmpty() ){
             return redirect()->back()->with('alert', 'Data tidak bisa dibayar!');
         }else{
             return view('cabang.pembayaran.create', compact('pengiriman'));
@@ -34,14 +34,16 @@ class CabangPembayaranController extends Controller
 
     public function update(Request $request, $id)
     {
+        date_default_timezone_set('Asia/Jakarta'); // mengatur timezone waktu indonesia
         $pengiriman = Pengiriman::where('id_user', $id)->where('status_bayar', 0)->get();
         $jumlah_bayar = $request->input('jumlah_bayar');
 
         foreach($pengiriman as $d){
             $id =  $d->id;
             $pengiriman_update = Pengiriman::findOrFail($id);
-            $pengiriman_update->jumlah_bayar = $jumlah_bayar;
+            $pengiriman_update->jumlah_bayar =  str_replace('.', '', $jumlah_bayar);
             $pengiriman_update->status_bayar = true;
+            $pengiriman_update->updated_at = date("Y-m-d h:i:s");
             $pengiriman_update->save();
         }
 

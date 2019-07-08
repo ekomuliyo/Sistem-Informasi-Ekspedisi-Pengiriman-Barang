@@ -3,6 +3,9 @@
         .volume {
             display: none;
         }
+        #btn_ubah_volume{
+            display: none;
+        }
     </style>
 @endsection
 <div class="row">
@@ -184,7 +187,10 @@
             <a id="hideLink" class="control-label col-md-3 col-sm-3 col-xs-12" href="#">Hitung volume</a>
             </br></br>
             <div class="card-footer bg-transparent">
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" id="btn_ubah_kg" onclick="return validateKG();">
+                    Masukan
+                </button>
+                <button class="btn btn-primary" type="submit" id="btn_ubah_volume" onclick="return validateVolume();">
                     Masukan
                 </button>
             </div>
@@ -192,8 +198,32 @@
     </div>
 
 
-    @section('assets-bottom')
+@section('assets-bottom')
     <script type="text/javascript">
+
+    // validate jumlah kg dan volume
+    function validateKG(){
+        if($("#berat_kg").val() == ""){
+            alert("Data berat kg harus diisi !!")
+            return false;
+        }else{
+            return true;
+        }
+    }
+    function validateVolume(){
+        if ($("#panjang").val() == ""){
+            alert("Data panjang harus diisi!")
+            return false
+        }else if ($("#lebar").val() == ""){
+            alert("Data lebar harus diisi!")
+            return false
+        }else if ($("#tinggi").val() == ""){
+            alert("Data tinggi harus diisi!")
+            return false
+        }else{
+            return true;
+        }
+    }
     // hitung jumlah biaya dari volume
     ongkir = 0;
     panjang = 0;
@@ -311,13 +341,16 @@
 
 
     // menampilkan metode perhitungan kg / volume
-    $("#hideLink").on("click", function() {
+    $("#hideLink").on("click", function(e) {
+        e.preventDefault();
         if ($(this).text() == "Hitung volume") {
             $(this).text("Hitung berat");
             $(".berat").hide();
             $("#berat_kg").val("");
             $("#jumlah_biaya_kg").val("");
-            $(".volume").show("slow")
+            $(".volume").show("slow");
+            $("#btn_ubah_volume").show();
+            $("#btn_ubah_kg").hide();
         } else {
             $(this).text("Hitung volume");
             $(".volume").hide();
@@ -327,6 +360,8 @@
             $("#berat_volume").val("");
             $("#jumlah_biaya_volume").val("");
             $(".berat").show("slow");
+            $("#btn_ubah_kg").show();
+            $("#btn_ubah_volume").hide();
         }
     });
 

@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // api : 
+        // 1. QFV5X2JE3E9KHNQ6NZ13
+        // 2. 
+        config(['api_key' => "K8HF9ER1S79W6IGGW0YP"]);
     }
 }

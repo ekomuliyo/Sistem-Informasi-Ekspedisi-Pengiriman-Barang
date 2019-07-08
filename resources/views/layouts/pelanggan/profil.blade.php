@@ -49,7 +49,9 @@
                         <label for="nama">Nama</label>
                     </div>
                     <div class="col-md-8">
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
                         <label for="nama">{{ $user->nama }}</label>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -61,7 +63,9 @@
                         <label for="email">Email</label>
                     </div>
                     <div class="col-md-8">
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
                         <label for="email">{{ $user->email }}</label>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -73,7 +77,13 @@
                         <label for="no_hp">No. HP / WA</label>
                     </div>
                     <div class="col-md-8">
-                        <label for="no_hp">{{ $user->pelanggan->no_hp }}</label>
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
+                        @if( $user->pelanggan->no_hp != null)
+                            <label for="no_hp">{{ $user->pelanggan->no_hp }}</label>
+                        @else
+                            <label for="no_hp">-</label>
+                        @endif
+                        </a>
                     </div>
                 </div>
             </div>
@@ -85,6 +95,7 @@
                         <label for="jenis_kelamin">Jenis Kelamin</label>
                     </div>
                     <div class="col-md-8">
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
                         @if($user->pelanggan->jenis_kelamin == 1)
                             <label for="jenis_kelamin">Laki-laki</label>
                         @elseif($user->pelanggan->jenis_kelamin == 2)
@@ -92,6 +103,7 @@
                         @else
                             <label for="jenis_kelamin">-</label>
                         @endif
+                        </a>
                     </div>
                 </div>
             </div>
@@ -103,7 +115,13 @@
                         <label for="tgl_lahir">Tanggal Lahir</label>
                     </div>
                     <div class="col-md-8">
-                        <label for="tgl_lahir">{{ $user->pelanggan->tgl_lahir }}</label>
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
+                        @if( $user->pelanggan->tgl_lahir)
+                            <label for="tgl_lahir">{{ $user->pelanggan->tgl_lahir }}</label>
+                        @else
+                            <label for="tgl_lahir">-</label>
+                        @endif
+                        </a>
                     </div>
                 </div>
             </div>
@@ -115,7 +133,8 @@
                         <label for="kota">Kota</label>
                     </div>
                     <div class="col-md-8">
-                        @if($user->pelanggan->kecamatan != null)
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
+                        @if($user->pelanggan->id_kecamatan != null)
                             @if($user->pelanggan->kecamatan->kota->id == '5')
                                 <label for="kota">Jakarta Pusat</label>                            
                             @elseif($user->pelanggan->kecamatan->kota->id == '6')
@@ -124,10 +143,11 @@
                                 <label for="kota">Jakarta Utara</label>
                             @elseif($user->pelanggan->kecamatan->kota->id == '8')
                                 <label for="kota">Jakarta Timur</label> 
-                            @else
-                                <label for="kota">-</label>
                             @endif
+                        @else
+                            <label for="kota">-</label>
                         @endif                           
+                        </a>
                     </div>
                 </div>
             </div>
@@ -139,7 +159,13 @@
                         <label for="alamat">Alamat Lengkap</label>
                     </div>
                     <div class="col-md-8">
-                        <label for="alamat">{{ $user->pelanggan->alamat }}</label>
+                        <a href="#" data-toggle="modal" data-target="#profilModal">
+                            @if( $user->pelanggan->alamat != null)
+                            <label for="alamat">{{ $user->pelanggan->alamat }}</label>
+                            @else
+                            <label for="alamat">-</label>
+                            @endif
+                        </a>
                     </div>
                 </div>
             </div>
@@ -179,7 +205,7 @@
 
                         <div class="form-group">
                             <label for="no_hp">No. HP / WA</label>
-                            {!! Form::text('pelanggan[no_hp]', null, ['class' => $errors->has('no_hp') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+                            {!! Form::text('pelanggan[no_hp]', null, ['class' => $errors->has('no_hp') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'Placeholder' => 'Nomor HP']) !!}
                         </div>
 
                         <div class="form-group">
@@ -241,7 +267,7 @@
 
                         <div class="form-group">
                             <label for="alamat">Alamat Lengkap</label>
-                            {!! Form::textarea('pelanggan[alamat]', null, ['class' => $errors->has('alamat') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus']) !!}
+                            {!! Form::textarea('pelanggan[alamat]', null, ['class' => $errors->has('alamat') ? 'form-control is-invalid' : 'form-control', 'required', 'autofocus', 'Placeholder' => 'Alamat Lengkap']) !!}
                         </div>
                     </div>
 
@@ -259,7 +285,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                      <h4 class="modal-title">Ubah Profil</h4>
+                      <h4 class="modal-title">Ubah Password</h4>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                   

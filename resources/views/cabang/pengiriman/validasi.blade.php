@@ -1,5 +1,11 @@
 @extends('layouts.cabang.app')
 
+@section('assets-top')
+
+<link rel="stylesheet" href="{{ asset('assets/blog-admin/vendor/magnific-popup/magnific-popup.css') }}">
+
+@endsection
+
 @section('content')
 
 <?php
@@ -13,7 +19,10 @@
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="#">Validasi Pengiriman</a>
+            <a href="#">Pengiriman</a>
+        </li>
+        <li class="breadcrumb-item active">
+            Validasi Pengiriman
         </li>
     </ol>
     <!-- Icon Cards-->
@@ -70,23 +79,19 @@
                             <h5>Bukti Pembayaran</h5>
                         </div>
                         <div class="col-md-12">
-                            <img src="{{ asset($pengiriman[0]->foto) }}" alt="Bukti pembayaran"
-                                width="300" height="300">
+                            <a href="{{ asset($pengiriman[0]->foto) }}" class="view"><img src="{{ asset($pengiriman[0]->foto) }}" alt="Bukti pembayaran"
+                                width="300" height="300"></a>
                         </div>
                     </div></br>
-
-                    <label class="radio-inline">
-                        <input type="radio" name="validasi" value="1" checked required>Validasi
-                    </label> &nbsp;&nbsp;
-                    <label class="radio-inline">
-                        <input type="radio" name="validasi" value="0">Batal
-                    </label>
 
                     <input type="text" name="id_pengiriman" value="{{ $pengiriman[0]->id }}" hidden>
 
                     <div class="card-footer bg-transparent">
-                        <button class="btn btn-primary" type="submit">
-                            Validasi
+                        <button class="btn btn-primary" type="submit" name="validasi" value="1"><i class="fa fa-check-circle"></i>
+                            VALIDASI
+                        </button>
+                        <button class="btn btn-warning" type="submit" name="validasi" value="0"> <i class="fa fa-times"></i>
+                            BATAL
                         </button>
                     </div>
                     {!! Form::close() !!}
@@ -100,18 +105,15 @@
                     @else
                     {!! Form::open(['route' => 'cabang.pengiriman.status.store', 'method' => 'POST']) !!}
                     <h6>Validasi Pengiriman</h6>
-                    <label class="radio-inline">
-                        <input type="radio" name="validasi" value="1" checked required>Validasi
-                    </label> &nbsp;&nbsp;
-                    <label class="radio-inline">
-                        <input type="radio" name="validasi" value="0">Batal
-                    </label>
 
                     <input type="text" name="id_pengiriman" value="{{ $pengiriman[0]->id }}" hidden>
 
                     <div class="card-footer bg-transparent">
-                        <button class="btn btn-primary" type="submit">
-                            Validasi
+                        <button class="btn btn-primary" type="submit" name="validasi" value="1"><i class="fa fa-check-circle"></i>
+                            VALIDASI
+                        </button>
+                        <button class="btn btn-warning" type="submit" name="validasi" value="0"> <i class="fa fa-times"></i>
+                            BATAL
                         </button>
                     </div>
                     {!! Form::close() !!}
@@ -121,5 +123,13 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('assets-bottom')
+<script src="{{ asset('assets/blog-admin/vendor/magnific-popup/magnific-popup.min.js') }}"></script>
+<script type="text/javascript">
+$(".view").magnificPopup({
+  type: 'image'
+});
+</script>
 @endsection

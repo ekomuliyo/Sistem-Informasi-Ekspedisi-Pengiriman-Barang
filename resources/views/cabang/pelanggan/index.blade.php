@@ -12,8 +12,9 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Pelanggan / Tabel</a>
+            <a href="#">Pelanggan</a>
           </li>
+          <li class="breadcrumb-item active">Table</li>
         </ol>
         @if (session('alert'))
             <div class="alert alert-success">
@@ -24,7 +25,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Nomor</th>
+                    <th>No.</th>
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Jenis Kelamin</th>
@@ -69,21 +70,24 @@
                     }},
               {data: 'tgl_lahir', name: 'tgl_lahir',
                   render: function(data){
-                    bulan = ['Januari',
-                              'Februari',
-                              'Maret',
-                              'April',
-                              'Mei',
-                              'Juni',
-                              'Juli',
-                              'Agustus',
-                              'September',
-                              'Oktober',
-                              'November',
-                              'Desember'];
-                    split = data.split('-');
-                    // return split;
-                    return split[2] + ' ' + bulan[parseInt(split[1])-1] + ' ' + split[0];
+                    if (data != null) {                        
+                        split = data.split('-');
+                        bulan = ['Januari',
+                                'Februari',
+                                'Maret',
+                                'April',
+                                'Mei',
+                                'Juni',
+                                'Juli',
+                                'Agustus',
+                                'September',
+                                'Oktober',
+                                'November',
+                                'Desember'];
+                        return split[2] + ' ' + bulan[parseInt(split[1])-1] + ' ' + split[0];
+                    }else{
+                        return "-"
+                    }
                   }},
               {data: 'kota', name: 'kota',
                     render: function(data){

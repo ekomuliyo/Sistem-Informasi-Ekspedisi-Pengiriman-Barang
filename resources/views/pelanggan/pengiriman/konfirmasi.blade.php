@@ -2,6 +2,13 @@
 
 @section('content')
 
+<?php
+    function formatRupiah($angka){
+        $hasil_rupiah = number_format($angka,0,'.','.');
+        return $hasil_rupiah;
+    } 
+?>
+
 <div class="container-fluid">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -26,7 +33,7 @@
                 <div class="form-control">
                     <h6>Silahkan lakukan pembayaran!!</br>
                     Nomor Rekening Mandiri : 905098190809809 A/n PT. Bunga Lintas Cargo</br>
-                    Sejumlah : Rp. {{ $pengiriman->jumlah_biaya}}</h6>  
+                    Sejumlah : Rp. {{ formatRupiah($pengiriman->jumlah_biaya) }}</h6>  
                 </div>
                 <div class="form-control">
                     <label for="foto">Upload bukti pembayaran</label>
